@@ -3,6 +3,7 @@ NAME		=	minishell
 SRC_FILES	=	src/main.c \
 			src/builtin/ft_echo.c \
 			src/builtin/ft_env.c \
+			src/builtin/ft_export.c \
 			src/builtin/ft_pwd.c \
 			src/builtin/ft_exit.c \
 			src/builtin/ft_unset.c \

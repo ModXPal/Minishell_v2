@@ -25,6 +25,7 @@ typedef struct s_var{
 	int			d_quote;
 	struct s_list	*list;
 	struct s_envar	*envar;
+	struct s_envar	*export;
 }		t_var;
 
 typedef struct s_builtin{

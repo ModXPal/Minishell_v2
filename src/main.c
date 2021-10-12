@@ -6,17 +6,11 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/12 15:11:57 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/12 17:09:15 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_export(t_var *var)
-{
-	(void)var;
-	return (0);
-}
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -112,6 +106,7 @@ int	main(int ac, char **av, char **env)
 	t_builtin	*builtin;
 	t_var		var[1];
 	t_envar		*envar;
+	t_envar		*export;
 
 	builtin = malloc(sizeof(t_builtin) * 8);
 	init_builtin(builtin);
@@ -125,8 +120,11 @@ int	main(int ac, char **av, char **env)
 	var->d_quote = 0;
 	(void)av;
 	envar = NULL;
+	export = NULL;
 	get_env_var(var, &envar);
+	get_env_var(var, &export);
 	var->envar = envar;
+	var->export = export;
 	while (1)
 	{
 		var->cmd = readline("minishell $> ");
@@ -135,7 +133,7 @@ int	main(int ac, char **av, char **env)
 		ret = is_builtin(var->cmd, builtin);
 		if (ret >= 0)
 			builtin[ret].func(var);
-		free(var->cmd);
+		// free(var->cmd);
 		free_list(var);
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/12 15:15:27 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/12 16:11:11 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	ft_exit(t_var *var);
 int	ft_pwd(t_var *var);
 int	ft_unset(t_var *var);
 int	ft_cd(t_var *var);
+int	ft_export(t_var *var);
+int	ft_unset(t_var *var);
 
 
 #endif
