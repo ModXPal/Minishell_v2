@@ -5,6 +5,8 @@ SRC_FILES	=	src/main.c \
 			src/builtin/ft_env.c \
 			src/builtin/ft_pwd.c \
 			src/builtin/ft_exit.c \
+			src/builtin/ft_unset.c \
+			src/builtin/ft_cd.c \
 			src/parsing/parsing.c \
 			src/parsing/parsing_utils.c \
 			src/parsing/get_len.c \

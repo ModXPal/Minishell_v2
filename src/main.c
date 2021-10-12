@@ -6,41 +6,17 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/11 16:43:23 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/12 15:11:57 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_cd(t_var *var)
-{
-	(void)var;
-	return (0);
-}
-
-// int	ft_pwd(t_var *var)
-// {
-// 	(void)var;
-// 	return (0);
-// }
 
 int	ft_export(t_var *var)
 {
 	(void)var;
 	return (0);
 }
-
-int	ft_unset(t_var *var)
-{
-	(void)var;
-	return (0);
-}
-
-// int	ft_exit(t_var *var)
-// {
-// 	(void)var;
-// 	return (0);
-// }
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

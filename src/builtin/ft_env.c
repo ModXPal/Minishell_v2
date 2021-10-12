@@ -6,13 +6,13 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 15:41:31 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/05 14:14:31 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/12 15:04:23 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtin.h"
 
-int	ft_env(t_var *var) //rajouter la structure
+int	ft_env(t_var *var)
 {
 	t_envar	*tmp;
 

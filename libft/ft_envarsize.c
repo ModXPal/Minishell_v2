@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_envarsize.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/05 10:57:38 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/12 15:05:35 by rcollas          ###   ########.fr       */
+/*   Created: 2021/10/12 14:39:21 by rcollas           #+#    #+#             */
+/*   Updated: 2021/10/12 14:39:37 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "libft.h"
 
-int	ft_exit(t_var *var)
+int	ft_envarsize(t_envar *envar)
 {
-	free_envar(var->envar);
-	rl_clear_history();
-	exit (EXIT_SUCCESS);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (envar)
+	{
+		envar = envar->next;
+		i++;
+	}
+	return (i);
 }

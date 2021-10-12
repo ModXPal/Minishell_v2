@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_envar_find_content.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/05 10:57:38 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/12 15:05:35 by rcollas          ###   ########.fr       */
+/*   Created: 2021/10/12 14:36:11 by rcollas           #+#    #+#             */
+/*   Updated: 2021/10/12 14:36:35 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "libft.h"
 
-int	ft_exit(t_var *var)
+char	*ft_envar_find_content(t_envar *tmp, char *str)
 {
-	free_envar(var->envar);
-	rl_clear_history();
-	exit (EXIT_SUCCESS);
-	return (0);
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, str))
+		{
+			str = tmp->content;
+			return (str);
+		}
+		tmp = tmp->next;
+	}
+	return (str);
 }
