@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 11:39:06 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/06 02:06:29 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/13 15:30:09 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,13 @@ int	ft_pwd(t_var *var)
 	{
 		if (ft_strcmp(tmp->name, "PWD") == 1)
 		{
-			// if (argv[2][0] == '-') // il faudra recuperer l'element + 1 de la liste apres pwd
-			// {
-			// 	printf("Invalid option\n"); // Rajouter une vraie erreur pour ce cas
-			// 	exit (1);
-			// }
 			if (access(tmp->content, F_OK) == 0)
 			{
 				printf("%s\n", tmp->content);
 				break ;
 			}
 			if (access(tmp->content, F_OK) == -1)
-			{
 				perror("Path is invalid");
-				exit (1); // je dois surement le changer pour free autre chose
-			}
-			//rajouter la fonction pour changer le old name et le new name
 		}
 		tmp = tmp->next;
 	}

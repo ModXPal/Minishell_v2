@@ -21,8 +21,8 @@ typedef struct s_var{
 	char			*cmd;
 	char			*variable;
 	int				ac;
-	int			s_quote;
-	int			d_quote;
+	int				s_quote;
+	int				d_quote;
 	struct s_list	*list;
 	struct s_envar	*envar;
 	struct s_envar	*export;

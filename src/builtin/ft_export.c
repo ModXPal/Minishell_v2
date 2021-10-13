@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/12 14:24:10 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/13 14:19:51 by vbachele         ###   ########.fr       */
+/*   Created: 2021/10/13 15:45:05 by vbachele          #+#    #+#             */
+/*   Updated: 2021/10/13 15:51:20 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int	ft_export(t_var *var)
 	i = 0;
 	equal = 0;
 	tmp = var->list;
+	unset_export_error_handling(var);
 	if (cmd_export_alone(var) == 1)
 		return (0);
 	if (tmp->next != 0)

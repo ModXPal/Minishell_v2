@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/13 14:10:30 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/13 15:51:40 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define BUILTIN_H
 
 #include "struct.h"
-#include "../libft/libft.h" 
+#include "../libft/libft.h"
 
 int		is_dash_n(t_var *var);
 int		ft_echo(t_var *var);
@@ -32,8 +32,9 @@ char	*ft_export_new_pwd(t_var *var, char *str);
 void	ft_export_old_pwd(t_var *var, char *str, char *str2);
 int		swap_pwd_old_pwd(t_var *var);
 char	*ft_env_new_pwd(t_var *var, char *str);
-int		errors_chdir_handling(int dir);
+int		errors_chdir_handling(int dir, t_var *var);
 void	ft_env_old_pwd(t_var *var, char *str, char *str2);
+int		unset_export_error_handling(t_var *var);
 
 
 #endif

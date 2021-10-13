@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:08:16 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/13 14:02:14 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/13 15:15:25 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ int	swap_pwd_old_pwd(t_var *var)
 	str = ft_export_new_pwd(var, "PWD");
 	ft_export_old_pwd(var, "OLDPWD", str);
 	if (dir < 0)
-		errors_chdir_handling(dir);
+		errors_chdir_handling(dir, var);
 	return (0);
 }

@@ -6,17 +6,24 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:32 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/13 14:02:28 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/13 15:23:26 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	errors_chdir_handling(int dir)
+int	errors_chdir_handling(int dir, t_var *var)
 {
+	t_list	*tmp;
+
+	tmp = var->list;
 	if (dir < 0)
-		perror("cd failed");
-	// rajouter la fonction qui free
+		write (2, "minishell: ", 12);
+		write(2, tmp->content, ft_strlen(tmp->content));
+		write (2, ": ", 3);
+		write(2, tmp->next->content, ft_strlen(tmp->next->content));
+		write (2, ": ", 3);
+		perror("");
 	return (0);
 }
 
@@ -70,7 +77,7 @@ int	cd_content_equal_zero(t_var *var)
 	str = ft_export_new_pwd(var, "PWD");
 	ft_export_old_pwd(var, "OLDPWD", str);
 	if (dir < 0)
-		errors_chdir_handling(dir);
+		errors_chdir_handling(dir, var);
 	return (0);
 }
 
