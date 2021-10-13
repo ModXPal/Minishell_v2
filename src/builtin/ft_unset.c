@@ -6,15 +6,15 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:29:54 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/12 16:12:28 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/13 14:15:06 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int unset_error_handling(t_var *var)
+int	unset_error_handling(t_var *var)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	tmp = var->list->next;
 	if (ft_isalpha(tmp->content[0]) == FALSE)
@@ -30,7 +30,7 @@ int	ft_unset_export(t_var *var, char *str)
 {
 	t_envar	*tmp;
 	int		pos;
-	
+
 	pos = 0;
 	tmp = var->export;
 	while (tmp)
@@ -47,9 +47,9 @@ int	ft_unset_export(t_var *var, char *str)
 
 int	ft_unset(t_var *var)
 {
-	t_envar *tmp;
-	int pos;
-	
+	t_envar	*tmp;
+	int		pos;
+
 	pos = 0;
 	tmp = var->envar;
 	var->cmd = &(var->cmd[6]);
