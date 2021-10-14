@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/13 18:10:01 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/14 17:49:49 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,15 @@ char	*get_path(t_var *var, char**path_fromenvp)
 	return (NULL);
 }
 
-void	execve_error(t_var *var, char *path_final)
+int	execve_error(t_var *var)
 {
-	(void) var;
-	if (path_final)
-		free(path_final);
-	ft_putendl_fd("Command not found", 2);
-	exit(EXIT_FAILURE);
+	t_list	*tmp;
+	
+	tmp = var->list;
+	write (2, "minishell: ", 12);
+	write(2, tmp->content, ft_strlen(tmp->content));
+	ft_putendl_fd(": command not found", 2);
+	return (0);
 	// FREE DES FONCTIONS ICI
 }
 
@@ -54,26 +56,24 @@ void	execve_error(t_var *var, char *path_final)
 // 	return (-1);
 // }
 
-int	ft_excve(t_var *var)
+int	ft_execve(t_var *var)
 {
 	char 	*path_final;
 	char	**path_fromenvp;
 	t_envar	*tmp;
 	t_list	*tmp2;
+	char 	*str;
+	char 	**str3;
 
 	tmp = var->envar;
 	tmp2 = var->list;
+	str = NULL;
 	path_final = ft_envar_find_content(tmp, "PATH");
-	// if (tmp == 0)
-	// {
-	// 	write(2, "minishell: ", 12);
-	// 	write(2, tmp->content, ft_strlen(tmp->content));
-	// 	ft_putendl_fd("command not found", 2);
-	// 	return (-1);
-	// }
+	str3 = ft_split(var->cmd, 32);
 	path_fromenvp = ft_split(path_final, ':');
 	path_final = get_path(var, path_fromenvp);
-	if (execve(path_final, &tmp2->content, 0) == -1)
-		execve_error(var, path_final);
+	if (execve(path_final, str3, NULL) == -1)
+		execve_error(var);
 	return (0);
 }
+

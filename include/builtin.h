@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/13 18:05:26 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/14 17:48:06 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		ft_unset(t_var *var);
 int		ft_cd(t_var *var);
 int		ft_export(t_var *var);
 int		ft_unset(t_var *var);
-int		ft_excve(t_var *var);
+int		ft_execve(t_var *var);
 int		cmd_export_alone(t_var *var);
 char	*export_name_equal_search(t_var *var, int *i, int *equal, char *name);
 char	*export_content_search(int *i, char *str, char *content);
