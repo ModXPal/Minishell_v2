@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/14 17:47:58 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/15 15:18:50 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,10 @@ int	main(int ac, char **av, char **env)
 		ret = is_builtin(var->cmd, builtin);
 		if (ret >= 0)
 			builtin[ret].func(var);
+		// else
+		// 	ft_execve(var);
 		else
-			ft_execve(var);
+			ft_multipipes(var);
 		// free(var->cmd);
 		free_list(var);
 	}

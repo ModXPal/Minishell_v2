@@ -10,6 +10,13 @@ typedef struct s_echo{
 	int				dollar;
 }	t_echo;
 
+typedef	struct s_pipes{
+	int				size_cmd_pipes;
+	int				**tab_pipes;
+	int				i;
+	int				fd[2];
+} t_pipes;
+
 typedef struct s_envar{
 	char			*name;
 	char			*content;
@@ -17,15 +24,16 @@ typedef struct s_envar{
 }		t_envar;
 
 typedef struct s_var{
-	char			**env;
-	char			*cmd;
-	char			*variable;
-	int				ac;
-	int				s_quote;
-	int				d_quote;
-	struct s_list	*list;
-	struct s_envar	*envar;
-	struct s_envar	*export;
+	char				**env;
+	char				*cmd;
+	char				*variable;
+	int					ac;
+	int					s_quote;
+	int					d_quote;
+	struct s_list		*list;
+	struct s_envar		*envar;
+	struct s_envar		*export;
+	struct s_pipes		*pipes;
 }		t_var;
 
 typedef struct s_builtin{
