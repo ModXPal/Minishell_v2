@@ -26,6 +26,7 @@ SRCS		=	ft_memset.c\
 			ft_strjoin.c\
 			ft_strtrim.c\
 			ft_split.c\
+			ft_split_quotes.c\
 			ft_itoa.c\
 			ft_strmapi.c\
 			ft_putchar_fd.c\
@@ -61,8 +62,7 @@ CC			= gcc
 
 RM			= rm -rf
 
-CFLAGS		= -Wall -Wextra -Werror -Iincludes
-
+CFLAGS		= -Wall -Wextra -Werror -I../include 
 all:		$(NAME)
 
 %.o : %.c

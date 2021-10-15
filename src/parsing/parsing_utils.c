@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:26:25 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/11 16:50:35 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/12 16:34:59 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	check_quotes(char *str, int *j, t_var *var)
 	}
 	if (str[*j] == '\'' && var->d_quote == FALSE)
 	{
-		printf("ici\n");
 		check_s_quote(&var->s_quote);
 		(*j)++;
 		return (1);

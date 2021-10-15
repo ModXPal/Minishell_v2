@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:31:43 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/11 16:22:28 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/15 17:43:13 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ void	check_d_quote(int *d_quote);
 void	get_envar_len(int *j, int *i, t_var *var, char *str);
 void	skip_alnum(char *str, int *j);
 void	free_split(char **split_str);
+void	free_list(t_var *var);
 void	get_env_var(t_var *var, t_envar **envar);
 int	get_string_len(char *str, t_var *var);
 int	is_valid_dollar(char *str, int i);
 int	check_quotes(char *str, int *j, t_var *var);
 int	get_arguments(t_var *var);
 int	check_unmatched_quotes(t_var *var);
+int	count_pipes(t_var *var);
 
 #endif

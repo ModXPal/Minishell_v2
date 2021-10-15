@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:29:33 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/11 20:31:03 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/12 16:33:11 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int	get_string_len(char *str, t_var *var)
 	while (str[++i])
 	{
 		if (check_quotes(str, &i, var) == TRUE)
+		{
+			i--;
 			continue;
+		}
 		if (str[i] == '$' && var->s_quote == FALSE && is_valid_dollar(str, i))
 		{
 			get_envar_len(&j, &i, var, str);

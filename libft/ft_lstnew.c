@@ -6,14 +6,14 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:49:27 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/01 12:13:11 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/15 15:09:59 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-t_list	*ft_lstnew(char *content)
+t_list	*ft_lstnew(void *content)
 {
 	t_list	*new_list;
 

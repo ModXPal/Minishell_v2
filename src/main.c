@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/12 15:11:57 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/15 19:03:32 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,17 +105,30 @@ void	free_envar(t_envar *envar)
 	}
 }
 
+void	free_input(t_var *var)
+{
+	int	i;
+
+	i = 0;
+	//while (var->input[i])
+	//	free(var->input[i++]);
+	free(var->input);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	int			ret;
 	int			i;
+	int			j;
 	t_builtin	*builtin;
 	t_var		var[1];
 	t_envar		*envar;
+	t_input		*tmp;
 
 	builtin = malloc(sizeof(t_builtin) * 8);
 	init_builtin(builtin);
 	i = -1;
+	j = 0;
 	ret = 0;
 	var->env = env;
 	var->ac = ac;
@@ -131,10 +144,19 @@ int	main(int ac, char **av, char **env)
 	{
 		var->cmd = readline("minishell $> ");
 		add_history(var->cmd);
-		get_arguments(var);
+		if (get_arguments(var) == FAIL)
+			continue;
 		ret = is_builtin(var->cmd, builtin);
 		if (ret >= 0)
 			builtin[ret].func(var);
+		while (var->list)
+		{
+			tmp = var->list->content;
+			printf("cmd = %s\n", tmp->cmd);
+			//while (var->input[i]->arg[j])
+			printf("arg = %s\n", tmp->arg[j++]);
+			var->list = var->list->next;
+		}
 		free(var->cmd);
 		free_list(var);
 	}

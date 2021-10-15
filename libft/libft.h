@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:53:53 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/12 14:45:13 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/15 15:13:54 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,7 @@
 # include <unistd.h>
 # include "../include/minishell.h"
 # include "../include/struct.h"
-
-typedef struct s_list
-{
-	char			*content;
-	struct s_list	*next;
-}	t_list;
+# include "struct.h"
 
 int			ft_atoi(const char *str);
 void		ft_bzero(void *s, size_t n);
@@ -41,7 +36,7 @@ void		ft_lstdelone(t_list *lst, void (*del)(void *));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-t_list		*ft_lstnew(char *content);
+t_list		*ft_lstnew(void *content);
 t_envar		*ft_envar_new(char *name, char *content);
 t_envar		*ft_envarlast(t_envar *envar);
 void		ft_envaradd_back(t_envar **alst, t_envar *new);
@@ -56,8 +51,9 @@ void		ft_putchar_fd(char c, int fd);
 void		ft_putendl_fd(char *s, int fd);
 void		ft_putnbr_fd(int n, int fd);
 void		ft_putstr_fd(char *s, int fd);
-char		**ft_split(const char *s, char c);
 char		*ft_strchr(const char *s, int c);
+char		**ft_split(const char *s, char c);
+char		**ft_split_quotes(const char *s, char c);
 char		*ft_strdup(const char *s1);
 char		*ft_strjoin(const char *s1, const char *s2);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);

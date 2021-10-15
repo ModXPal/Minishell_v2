@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/13 11:06:00 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/13 11:06:04 by rcollas          ###   ########.fr       */
+/*   Created: 2021/05/24 16:51:17 by rcollas           #+#    #+#             */
+/*   Updated: 2021/10/13 11:09:14 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,21 @@ static unsigned int	ft_ult_strlen(char const *str, char charset)
 
 	i = 0;
 	while (str[i] && !is_charset(str[i], charset))
+	{
+		if (str[i] == '"')
+		{
+			i++;
+			while (str[i] != '"')
+				i++;
+		}
+		if (str[i] == '\'')
+		{
+			i++;
+			while (str[i] != '\'')
+				i++;
+		}
 		i++;
+	}
 	return (i);
 }
 
@@ -45,6 +59,18 @@ static unsigned int	ft_count_words(char const *str, char charset)
 			words_count++;
 			is_word = 0;
 		}
+		if (*str == '"')
+		{
+			str++;
+			while (*str != '"')
+				str++;
+		}
+		if (*str == '\'')
+		{
+			str++;
+			while (*str != '\'')
+				str++;
+		}
 		str++;
 	}
 	return (words_count);
@@ -61,7 +87,7 @@ static char	**ft_free(char **str, unsigned int size)
 	return (0);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_quotes(char const *s, char c)
 {
 	char			**tab;
 	int				j;
@@ -78,12 +104,26 @@ char	**ft_split(char const *s, char c)
 	{
 		while (*s && is_charset(*s, c))
 			s++;
-		tab[i] = (char *)malloc(sizeof(**tab) * ft_ult_strlen(s, c) + 1);
+		tab[i] = (char *)malloc(sizeof(**tab) * (ft_ult_strlen(s, c) + 1));
 		if (!tab[i])
 			return (ft_free(tab, i));
 		j = 0;
 		while (*s && !is_charset(*s, c))
+		{
+			if (*s == '"')
+			{
+				tab[i][j++] = *s++;
+				while (*s != '"')
+					tab[i][j++] = *s++;
+			}
+			if (*s == '\'')
+			{
+				tab[i][j++] = *s++;
+				while (*s != '\'')
+					tab[i][j++] = *s++;
+			}
 			tab[i][j++] = *s++;
+		}
 		tab[i][j] = 0;
 	}
 	tab[i] = 0;
