@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/17 23:31:58 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/17 23:58:03 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,12 +145,13 @@ int	main(int ac, char **av, char **env)
 		var->cmd = readline("minishell $> ");
 		add_history(var->cmd);
 		if (get_arguments(var) == FAIL)
-			continue;
+			continue ;
 		ret = is_builtin(var->cmd, builtin);
 		if (ret >= 0)
 			builtin[ret].func(var);
 		else
 			ft_execve(var);
+		/*
 		while (var->input)
 		{
 			i = -1;
@@ -159,6 +160,7 @@ int	main(int ac, char **av, char **env)
 				printf("arg = %s\n", (var->input->args)[i]);
 			var->input = var->input->next;
 		}
+		*/
 		// else
 		// 	ft_multipipes(var);
 		free(var->cmd);
