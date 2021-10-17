@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 11:39:06 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/13 15:30:09 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/16 18:25:41 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ int	ft_pwd(t_var *var)
 		{
 			if (access(tmp->content, F_OK) == 0)
 			{
-				printf("%s\n", tmp->content);
-				break ;
+				printf("%s\n", getcwd(0, 150));
+				return (0);
 			}
 			if (access(tmp->content, F_OK) == -1)
 				perror("Path is invalid");
 		}
 		tmp = tmp->next;
 	}
+	printf("%s\n", getcwd(0, 150));
 	return (0);
 }

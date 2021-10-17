@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/15 15:18:50 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/17 16:09:13 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int	main(int ac, char **av, char **env)
 	t_envar		*export;
 
 	builtin = malloc(sizeof(t_builtin) * 8);
+	var->cd = (t_cd *)malloc(sizeof(t_cd));
 	init_builtin(builtin);
 	i = -1;
 	ret = 0;
@@ -125,6 +126,7 @@ int	main(int ac, char **av, char **env)
 	get_env_var(var, &export);
 	var->envar = envar;
 	var->export = export;
+	get_home_unset_cd(var);
 	while (1)
 	{
 		var->cmd = readline("minishell $> ");
@@ -133,10 +135,10 @@ int	main(int ac, char **av, char **env)
 		ret = is_builtin(var->cmd, builtin);
 		if (ret >= 0)
 			builtin[ret].func(var);
-		// else
-		// 	ft_execve(var);
 		else
-			ft_multipipes(var);
+			ft_execve(var);
+		// else
+		// 	ft_multipipes(var);
 		// free(var->cmd);
 		free_list(var);
 	}

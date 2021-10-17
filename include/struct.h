@@ -17,6 +17,10 @@ typedef	struct s_pipes{
 	int				fd[2];
 } t_pipes;
 
+typedef	struct s_cd{
+	char			*HOME;
+} t_cd;
+
 typedef struct s_envar{
 	char			*name;
 	char			*content;
@@ -34,6 +38,7 @@ typedef struct s_var{
 	struct s_envar		*envar;
 	struct s_envar		*export;
 	struct s_pipes		*pipes;
+	struct s_cd			*cd;
 }		t_var;
 
 typedef struct s_builtin{

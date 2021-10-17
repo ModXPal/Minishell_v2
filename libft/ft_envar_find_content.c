@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_envar_find_content.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:36:11 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/12 14:36:35 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/16 17:19:18 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ char	*ft_envar_find_content(t_envar *tmp, char *str)
 		}
 		tmp = tmp->next;
 	}
-	return (str);
+	return (NULL);
 }

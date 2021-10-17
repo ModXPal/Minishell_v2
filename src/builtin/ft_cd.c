@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:32 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/13 15:23:26 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/17 17:47:10 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@ int	errors_chdir_handling(int dir, t_var *var)
 
 	tmp = var->list;
 	if (dir < 0)
+	{
 		write (2, "minishell: ", 12);
 		write(2, tmp->content, ft_strlen(tmp->content));
 		write (2, ": ", 3);
 		write(2, tmp->next->content, ft_strlen(tmp->next->content));
 		write (2, ": ", 3);
 		perror("");
+		return (1);
+	}
 	return (0);
 }
 
@@ -63,37 +66,43 @@ void	ft_env_old_pwd(t_var *var, char *str, char *str2)
 	}
 }
 
-int	cd_content_equal_zero(t_var *var)
+int	cd_dash_tild(t_var *var)
 {
-	int		dir;
-	char	*str;
-	t_envar	*tmp2;
+	t_list	*tmp;
 
-	tmp2 = var->envar;
-	str = ft_envar_find_content(tmp2, "HOME");
-	dir = chdir(str);
-	str = ft_env_new_pwd(var, "PWD");
-	ft_env_old_pwd(var, "OLDPWD", str);
-	str = ft_export_new_pwd(var, "PWD");
-	ft_export_old_pwd(var, "OLDPWD", str);
-	if (dir < 0)
-		errors_chdir_handling(dir, var);
-	return (0);
+	tmp = var->list;
+	if ((var->list->next->content[0] == '-'
+			&& var->list->next->content[1] == '-'
+			&& ft_strlen(var->list->next->content) == 2)
+		|| (var->list->next->content[0] == '~'))
+	{
+		return (0);
+	}
+	return (1);
 }
 
 int	ft_cd(t_var *var)
 {
-	t_list	*tmp;
-	t_envar	*tmp2;
-
-	tmp2 = var->envar;
-	tmp = var->list;
-	tmp2 = var->envar;
 	if (var->list->next == 0)
 	{
-		cd_content_equal_zero(var);
-		return (0);
+		if (cd_content_equal_zero(var) == 1)
+			return (1);
 	}
-	swap_pwd_old_pwd(var);
+	else if (cd_dash_tild(var) == 0)
+	{
+		if (cd_content_equal_tild_dash(var) == 1)
+			return (1);
+	}
+	else if (ft_strlen(var->list->next->content) == 1
+		&& var->list->next->content[0] == '-')
+	{
+		if (cd_dash_equal_one(var) == 1)
+			return (1);
+	}
+	else
+	{
+		if (swap_pwd_old_pwd(var) == 1)
+			return (1);
+	}
 	return (0);
 }

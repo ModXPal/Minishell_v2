@@ -10,6 +10,7 @@ SRC_FILES	=	src/main.c \
 			src/builtin/ft_unset.c \
 			src/builtin/ft_cd.c \
 			src/builtin/ft_cd_utils.c \
+			src/builtin/ft_cd_utils_2.c \
 			src/excve/ft_excve.c \
 			src/multipipes/ft_multipipes.c \
 			src/multipipes/ft_parsing_child.c  \
