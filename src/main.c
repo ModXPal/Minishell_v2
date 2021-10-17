@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/15 19:03:32 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/17 22:29:10 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ int	main(int ac, char **av, char **env)
 	t_builtin	*builtin;
 	t_var		var[1];
 	t_envar		*envar;
-	t_input		*tmp;
 
 	builtin = malloc(sizeof(t_builtin) * 8);
 	init_builtin(builtin);
@@ -134,6 +133,7 @@ int	main(int ac, char **av, char **env)
 	var->ac = ac;
 	var->variable = NULL;
 	var->list = NULL;
+	var->input = NULL;
 	var->s_quote = 0;
 	var->d_quote = 0;
 	(void)av;
@@ -149,13 +149,13 @@ int	main(int ac, char **av, char **env)
 		ret = is_builtin(var->cmd, builtin);
 		if (ret >= 0)
 			builtin[ret].func(var);
-		while (var->list)
+		while (var->input)
 		{
-			tmp = var->list->content;
-			printf("cmd = %s\n", tmp->cmd);
-			//while (var->input[i]->arg[j])
-			printf("arg = %s\n", tmp->arg[j++]);
-			var->list = var->list->next;
+			i = -1;
+			printf("cmd = %s\n", var->input->cmd);
+			while ((var->input->args)[++i])
+				printf("arg = %s\n", (var->input->args)[i]);
+			var->input = var->input->next;
 		}
 		free(var->cmd);
 		free_list(var);

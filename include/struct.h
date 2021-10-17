@@ -18,16 +18,17 @@ enum Operator{
 
 typedef struct s_list
 {
-	void			*content;
+	char			*content;
 	struct s_list	*next;
 }	t_list;
 
 typedef struct s_input{
 	char	*cmd;
-	char	**arg;
+	char	**args;
 	int	delimiter;
 	int	opt_nb;
 	int	arg_nb;
+	struct s_input *next;
 }		t_input;
 
 typedef struct s_envar{
@@ -46,6 +47,7 @@ typedef struct s_var{
 	t_list		*list;
 	t_envar		*envar;
 	t_input		*input;
+	t_input		cell[1];
 }		t_var;
 
 typedef struct s_builtin{

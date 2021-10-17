@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/15 19:05:09 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/17 23:12:35 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,18 +98,68 @@ int	split_len(char **split)
 	return (i);
 }
 
+t_input	*get_input(t_var *var, char **split_input)
+{
+	int		i;
+	int		len;
+	char		*content;
+	t_input		*new;
+
+	i = -1;
+	new = malloc(sizeof(t_input));
+	new->args = (char **)malloc(sizeof(char *) * (split_len(split_input) + 1));
+	if (new->args == FAIL)
+		return (0);
+	while (split_input[++i])
+	{
+		new->args[i] = NULL;
+		len = get_string_len(split_input[i], var);
+		var->s_quote = 0;
+		var->d_quote = 0;
+		content = ft_trim(var, split_input[i], len);
+		if (i == 0)
+			new->cmd = content;
+		new->args[i] = content;
+	}
+	new->args[i] = 0;
+	new->next = NULL;
+	return (new);
+}
+
+t_input	*ft_inptlast(t_input *input)
+{
+	if (!input)
+		return (NULL);
+	while (input)
+	{
+		if (input->next == NULL)
+			return (input);
+		input = input->next; 
+	}
+	return (NULL);
+}
+
+void	input_add_back(t_input **ainpt, t_input *new)
+{
+	t_input *last;
+
+	if (!ainpt || !new)
+		return ;
+	if (*ainpt)
+	{
+		last = ft_inptlast(*ainpt);
+		last->next = new;
+	}
+	else
+		*ainpt = new;
+}
+
 int	get_arguments(t_var *var)
 {
-	t_input		input[1];
-	char	*content;
 	char	**split_input;
 	char	**split_pipes;
-	//t_list		*start;
 	int		i;
-	int		j;
-	int		k;
-	int		l;
-	int		len;
+	t_input		*new;
 
 	i = -1;
 	if (check_unmatched_quotes(var) == TRUE)
@@ -120,28 +170,11 @@ int	get_arguments(t_var *var)
 	split_pipes = ft_split(var->cmd, '|');
 	while (split_pipes[++i])
 	{
-		j = -1;
-		k = 0;
-		l = 0;
 		split_input = ft_split_quotes(split_pipes[i], ' ');
-		input->arg = (char **)ft_calloc(sizeof(char *) * (split_len(split_input) + 1), 0);
-		while (split_input[++j])
-		{
-			var->s_quote = 0;
-			var->d_quote = 0;
-			len = get_string_len(split_input[j], var);
-			var->s_quote = 0;
-			var->d_quote = 0;
-			content = ft_trim(var, split_input[j], len);
-			if (j == 0)
-				input->cmd = content;
-			input->arg[l++] = content;
-		}
-		input->arg[l] = 0;
-		ft_lstadd_back(&var->list, ft_lstnew(input));
+		new = get_input(var, split_input);
+		input_add_back(&var->input, new);
 		free_split(split_input);
 	}
 	free_split(split_pipes);
-	printf("test 2\n");
 	return (1);
 }
