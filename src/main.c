@@ -6,17 +6,11 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/17 22:29:10 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/17 23:31:58 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_export(t_var *var)
-{
-	(void)var;
-	return (0);
-}
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -123,8 +117,10 @@ int	main(int ac, char **av, char **env)
 	t_builtin	*builtin;
 	t_var		var[1];
 	t_envar		*envar;
+	t_envar		*export;
 
 	builtin = malloc(sizeof(t_builtin) * 8);
+	var->cd = (t_cd *)malloc(sizeof(t_cd));
 	init_builtin(builtin);
 	i = -1;
 	j = 0;
@@ -138,8 +134,12 @@ int	main(int ac, char **av, char **env)
 	var->d_quote = 0;
 	(void)av;
 	envar = NULL;
+	export = NULL;
 	get_env_var(var, &envar);
+	get_env_var(var, &export);
 	var->envar = envar;
+	var->export = export;
+	get_home_unset_cd(var);
 	while (1)
 	{
 		var->cmd = readline("minishell $> ");
@@ -149,6 +149,8 @@ int	main(int ac, char **av, char **env)
 		ret = is_builtin(var->cmd, builtin);
 		if (ret >= 0)
 			builtin[ret].func(var);
+		else
+			ft_execve(var);
 		while (var->input)
 		{
 			i = -1;
@@ -157,6 +159,8 @@ int	main(int ac, char **av, char **env)
 				printf("arg = %s\n", (var->input->args)[i]);
 			var->input = var->input->next;
 		}
+		// else
+		// 	ft_multipipes(var);
 		free(var->cmd);
 		free_list(var);
 	}

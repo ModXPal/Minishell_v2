@@ -30,6 +30,16 @@ typedef struct s_input{
 	int	arg_nb;
 	struct s_input *next;
 }		t_input;
+typedef	struct s_pipes{
+	int				size_cmd_pipes;
+	int				**tab_pipes;
+	int				i;
+	int				fd[2];
+} t_pipes;
+
+typedef	struct s_cd{
+	char			*HOME;
+} t_cd;
 
 typedef struct s_envar{
 	char			*name;
@@ -38,16 +48,18 @@ typedef struct s_envar{
 }		t_envar;
 
 typedef struct s_var{
-	char			**env;
-	char			*cmd;
-	char			*variable;
-	int				ac;
-	int			s_quote;
-	int			d_quote;
+	char				**env;
+	char				*cmd;
+	char				*variable;
+	int					ac;
+	int					s_quote;
+	int					d_quote;
 	t_list		*list;
-	t_envar		*envar;
 	t_input		*input;
-	t_input		cell[1];
+	t_envar		*envar;
+	t_envar		*export;
+	t_pipes		*pipes;
+	t_cd			*cd;
 }		t_var;
 
 typedef struct s_builtin{

@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_envar_find_content.c                            :+:      :+:    :+:   */
+/*   ft_parsing_parent.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/12 14:36:11 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/16 17:19:18 by vbachele         ###   ########.fr       */
+/*   Created: 2021/10/15 14:34:45 by vbachele          #+#    #+#             */
+/*   Updated: 2021/10/15 17:20:50 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_envar_find_content(t_envar *tmp, char *str)
+void	parsing_parent(t_var *var, int parent)
 {
-	while (tmp)
+	int	i;
+
+	i = -1;
+	(void) parent;
+	while (++i < var->pipes->size_cmd_pipes)
 	{
-		if (ft_strcmp(tmp->name, str))
-		{
-			str = tmp->content;
-			return (str);
-		}
-		tmp = tmp->next;
+		if (i != var->pipes->size_cmd_pipes)
+			close(var->pipes->tab_pipes[i][0]);
+		if (i != 0)
+			close(var->pipes->tab_pipes[i][1]);
 	}
-	return (NULL);
+	i = -1;
+	while (++i < var->pipes->size_cmd_pipes)
+		waitpid(parent, 0, 0);
 }

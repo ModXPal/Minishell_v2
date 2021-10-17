@@ -3,10 +3,18 @@ NAME		=	minishell
 SRC_FILES	=	src/main.c \
 			src/builtin/ft_echo.c \
 			src/builtin/ft_env.c \
+			src/builtin/ft_export.c \
+			src/builtin/ft_export_utils.c \
 			src/builtin/ft_pwd.c \
 			src/builtin/ft_exit.c \
 			src/builtin/ft_unset.c \
 			src/builtin/ft_cd.c \
+			src/builtin/ft_cd_utils.c \
+			src/builtin/ft_cd_utils_2.c \
+			src/excve/ft_excve.c \
+			src/multipipes/ft_multipipes.c \
+			src/multipipes/ft_parsing_child.c  \
+			src/multipipes/ft_parsing_parent.c  \
 			src/parsing/parsing.c \
 			src/parsing/parsing_utils.c \
 			src/parsing/get_len.c \

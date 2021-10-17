@@ -1,0 +1,128 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    test                                               :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/10/12 15:13:32 by rcollas           #+#    #+#              #
+#    Updated: 2021/10/17 16:47:59 by vbachele         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+#include "builtin.h"
+
+int	errors_chdir_handling(int dir, t_var *var)
+{
+	t_list	*tmp;
+
+	tmp = var->list;
+	if (dir < 0)
+	{
+		write (2, "minishell: ", 12);
+		write(2, tmp->content, ft_strlen(tmp->content));
+		write (2, ": ", 3);
+		write(2, tmp->next->content, ft_strlen(tmp->next->content));
+		write (2, ": ", 3);
+		perror("");
+		return (1);
+	}
+	return (0);
+}
+
+char	*ft_env_new_pwd(t_var *var, char *str)
+{
+	char	*str2;
+	t_envar	*tmp;
+
+	tmp = var->envar;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, str))
+		{
+			str = tmp->content;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	str2 = getcwd(0, 150);
+	tmp->content = str2;
+	return (str);
+}
+
+void	ft_env_old_pwd(t_var *var, char *str, char *str2)
+{
+	t_envar	*tmp;
+
+	tmp = var->envar;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, str))
+		{
+			tmp->content = str2;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+}
+
+int	cd_content_equal_zero(t_var *var)
+{
+	int		dir;
+	char	*str;
+
+	dir = 0;
+	printf("salut1\n");
+	if (var->list->next->content[0] == '~')
+	{
+		printf("salut2\n");
+		str = var->cd->HOME;
+		dir = chdir(str);
+	}
+	else
+	{
+		printf("salut3\n");
+		str = cd_str_and_path_not_set(var);
+		dir = chdir(str);
+	}
+	printf("salut4\n");
+	str = ft_env_new_pwd(var, "PWD");
+	printf("salut5\n");
+	ft_env_old_pwd(var, "OLDPWD", str);
+	printf("salut6\n");
+	if (dir < 0)
+	{
+		errors_chdir_handling(dir, var);
+		return (1);
+	}
+	return (0);
+}
+
+
+int	cd_dashx2_tild_empty(t_var *var)
+{
+	t_list	*tmp;
+	
+	tmp = var->list;
+	if (tmp->next == 0 ||
+		(var->list->next->content[0] == '-'
+		&& var->list->next->content[1] == '-' 
+		&& ft_strlen(var->list->next->content) == 2)
+		|| (var->list->next->content[0] == '~' 
+		&& ft_strlen(var->list->next->content) == 1))
+	{
+		return (0);
+	}
+	return (1);
+}
+
+int	ft_cd(t_var *var)
+{
+	if (cd_dashx2_tild_empty(var) == 0)
+	{
+		cd_content_equal_zero(var);
+	}
+	else
+		swap_pwd_old_pwd(var);
+	return (0);
+}
