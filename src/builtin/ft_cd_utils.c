@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:08:16 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/17 17:42:23 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/18 14:37:53 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	swap_pwd_old_pwd(t_var *var)
 	str = NULL;
 	tmp = var->list;
 	dir = chdir(var->list->next->content);
-	str = ft_env_new_pwd(var, "PWD");
+	// str = ft_env_new_pwd(var, "PWD");
 	ft_env_old_pwd(var, "OLDPWD", str);
 	if (errors_chdir_handling(dir, var) == 1)
 		return (1);
@@ -80,7 +80,5 @@ char	*cd_str_and_path_not_set(t_var *var)
 		ft_putendl_fd(" HOME not set", 2);
 		return (0);
 	}
-	// if (str[0] == 0)
-	// 	exit(1);
 	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 16:09:34 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/17 17:48:11 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/18 10:53:19 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int	cd_content_equal_zero(t_var	*var)
 	dir = chdir(str);
 	str = ft_env_new_pwd(var, "PWD");
 	ft_env_old_pwd(var, "OLDPWD", str);
-	str = ft_export_new_pwd(var, "PWD");
-	ft_export_old_pwd(var, "OLDPWD", str);
 	if (errors_chdir_handling(dir, var) == 1)
 		return (1);
 	return (0);
@@ -70,16 +68,12 @@ int	cd_dash_equal_one(t_var *var)
 	tmp2 = var->envar;
 	str = NULL;
 	tmp = var->list;
-	if (ft_strlen(tmp->next->content) == 1
-		&& tmp->next->content[0] == '-') // le cas ou on ecrit "cd -"
-	{
-		str = ft_envar_find_content(tmp2, "OLDPWD");
-		dir = chdir (str);
-		printf("%s\n", getcwd(0, 150));
-		str = ft_env_new_pwd(var, "PWD");
-		ft_env_old_pwd(var, "OLDPWD", str);
-		if (errors_chdir_handling(dir, var) == 1)
-			return (1);
-	}
+	str = ft_envar_find_content(tmp2, "OLDPWD");
+	dir = chdir (str);
+	printf("%s\n", getcwd(0, 150));
+	str = ft_env_new_pwd(var, "PWD");
+	ft_env_old_pwd(var, "OLDPWD", str);
+	if (errors_chdir_handling(dir, var) == 1)
+		return (1);
 	return (0);
 }

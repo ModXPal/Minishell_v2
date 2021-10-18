@@ -6,13 +6,13 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:29:54 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/13 16:44:57 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/18 15:28:51 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	unset_export_error_handling(t_var *var)
+int	unset_export_error_handling(t_var *var, char *content)
 {
 	t_list	*tmp;
 	int		i;
@@ -21,17 +21,16 @@ int	unset_export_error_handling(t_var *var)
 	tmp = var->list;
 	if (tmp->next == 0)
 		return (-1);
-	while (tmp->next->content[i])
+	if (content[0] == 0)
+		return (-1);
+	while (content[i])
 	{
-		if (tmp->next->content[i] == '=' && tmp->next->content[0] != '=')
+		if (content[i] == '=' && content[0] != '=')
 			return (0);
-		else if (!ft_isalnum(tmp->next->content[i]) || ft_isdigit(tmp->next->content[0]))
+		else if (!ft_isalnum(content[i]) || ft_isdigit(content[0]) 
+			|| content[0] == 0)
 		{
-			write (2, "minishell: ", 12);
-			write(2, tmp->content, ft_strlen(tmp->content));
-			write (2, ": `", 3);
-			write(2, tmp->next->content, ft_strlen(tmp->next->content));
-			ft_putendl_fd("': not a valid identifier", 2);
+			unset_error_export_message(var, content);
 			return (-1);
 		}
 		i++;
@@ -39,7 +38,20 @@ int	unset_export_error_handling(t_var *var)
 	return (0);
 }
 
-int	ft_unset_export(t_var *var, char *str)
+int	unset_error_export_message(t_var *var, char *content)
+{
+	t_list	*tmp;
+	
+	tmp = var->list;
+	write (2, "minishell: ", 12);
+	write(2, tmp->content, ft_strlen(tmp->content));
+	write (2, ": `", 3);
+	write(2, content, ft_strlen(content));
+	ft_putendl_fd("': not a valid identifier", 2);
+	return (1);
+}
+
+int	ft_unset_export(t_var *var, char *str, int *args_exist)
 {
 	t_envar	*tmp;
 	int		pos;
@@ -52,31 +64,56 @@ int	ft_unset_export(t_var *var, char *str)
 		{
 			pos = ft_envar_position(var->export, tmp->name);
 			envar_remove(&var->export, pos);
+			(*args_exist) = 1;
 		}
 		tmp = tmp->next;
 	}
 	return (0);
 }
 
-int	ft_unset(t_var *var)
+int unset_search_and_remove(t_var *var, int *cmd_exist, char *content)
 {
 	t_envar	*tmp;
 	int		pos;
-
+	
 	pos = 0;
 	tmp = var->envar;
-	var->cmd = &(var->cmd[6]);
-	if (unset_export_error_handling(var) == -1)
-		return (-1);
-	while (tmp)
+	if (unset_export_error_handling(var, content) != -1)
 	{
-		if (ft_strcmp(tmp->name, var->cmd) == 1)
+		while (tmp)
 		{
-			pos = ft_envar_position(var->envar, tmp->name);
-			envar_remove(&var->envar, pos);
+			if (ft_strcmp(tmp->name, content) == 1)
+			{
+				pos = ft_envar_position(var->envar, tmp->name);
+				envar_remove(&var->envar, pos);
+			}
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
 	}
-	ft_unset_export(var, var->cmd);
+	ft_unset_export(var, content, cmd_exist);
+	return (0);
+}
+
+int	ft_unset(t_var *var)
+{
+	t_envar	*tmp;
+	t_list	*tmp_list;
+	int		pos;
+	int		cmd_exist;
+
+	pos = 0;
+	cmd_exist = 0;
+	tmp_list = var->list;
+	tmp = var->envar;
+	if (tmp_list->next)
+		tmp_list = tmp_list->next;
+	while (tmp_list)
+	{
+		cmd_exist = 0;
+		unset_search_and_remove(var, &cmd_exist, tmp_list->content);
+		if (cmd_exist == 0)
+			unset_error_export_message(var, tmp_list->content);
+		tmp_list = tmp_list->next;
+	}
 	return (0);
 }
