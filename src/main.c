@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/17 23:58:03 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/18 20:17:52 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ void	free_input(t_var *var)
 	int	i;
 
 	i = 0;
-	//while (var->input[i])
-	//	free(var->input[i++]);
+	while ((var->input->args)[i])
+		free((var->input->args)[i++]);
 	free(var->input);
 }
 
@@ -163,8 +163,9 @@ int	main(int ac, char **av, char **env)
 		*/
 		// else
 		// 	ft_multipipes(var);
+		free_input(var);
 		free(var->cmd);
-		free_list(var);
+		//free_list(var);
 	}
 	return (0);
 }

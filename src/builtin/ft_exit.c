@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 10:57:38 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/13 17:42:18 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/18 20:30:58 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	exit_with_errors(t_var *var)
 
 int	exit_without_cmd(t_var *var)
 {
-	if (var->list->next == 0)
+	if (var->input->args[1] == 0)
 	{
 		ft_putendl_fd("exit", 2);
 		exit (EXIT_SUCCESS);

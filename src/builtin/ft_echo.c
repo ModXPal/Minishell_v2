@@ -6,26 +6,26 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 16:29:41 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/14 14:34:42 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/18 20:24:37 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	is_dash_n(t_list *list)
+int	is_dash_n(char **str)
 {
 	int	i;
 
 	i = 0;
-	if (!list->next)
+	if (str[1] == NULL)
 		return (0);
-	if (list->next->content[i] == '-')
+	if (str[1][i] == '-')
 	{
 		i++;
-		while (list->next->content[i] == 'n')
+		while (str[1][i] == 'n')
 		{
-			if (list->next->content[i + 1] == '\0'
-				|| list->next->content[i + 1] == ' ')
+			if (str[1][i + 1] == '\0'
+				|| str[1][i + 1] == ' ')
 			{
 				return (1);
 			}
@@ -37,21 +37,18 @@ int	is_dash_n(t_list *list)
 
 int	ft_echo(t_var *var)
 {
-	t_list	*start;
 	int		i;
 	int		ret;
 
-	i = -1;
-	start = var->list;
-	ret = is_dash_n(start);
+	i = 0;
+	ret = is_dash_n(var->input->args);
 	if (ret == TRUE)
-		start = start->next;
-	while (start)
+		i++;
+	while ((var->input->args)[++i])
 	{
-		printf("%s", start->content);
-		if (start->next)
+		printf("%s", (var->input->args)[i]);
+		if ((var->input->args)[i + 1])
 			printf(" ");
-		start = start->next;
 	}
 	if (ret == FALSE)
 		printf("\n");

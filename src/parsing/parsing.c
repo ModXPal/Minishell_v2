@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/17 23:12:35 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/18 20:26:24 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ t_input	*get_input(t_var *var, char **split_input)
 		return (0);
 	while (split_input[++i])
 	{
-		new->args[i] = NULL;
+		var->s_quote = 0;
+		var->d_quote = 0;
 		len = get_string_len(split_input[i], var);
 		var->s_quote = 0;
 		var->d_quote = 0;
@@ -121,7 +122,7 @@ t_input	*get_input(t_var *var, char **split_input)
 			new->cmd = content;
 		new->args[i] = content;
 	}
-	new->args[i] = 0;
+	new->args[i] = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -168,6 +169,7 @@ int	get_arguments(t_var *var)
 		return (0);
 	}
 	split_pipes = ft_split(var->cmd, '|');
+	var->input = NULL;
 	while (split_pipes[++i])
 	{
 		split_input = ft_split_quotes(split_pipes[i], ' ');

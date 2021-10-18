@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/17 23:36:46 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/18 16:06:24 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "struct.h"
 #include "../libft/libft.h"
 
-int		is_dash_n(t_list *list);
+int		is_dash_n(char **str);
 int		ft_echo(t_var *var);
 int		ft_env(t_var *var);
 int		ft_exit(t_var *var);
