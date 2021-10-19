@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/18 20:17:52 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/19 14:51:35 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ int	main(int ac, char **av, char **env)
 			builtin[ret].func(var);
 		else
 			ft_execve(var);
-		/*
 		while (var->input)
 		{
 			i = -1;
@@ -160,7 +159,6 @@ int	main(int ac, char **av, char **env)
 				printf("arg = %s\n", (var->input->args)[i]);
 			var->input = var->input->next;
 		}
-		*/
 		// else
 		// 	ft_multipipes(var);
 		free_input(var);
