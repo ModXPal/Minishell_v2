@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 15:45:05 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/18 14:55:57 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/19 15:29:29 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,29 +96,28 @@ int	ft_export(t_var *var)
 	char	*name;
 	char	*content;
 	int		equal;
-	t_list	*tmp;
+	int		j;
 
-	tmp = var->list;
 	if (cmd_export_alone(var) == 1)
 		return (0);
-	tmp = tmp->next;
-	while (tmp)
+	j = 1;
+	while (var->input->args[j])
 	{
 		i = 0;
 		equal = 0;
-		if (unset_export_error_handling(var, tmp->content) != -1)
+		if (unset_export_error_handling(var, var->input->args[i]) != -1)
 		{
-			name = (char *)malloc(sizeof(ft_strlen(tmp->content) + 1));
-			content = (char *)malloc(sizeof(ft_strlen(tmp->content) + 1));
-			name = export_name_equal_search(tmp->content, &i, &equal, name);
-			content = export_content_search(&i, tmp->content, content);
+			name = (char *)malloc(sizeof(ft_strlen(var->input->args[j]) + 1));
+			content = (char *)malloc(sizeof(ft_strlen(var->input->args[j]) + 1));
+			name = export_name_equal_search(var->input->args[j], &i, &equal, name);
+			content = export_content_search(&i, var->input->args[j], content);
 			i = export_env_reassigned_check(var, name, content, equal);
 			if (equal == 1 && i != -1)
 				export_env_insert(var, name, content);
 			if (export_export_reassigned_check(var, name, content, equal) != -1)
 				cmd_export_insert(var, name, content, equal);
 		}
-		tmp = tmp->next;
+		j++;
 	}
 	return (0); // bien penser a free ici
 }

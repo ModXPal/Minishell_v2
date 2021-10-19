@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:07:27 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/18 14:13:21 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/19 15:25:35 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 int	cmd_export_alone(t_var *var)
 {
 	t_envar	*tmp2;
-	t_list	*tmp;
 	
-	tmp = var->list;
 	tmp2 = var->export;
-	if (tmp->next == 0)
+	if (var->input->args[1] == 0)
 	{
 		while (tmp2)
 		{

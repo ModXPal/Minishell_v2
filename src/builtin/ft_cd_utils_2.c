@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 16:09:34 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/19 14:31:55 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/19 15:10:37 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	cd_content_equal_tild_dash(t_var *var)
 
 	dir = 0;
 	str = 0;
-	if (var->list->next->content[0] == '~')
+	if (var->input->args[1][0] == '~')
 		str = var->cd->HOME;
 	else
 	{
@@ -58,12 +58,10 @@ int	cd_dash_equal_one(t_var *var)
 {
 	int		dir;
 	char	*str;
-	t_list	*tmp;
 	t_envar	*tmp2;
 
 	tmp2 = var->envar;
 	str = NULL;
-	tmp = var->list;
 	str = ft_envar_find_content(tmp2, "OLDPWD");
 	dir = chdir (str);
 	printf("%s\n", getcwd(0, 150));
@@ -74,12 +72,9 @@ int	cd_dash_equal_one(t_var *var)
 
 int	cd_dash_tild(t_var *var)
 {
-	t_list	*tmp;
-
-	tmp = var->list;
-	if ((ft_strncmp(tmp->next->content, "--", 3) == 0
-			&& ft_strlen(tmp->next->content) == 2)
-		|| (var->list->next->content[0] == '~'))
+	if ((ft_strncmp(var->input->args[1], "--", 3) == 0
+			&& ft_strlen(var->input->args[1]) == 2)
+		|| (var->input->args[1][0] == '~'))
 	{
 		return (0);
 	}

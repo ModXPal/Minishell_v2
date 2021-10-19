@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/19 14:57:14 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/19 15:19:48 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int		cd_application(t_var *var);
 int		cd_dash_tild(t_var *var);
 int		swap_pwd_old_pwd_and_errors(t_var *var, char *str, int dir);
 int		cd_cdpath_application(t_var *var);
+int		split_len(char **split);
 char	*cd_str_and_path_not_set(t_var *var);
 
 

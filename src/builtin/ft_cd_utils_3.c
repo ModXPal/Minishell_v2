@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:41:03 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/19 14:32:05 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/19 15:15:45 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@ int	cd_cdpath_application(t_var *var)
 {
 	int		dir;
 	char	*str;
-	t_list	*tmp;
 	t_envar	*tmp2;
 
 	str = NULL;
 	tmp2 = var->envar;
-	tmp = var->list;
 	dir = chdir(var->cd->cdpath);
 	if (dir < 0)
 		return (1);

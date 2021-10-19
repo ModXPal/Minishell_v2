@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:08:16 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/19 14:31:30 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/19 15:08:42 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,11 @@ int	swap_pwd_old_pwd(t_var *var)
 {
 	int		dir;
 	char	*str;
-	t_list	*tmp;
 	t_envar	*tmp2;
 
 	tmp2 = var->envar;
 	str = NULL;
-	tmp = var->list;
-	dir = chdir(var->list->next->content);
+	dir = chdir(var->input->args[1]);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
 		return (1);
 	return (0);
