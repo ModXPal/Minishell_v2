@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 16:09:34 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/19 14:31:55 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/19 15:12:30 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,13 @@ int	cd_content_equal_tild_dash(t_var *var)
 		str = var->cd->HOME;
 	else
 	{
-		if ((str == cd_str_and_path_not_set(var)) == 1)
-			return (1);
+		if (str != cd_str_and_path_not_set(var))
+		{
+				printf("le STR FINAL : %s \n", str);
+				return (1);
+		}
 	}
+	printf("le STR FINAL : %s \n", str);
 	dir = chdir(str);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
 		return (1);
@@ -81,6 +85,7 @@ int	cd_dash_tild(t_var *var)
 			&& ft_strlen(tmp->next->content) == 2)
 		|| (var->list->next->content[0] == '~'))
 	{
+		printf("pouet\n");
 		return (0);
 	}
 	return (1);
