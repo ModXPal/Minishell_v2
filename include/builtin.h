@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/18 15:11:23 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/18 17:39:13 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ int		cd_content_equal_tild_dash(t_var *var);
 int 	cd_content_equal_zero(t_var *var);
 int		cd_dash_equal_one(t_var *var);
 int		unset_error_export_message(t_var *var, char *content);
+int		check_cdpath_exists(t_var *var);
+int		cd_application(t_var *var);
+int		cd_dash_tild(t_var *var);
+int		swap_pwd_old_pwd_and_errors(t_var *var, char *str, int dir);
+int		cd_cdpath_application(t_var *var);
+char	*cd_str_and_path_not_set(t_var *var);
 
 
 #endif

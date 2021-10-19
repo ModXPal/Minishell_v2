@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 16:09:34 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/18 10:53:19 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/19 14:31:55 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ int	cd_content_equal_zero(t_var	*var)
 	if (cd_str_and_path_not_set(var) == 0) // Si je vois que le HOME existe plus je renvoie une erreur
 		return (1);
 	dir = chdir(str);
-	str = ft_env_new_pwd(var, "PWD");
-	ft_env_old_pwd(var, "OLDPWD", str);
-	if (errors_chdir_handling(dir, var) == 1)
+	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
 		return (1);
 	return (0);
 }
@@ -51,9 +49,7 @@ int	cd_content_equal_tild_dash(t_var *var)
 			return (1);
 	}
 	dir = chdir(str);
-	str = ft_env_new_pwd(var, "PWD");
-	ft_env_old_pwd(var, "OLDPWD", str);
-	if (errors_chdir_handling(dir, var) == 1)
+	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
 		return (1);
 	return (0);
 }
@@ -71,9 +67,21 @@ int	cd_dash_equal_one(t_var *var)
 	str = ft_envar_find_content(tmp2, "OLDPWD");
 	dir = chdir (str);
 	printf("%s\n", getcwd(0, 150));
-	str = ft_env_new_pwd(var, "PWD");
-	ft_env_old_pwd(var, "OLDPWD", str);
-	if (errors_chdir_handling(dir, var) == 1)
+	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
 		return (1);
 	return (0);
+}
+
+int	cd_dash_tild(t_var *var)
+{
+	t_list	*tmp;
+
+	tmp = var->list;
+	if ((ft_strncmp(tmp->next->content, "--", 3) == 0
+			&& ft_strlen(tmp->next->content) == 2)
+		|| (var->list->next->content[0] == '~'))
+	{
+		return (0);
+	}
+	return (1);
 }
