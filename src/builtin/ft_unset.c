@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:29:54 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/19 15:28:44 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/19 16:17:35 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_unset(t_var *var)
 	int		i;
 
 	pos = 0;
-	i = 1;
+	i = 0;
 	cmd_exist = 0;
 	tmp_list = var->list;
 	tmp = var->envar;
@@ -110,6 +110,7 @@ int	ft_unset(t_var *var)
 		unset_search_and_remove(var, &cmd_exist, var->input->args[i]);
 		if (cmd_exist == 0)
 			unset_error_export_message(var, var->input->args[i]);
+		i++;
 	}
 	return (0);
 }
