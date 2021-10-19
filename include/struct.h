@@ -1,6 +1,8 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
+# include <sys/wait.h>
+
 typedef struct s_echo{
 	struct s_list	*echo_list;
 	char			*echo;
@@ -31,12 +33,12 @@ typedef struct s_input{
 	struct s_input *next;
 }		t_input;
 
-typedef	struct s_pipes{
-	int				size_cmd_pipes;
-	int				**tab_pipes;
-	int				i;
-	int				fd[2];
-} t_pipes;
+typedef	struct s_pvar{
+	int		cmd_nb;
+	pid_t		*pids;
+	char	*cmd;
+	char	**path;
+} t_pvar;
 
 typedef	struct s_cd{
 	char			*HOME;
@@ -60,7 +62,7 @@ typedef struct s_var{
 	t_input		*input;
 	t_envar		*envar;
 	t_envar		*export;
-	t_pipes		*pipes;
+	//t_pipes		*pipes;
 	t_cd			*cd;
 }		t_var;
 
