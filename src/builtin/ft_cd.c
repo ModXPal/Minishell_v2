@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:32 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/17 17:47:10 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/19 14:31:20 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,58 +30,52 @@ int	errors_chdir_handling(int dir, t_var *var)
 	return (0);
 }
 
-char	*ft_env_new_pwd(t_var *var, char *str)
+char	*cd_str_and_path_not_set(t_var *var)
 {
-	char	*str2;
-	t_envar	*tmp;
+	char	*str;
+	t_envar	*tmp2;
 
-	tmp = var->envar;
-	while (tmp)
+	tmp2 = var->envar;
+	str = NULL;
+	str = ft_envar_find_content(tmp2, "HOME");
+	if (str == 0)
 	{
-		if (ft_strcmp(tmp->name, str))
-		{
-			str = tmp->content;
-			break ;
-		}
-		tmp = tmp->next;
+		write(2, "minishell: cd:", 14);
+		ft_putendl_fd(" HOME not set", 2);
+		return (0);
 	}
-	str2 = getcwd(0, 150);
-	tmp->content = str2;
 	return (str);
 }
 
-void	ft_env_old_pwd(t_var *var, char *str, char *str2)
-{
-	t_envar	*tmp;
-
-	tmp = var->envar;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->name, str))
-		{
-			tmp->content = str2;
-			break ;
-		}
-		tmp = tmp->next;
-	}
-}
-
-int	cd_dash_tild(t_var *var)
+int	check_cdpath_exists(t_var *var)
 {
 	t_list	*tmp;
 
 	tmp = var->list;
-	if ((var->list->next->content[0] == '-'
-			&& var->list->next->content[1] == '-'
-			&& ft_strlen(var->list->next->content) == 2)
-		|| (var->list->next->content[0] == '~'))
+	var->cd->cdpath = 0;
+	var->cd->cdpath = ft_envar_find_content(var->envar, "CDPATH");
+	if (var->cd->cdpath == 0)
+		return (1);
+	if (tmp->next)
 	{
-		return (0);
+		if ((ft_strncmp(tmp->next->content, ".", 1) == 0
+				&& ft_strlen(tmp->next->content) == 1)
+			|| (ft_strncmp(tmp->next->content, "..", 2) == 0
+				&& ft_strlen(tmp->next->content) == 2)
+			|| (ft_strncmp(tmp->next->content, "/", 1) == 0
+				&& ft_strlen(tmp->next->content) == 1))
+		{
+			return (1);
+		}
 	}
-	return (1);
+	if (tmp->next != 0 && var->cd->cdpath != 0)
+		var->cd->cdpath = ft_strjoin(var->cd->cdpath, tmp->next->content);
+	if (cd_cdpath_application(var) == 1)
+		return (1);
+	return (0);
 }
 
-int	ft_cd(t_var *var)
+int	cd_application(t_var *var)
 {
 	if (var->list->next == 0)
 	{
@@ -104,5 +98,14 @@ int	ft_cd(t_var *var)
 		if (swap_pwd_old_pwd(var) == 1)
 			return (1);
 	}
+	return (0);
+}
+
+int	ft_cd(t_var *var)
+{
+	if (check_cdpath_exists(var) == 0)
+		return (0);
+	if (cd_application(var) == 1)
+		return (1);
 	return (0);
 }

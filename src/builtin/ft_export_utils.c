@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:07:27 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/13 15:50:39 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/18 14:13:21 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,8 @@ int	cmd_export_alone(t_var *var)
 	return (0);
 }
 
-char	*export_name_equal_search(t_var *var, int *i, int *equal, char *name)
+char	*export_name_equal_search(char *str, int *i, int *equal, char *name)
 {
-	t_list	*tmp;
-	char	*str;
-
-	tmp = var->list;
-	str = tmp->next->content;
 	while (str[(*i)])
 	{
 		if (str[(*i)] == '=')
@@ -55,6 +50,7 @@ char	*export_name_equal_search(t_var *var, int *i, int *equal, char *name)
 		name[(*i)] = str[(*i)];
 		(*i)++;
 	}
+	name[(*i)] = 0;
 	return (name);
 }
 
@@ -68,5 +64,6 @@ char	*export_content_search(int *i, char *str, char *content)
 		content[j] = str[(*i)];
 		j++;
 	}
+	content[j] = 0;
 	return (content);
 }

@@ -39,6 +39,7 @@ typedef	struct s_pipes{
 
 typedef	struct s_cd{
 	char			*HOME;
+	char			*cdpath;
 } t_cd;
 
 typedef struct s_envar{
