@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:59:45 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/15 11:00:50 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:43:39 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void	pipe_creation(t_var *var)
 	int	i;
 
 	i = -1;
-	var->pipes->tab_pipes = malloc(sizeof(int *) * 2 + 1);
+	var->pipes->tab_pipes = malloc(sizeof(int *) * (var->pipes->size_cmd_pipes + 1));
 	if (var->pipes->tab_pipes == 0)
 		return ((void)0);
-	while (++i < (var->pipes->size_cmd_pipes) + 1)
+	while (++i < var->pipes->size_cmd_pipes + 1)
 		var->pipes->tab_pipes[i] = malloc(sizeof(int) * 2);
 	i = -1;
-	while (++i < (var->pipes->size_cmd_pipes + 1))
+	while (++i < var->pipes->size_cmd_pipes + 1)
 	{
 		if (pipe(var->pipes->tab_pipes[i]) == -1)
 		{
@@ -67,13 +67,11 @@ int	fd_creation(t_var *var)
 int	ft_multipipes(t_var *var)
 {
 	int parent;
-	var->pipes = (t_pipes *)malloc(sizeof(t_pipes));
 	// if (var->pipe == 1)
 	// {
 	// }
 	parent = 0;
 	var->pipes->tab_pipes = 0;
-	var->pipes->size_cmd_pipes = 3; // Robin m'envoie ce nombre directement
 	fd_creation(var);
 	pipe_creation(var);
 	parent = child_parent_creation(var);

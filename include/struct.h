@@ -30,6 +30,7 @@ typedef struct s_input{
 	int	arg_nb;
 	struct s_input *next;
 }		t_input;
+
 typedef	struct s_pipes{
 	int				size_cmd_pipes;
 	int				**tab_pipes;

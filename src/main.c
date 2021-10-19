@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/19 15:02:39 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/19 16:27:29 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int	main(int ac, char **av, char **env)
 
 	builtin = malloc(sizeof(t_builtin) * 8);
 	var->cd = (t_cd *)malloc(sizeof(t_cd));
+	var->pipes = (t_pipes *)malloc(sizeof(t_pipes));
 	init_builtin(builtin);
 	i = -1;
 	j = 0;
@@ -143,19 +144,19 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		var->cmd = readline("minishell $> ");
+		var->pipes->size_cmd_pipes = count_pipes(var);
 		add_history(var->cmd);
 		if (get_arguments(var) == FAIL)
 			continue ;
 		ret = is_builtin(var->cmd, builtin);
 		if (ret >= 0)
 			builtin[ret].func(var);
+		if (count_pipes(var) > 1)
+			ft_multipipes(var);
 		else
 			ft_execve(var);
-		// else
-		// 	ft_multipipes(var);
 		free_input(var);
 		free(var->cmd);
-		//free_list(var);
 	}
 	return (0);
 }

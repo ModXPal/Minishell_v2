@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/18 00:08:16 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/19 16:39:21 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int	ft_execve(t_var *var)
 {
 	char 	*path_final;
 	char	**path_fromenvp;
-	pid_t	pid;
+	//pid_t	pid;
 	
-	pid = fork();
+	//pid = fork();
 	path_final = ft_envar_find_content(var->envar, "PATH");
 	path_fromenvp = ft_split(path_final, ':');
 	path_final = get_path(var, path_fromenvp);
@@ -60,15 +60,15 @@ int	ft_execve(t_var *var)
 	// write(2, var->list->content, ft_strlen(var->list->content));
 	// write(2, "\n", 1);
 	// var->list = var->list->next;
-	if (pid == 0)
-	{
+	//if (pid == 0)
+	//{
 		if (execve(path_final, var->input->args, NULL) == -1)
 		{
 			execve_error(var);
 			return (0);
 		}
-	}
-	waitpid(pid, 0, 0);
+	//}
+	//waitpid(pid, 0, 0);
 	return (0);
 }
 
