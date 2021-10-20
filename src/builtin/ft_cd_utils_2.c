@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 16:09:34 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/19 15:10:37 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/20 15:12:00 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,8 @@ int	cd_content_equal_tild_dash(t_var *var)
 
 	dir = 0;
 	str = 0;
-	if (var->input->args[1][0] == '~')
-		str = var->cd->HOME;
-	else
-	{
-		if ((str == cd_str_and_path_not_set(var)) == 1)
+	if ((str == cd_str_and_path_not_set(var)) == 0)
 			return (1);
-	}
 	dir = chdir(str);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
 		return (1);
@@ -73,8 +68,7 @@ int	cd_dash_equal_one(t_var *var)
 int	cd_dash_tild(t_var *var)
 {
 	if ((ft_strncmp(var->input->args[1], "--", 3) == 0
-			&& ft_strlen(var->input->args[1]) == 2)
-		|| (var->input->args[1][0] == '~'))
+			&& ft_strlen(var->input->args[1]) == 2))
 	{
 		return (0);
 	}
