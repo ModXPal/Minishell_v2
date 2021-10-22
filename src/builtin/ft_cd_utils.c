@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:08:16 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/19 15:08:42 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/21 14:52:05 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_export_new_pwd(t_var *var, char *str)
 	tmp = var->export;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->name, str))
+		if (ft_strcmp(tmp->name, "PWD"))
 		{
 			str = tmp->content;
 			break ;
@@ -28,7 +28,19 @@ char	*ft_export_new_pwd(t_var *var, char *str)
 		tmp = tmp->next;
 	}
 	str2 = getcwd(0, 150);
-	tmp->content = str2;
+	if (var->input->args[1] != 0)
+	{
+		if (ft_strlen(var->input->args[1]) == 2
+			&& (ft_strncmp(var->input->args[1], "//", 2) == 0))
+			tmp->content = "//";
+		else
+			tmp->content = str2;
+	}
+	else
+	{
+		if (tmp)
+			tmp->content = str2;
+	}
 	return (str);
 }
 
@@ -56,7 +68,7 @@ char	*ft_env_new_pwd(t_var *var, char *str)
 	tmp = var->envar;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->name, str))
+		if (ft_strcmp(tmp->name, "PWD"))
 		{
 			str = tmp->content;
 			break ;
@@ -64,7 +76,19 @@ char	*ft_env_new_pwd(t_var *var, char *str)
 		tmp = tmp->next;
 	}
 	str2 = getcwd(0, 150);
-	tmp->content = str2;
+	if (var->input->args[1] != 0)
+	{
+		if (ft_strlen(var->input->args[1]) == 2
+			&& (ft_strncmp(var->input->args[1], "//", 2) == 0))
+			tmp->content = "//";
+		else
+			tmp->content = str2;
+	}
+	else
+	{
+		if (tmp)
+			tmp->content = str2;
+	}
 	return (str);
 }
 
@@ -72,10 +96,11 @@ void	ft_env_old_pwd(t_var *var, char *str, char *str2)
 {
 	t_envar	*tmp;
 
+	(void) str;
 	tmp = var->envar;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->name, str))
+		if (ft_strcmp(tmp->name, "OLDPWD"))
 		{
 			tmp->content = str2;
 			break ;
@@ -92,6 +117,7 @@ int	swap_pwd_old_pwd(t_var *var)
 
 	tmp2 = var->envar;
 	str = NULL;
+	str = getcwd(0, 150);
 	dir = chdir(var->input->args[1]);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
 		return (1);

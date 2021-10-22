@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 16:09:34 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/20 15:12:00 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/21 14:52:29 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	cd_content_equal_zero(t_var	*var)
 
 	tmp2 = var->envar;
 	str = ft_envar_find_content(tmp2, "HOME");
-	if (cd_str_and_path_not_set(var) == 0) // Si je vois que le HOME existe plus je renvoie une erreur
+	if (cd_str_and_path_not_set(var) == 0)
 		return (1);
 	dir = chdir(str);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
@@ -42,7 +42,7 @@ int	cd_content_equal_tild_dash(t_var *var)
 	dir = 0;
 	str = 0;
 	if ((str == cd_str_and_path_not_set(var)) == 0)
-			return (1);
+		return (1);
 	dir = chdir(str);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
 		return (1);
