@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:08:16 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/21 14:52:05 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/22 15:14:29 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ char	*ft_export_new_pwd(t_var *var, char *str)
 			&& (ft_strncmp(var->input->args[1], "//", 2) == 0))
 			tmp->content = "//";
 		else
-			tmp->content = str2;
+			if (tmp)
+				tmp->content = str2;
 	}
 	else
 	{
@@ -82,7 +83,8 @@ char	*ft_env_new_pwd(t_var *var, char *str)
 			&& (ft_strncmp(var->input->args[1], "//", 2) == 0))
 			tmp->content = "//";
 		else
-			tmp->content = str2;
+			if (tmp)
+				tmp->content = str2;
 	}
 	else
 	{
