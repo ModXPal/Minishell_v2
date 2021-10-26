@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/20 18:19:07 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/25 13:14:30 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,11 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	int		i;
 
 	i = -1;
+	printf("var->input->cmd = %s\n", var->input->cmd);
 	while (pvar->path[++i])
 	{
 		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
+		printf("pvar cmd = %s\n", pvar->cmd);
 		if (check_access(pvar, i) == SUCCESS)
 			break ;
 		else if (check_access(pvar, i) == FAIL)

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/20 17:58:56 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/25 13:20:28 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_path(t_var *var, char**path_fromenvp)
 	}
 	if (var->input->cmd[0] == '/'
 		&& access(&var->input->cmd[0], F_OK) == 0)
-		return (&var->list->content[0]);
+		return (&var->input->cmd[0]);
 	return (NULL);
 }
 
@@ -51,7 +51,6 @@ int	ft_execve(t_var *var)
 	char	**path_fromenvp;
 	pid_t	pid;
 	
-	pid = fork();
 	path_final = ft_envar_find_content(var->envar, "PATH");
 	path_fromenvp = ft_split(path_final, ':');
 	path_final = get_path(var, path_fromenvp);
@@ -60,6 +59,7 @@ int	ft_execve(t_var *var)
 	// write(2, var->list->content, ft_strlen(var->list->content));
 	// write(2, "\n", 1);
 	// var->list = var->list->next;
+	pid = fork();
 	if (pid == 0)
 	{
 		if (execve(path_final, var->input->args, NULL) == -1)
