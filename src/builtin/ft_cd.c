@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:32 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/22 15:10:34 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/26 14:29:25 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	cd_application(t_var *var)
 	}
 	else
 	{
-		printf("salut1\n");
 		if (swap_pwd_old_pwd(var) == 1)
 			return (1);
 	}

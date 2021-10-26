@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 10:57:38 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/22 15:16:41 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/26 14:29:18 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	exit_without_cmd(t_var *var)
 	if (var->input->args[1] == 0)
 	{
 		ft_putendl_fd("exit", 2);
-		printf ("EXIT sans CMD\n");
 		exit (EXIT_SUCCESS);
 	}
 	return (0);
