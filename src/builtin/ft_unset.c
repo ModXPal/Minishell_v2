@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:29:54 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/19 16:17:35 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/21 15:32:30 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ int	unset_export_error_handling(t_var *var, char *content)
 {
 	int		i;
 	
-	i = 0;
-	if (var->input->args[1] == 0)
+	i = 1;
+	if (var->input->args[1] == 0 || content[0] == 0)
 		return (-1);
 	if (content[0] == 0)
 		return (-1);
-	while (content[i])
+	while (var->input->args[i])
 	{
-		if (content[i] == '=' && content[0] != '=')
+		if (var->input->args[i][0] == '=' && content[0] != '=')
 			return (0);
 		else if (!ft_isalnum(content[i]) || ft_isdigit(content[0]) 
 			|| content[0] == 0)
@@ -38,10 +38,11 @@ int	unset_export_error_handling(t_var *var, char *content)
 
 int	unset_error_export_message(t_var *var, char *content)
 {
+	(void) content;
 	write (2, "minishell: ", 12);
 	write(2, var->input->cmd, ft_strlen(var->input->cmd));
 	write (2, ": `", 3);
-	write(2, content, ft_strlen(content));
+	write(2, var->input->args[1], ft_strlen(var->input->args[1]));
 	ft_putendl_fd("': not a valid identifier", 2);
 	return (1);
 }
@@ -108,8 +109,8 @@ int	ft_unset(t_var *var)
 	{
 		cmd_exist = 0;
 		unset_search_and_remove(var, &cmd_exist, var->input->args[i]);
-		if (cmd_exist == 0)
-			unset_error_export_message(var, var->input->args[i]);
+		// if (cmd_exist == 0)
+		// 	unset_error_export_message(var, var->input->args[i]);
 		i++;
 	}
 	return (0);

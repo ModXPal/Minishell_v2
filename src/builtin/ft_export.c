@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 15:45:05 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/19 15:29:29 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/21 15:25:32 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	ft_export(t_var *var)
 	{
 		i = 0;
 		equal = 0;
-		if (unset_export_error_handling(var, var->input->args[i]) != -1)
+		if (unset_export_error_handling(var, var->input->args[j]) != -1)
 		{
 			name = (char *)malloc(sizeof(ft_strlen(var->input->args[j]) + 1));
 			content = (char *)malloc(sizeof(ft_strlen(var->input->args[j]) + 1));

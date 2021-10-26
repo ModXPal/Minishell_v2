@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 10:57:38 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/19 15:20:43 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/22 15:16:41 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	exit_with_digits(t_var *var)
 	i = 0;
 	i = ft_atoi(var->input->args[1]);
 	ft_putendl_fd("exit", 2);
-	exit(i);
+	printf ("EXIT : %d\n", i);
+	exit (i);
 }
 
 int	exit_with_too_many_arguments(t_var *var)
@@ -62,6 +63,7 @@ int	exit_without_cmd(t_var *var)
 	if (var->input->args[1] == 0)
 	{
 		ft_putendl_fd("exit", 2);
+		printf ("EXIT sans CMD\n");
 		exit (EXIT_SUCCESS);
 	}
 	return (0);
@@ -76,7 +78,8 @@ int	ft_exit(t_var *var)
 	exit_with_too_many_arguments(var);
 	exit_with_errors(var);
 	exit_with_digits(var);
-	// free_envar(var->envar);
-	// rl_clear_history();
+	if (var->envar)
+		free_envar(var->envar);
+	clear_history();
 	return (0);
 }
