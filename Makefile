@@ -34,7 +34,7 @@ LIBFTMAKE	=	$(MAKE) --no-print-directory -C $(LIBFT_PATH)
 
 CC		=	clang
 
-CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH) 
+CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH)
 
 RM		=	rm -rf
 

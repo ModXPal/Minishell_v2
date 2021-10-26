@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/19 22:48:58 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/21 14:59:24 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ t_input	*ft_inptlast(t_input *input)
 	{
 		if (input->next == NULL)
 			return (input);
-		input = input->next; 
+		input = input->next;
 	}
 	return (NULL);
 }
@@ -163,6 +163,8 @@ int	get_arguments(t_var *var)
 	t_input		*new;
 
 	i = -1;
+	if (var->cmd[0] == 0)
+		return (0);
 	if (check_unmatched_quotes(var) == TRUE)
 	{
 		printf("Unmatched quotes\n");

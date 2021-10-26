@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/19 23:52:37 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/20 17:58:56 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ int	ft_execve(t_var *var)
 		if (execve(path_final, var->input->args, NULL) == -1)
 		{
 			execve_error(var);
-			return (0);
+			exit (1);
 		}
 	}
-	waitpid(pid, 0, 0);
+	waitpid(0, 0, 0);
 	return (0);
 }
 
