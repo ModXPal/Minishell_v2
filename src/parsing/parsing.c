@@ -6,11 +6,31 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/21 14:59:24 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/27 17:38:56 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+int	count_redirection(char	**input)
+{
+	int	i;
+	int	j;
+	int	count;
+
+	i = -1;
+	count = 0;
+	while (input[++i])
+	{
+		j = -1;
+		while (input[i][++j] == '<' || input[i][j] == '>')
+		{
+			if (input[i][j + 1] == 0)
+				count++;
+		}
+	}
+	return (count);
+}
 
 char	*get_valid_envar(t_var *var, char *str, int i)
 {
@@ -110,6 +130,11 @@ t_input	*get_input(t_var *var, char **split_input)
 	new->args = (char **)malloc(sizeof(char *) * (split_len(split_input) + 1));
 	if (new->args == FAIL)
 		return (0);
+	new->redir_nb = malloc(sizeof(int *) * count_redirection(split_input)); 
+	while (++i < count_redirection(split_input))
+		new->redir_nb = malloc(sizeof(int) * count_redirection(split_input));
+	i = -1;
+	printf("redirec nb = %d\n", count_redirection(split_input));
 	while (split_input[++i])
 	{
 		var->s_quote = 0;
@@ -120,6 +145,7 @@ t_input	*get_input(t_var *var, char **split_input)
 		content = ft_trim(var, split_input[i], len);
 		if (i == 0)
 			new->cmd = content;
+		printf("content = %s\n", content);
 		new->args[i] = content;
 	}
 	new->args[i] = NULL;

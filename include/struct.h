@@ -27,9 +27,7 @@ typedef struct s_list
 typedef struct s_input{
 	char	*cmd;
 	char	**args;
-	int	delimiter;
-	int	opt_nb;
-	int	arg_nb;
+	int	**redir_nb;
 	struct s_input *next;
 }		t_input;
 
