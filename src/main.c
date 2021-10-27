@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/27 11:18:44 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/27 12:00:39 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,10 @@ void handle_sigusr1(int signum)
    		rl_replace_line("", 0);
    		rl_redisplay();
 	}
+	else if (signum == SIGQUIT)
+	{
+		return ((void)0);
+	}
 }
 
 int	main(int ac, char **av, char **env)
@@ -156,6 +160,7 @@ int	main(int ac, char **av, char **env)
 	var->export = export;
 	get_home_unset_cd(var);
 	signal(SIGINT, handle_sigusr1);
+	signal(SIGQUIT, handle_sigusr1);
 	while (1)
 	{
 		var->cmd = readline("minishell $> ");

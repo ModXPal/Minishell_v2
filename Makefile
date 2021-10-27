@@ -45,7 +45,7 @@ all:			$(NAME)
 
 $(NAME):		$(SRC_OBJS)
 				@$(LIBFTMAKE)
-				@$(CC) -lreadline -I $(CFLAGS) $(SRC_OBJS) $(LIBFT_LIB) -o $(NAME)
+				@$(CC) -lreadline $(CFLAGS) $(SRC_OBJS) $(LIBFT_LIB) -o $(NAME)
 				@echo "$(NAME) created"
 
 clean:
