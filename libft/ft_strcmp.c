@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/24 16:52:53 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/27 15:08:40 by vbachele         ###   ########.fr       */
+/*   Created: 2021/10/27 15:08:18 by vbachele          #+#    #+#             */
+/*   Updated: 2021/10/27 15:08:43 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
 
 	i = 0;
-	if (*needle == 0)
-		return ((char *)haystack);
-	while (haystack[i] && len && i < len)
+	while (s1[i] == s2[i] && s1[i] && s2[i])
 	{
-		j = 0;
-		while (needle[j] == haystack[i + j] && (i + j) < len)
-		{
-			j++;
-			if (needle[j] == 0)
-				return ((char *)&(haystack[i]));
-		}
+		if (s2[i + 1] == 0 && (s1[i + 1] == ' ' || s1[i + 1] == 0))
+			return (1);
 		i++;
 	}
-	return (NULL);
+	return (0);
 }

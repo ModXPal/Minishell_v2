@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:53:53 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/16 01:44:46 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/27 15:11:55 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ char		**ft_split_quotes(const char *s, char c);
 char		*ft_strdup(const char *s1);
 char		*ft_strjoin(const char *s1, const char *s2);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
-int		ft_strlcpy(char *dst, const char *src, int dstsize);
-int		ft_strlen(const char *str);
+int			ft_strlcpy(char *dst, const char *src, int dstsize);
+int			ft_strlen(const char *str);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
@@ -73,6 +73,7 @@ int			list_insert(t_list **list, t_list *new, int pos);
 int			envar_insert(t_envar **envar, t_envar *new, int pos);
 int			ft_envarsize(t_envar *envar);
 int			ft_envar_position(t_envar *envar, char *str);
-char			*ft_envar_find_content(t_envar *tmp, char *str);
+char		*ft_envar_find_content(t_envar *tmp, char *str);
+int			ft_strcmp(const char *s1, const char *s2);
 
 #endif

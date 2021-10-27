@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:29:54 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/21 15:32:30 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/27 17:00:35 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	unset_export_error_handling(t_var *var, char *content)
 {
 	int		i;
-	
+
 	i = 1;
 	if (var->input->args[1] == 0 || content[0] == 0)
 		return (-1);
@@ -25,7 +25,7 @@ int	unset_export_error_handling(t_var *var, char *content)
 	{
 		if (var->input->args[i][0] == '=' && content[0] != '=')
 			return (0);
-		else if (!ft_isalnum(content[i]) || ft_isdigit(content[0]) 
+		else if (!ft_isalnum(content[i]) || ft_isdigit(content[0])
 			|| content[0] == 0)
 		{
 			unset_error_export_message(var, content);
@@ -67,11 +67,11 @@ int	ft_unset_export(t_var *var, char *str, int *args_exist)
 	return (0);
 }
 
-int unset_search_and_remove(t_var *var, int *cmd_exist, char *content)
+int	unset_search_and_remove(t_var *var, int *cmd_exist, char *content)
 {
 	t_envar	*tmp;
 	int		pos;
-	
+
 	pos = 0;
 	tmp = var->envar;
 	if (unset_export_error_handling(var, content) != -1)

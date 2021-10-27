@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:41:03 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/22 15:14:42 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:56:00 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,23 @@ int	swap_pwd_old_pwd_and_errors(t_var *var, char *str, int dir)
 	if (errors_chdir_handling(dir, var) == 1)
 		return (1);
 	return (0);
+}
+
+char	*ft_env_new_pwd_2(t_var *var, t_envar *tmp, char *str2, char *str)
+{
+	if (var->input->args[1] != 0)
+	{
+		if (ft_strlen(var->input->args[1]) == 2
+			&& (ft_strncmp(var->input->args[1], "//", 2) == 0))
+			tmp->content = "//";
+		else
+			if (tmp)
+				tmp->content = str2;
+	}
+	else
+	{
+		if (tmp)
+			tmp->content = str2;
+	}
+	return (str);
 }

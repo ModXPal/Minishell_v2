@@ -16,11 +16,15 @@ SRC_FILES	=	src/main.c \
 			src/multipipes/exec.c \
 			src/multipipes/get_path.c \
 			src/multipipes/multipipes.c \
+			src/parsing/init.c \
 			src/parsing/parsing.c \
 			src/parsing/parsing_utils.c \
 			src/parsing/get_len.c \
 			src/parsing/get_envar.c \
 			src/parsing/error.c \
+			src/free/free_1.c \
+			src/signal/signal.c \
+
 
 LIBFT_PATH	=	libft/
 

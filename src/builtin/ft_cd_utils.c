@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:08:16 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/22 15:14:29 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:54:15 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,7 @@ char	*ft_export_new_pwd(t_var *var, char *str)
 		tmp = tmp->next;
 	}
 	str2 = getcwd(0, 150);
-	if (var->input->args[1] != 0)
-	{
-		if (ft_strlen(var->input->args[1]) == 2
-			&& (ft_strncmp(var->input->args[1], "//", 2) == 0))
-			tmp->content = "//";
-		else
-			if (tmp)
-				tmp->content = str2;
-	}
-	else
-	{
-		if (tmp)
-			tmp->content = str2;
-	}
+	str = ft_env_new_pwd_2(var, tmp, str2, str);
 	return (str);
 }
 
@@ -77,20 +64,7 @@ char	*ft_env_new_pwd(t_var *var, char *str)
 		tmp = tmp->next;
 	}
 	str2 = getcwd(0, 150);
-	if (var->input->args[1] != 0)
-	{
-		if (ft_strlen(var->input->args[1]) == 2
-			&& (ft_strncmp(var->input->args[1], "//", 2) == 0))
-			tmp->content = "//";
-		else
-			if (tmp)
-				tmp->content = str2;
-	}
-	else
-	{
-		if (tmp)
-			tmp->content = str2;
-	}
+	str = ft_env_new_pwd_2(var, tmp, str2, str);
 	return (str);
 }
 

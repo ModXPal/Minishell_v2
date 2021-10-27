@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:07:27 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/19 15:25:35 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/27 17:15:58 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	cmd_export_alone(t_var *var)
 {
 	t_envar	*tmp2;
-	
+
 	tmp2 = var->export;
 	if (var->input->args[1] == 0)
 	{
@@ -64,4 +64,28 @@ char	*export_content_search(int *i, char *str, char *content)
 	}
 	content[j] = 0;
 	return (content);
+}
+
+int	cmd_export_insert(t_var *var, char *name, char *content, int equal)
+{
+	t_envar	*new;
+	t_envar	*tmp2;
+	int		pos;
+
+	tmp2 = var->export;
+	// if (tmp->next != FALSE)
+	// 	str = tmp->next->content;
+	if (equal == 0)
+	{
+		new = ft_envar_new(name, 0);
+		pos = ft_envarsize(tmp2);
+		envar_insert(&var->export, new, pos);
+	}
+	else
+	{
+		new = ft_envar_new(name, content);
+		pos = ft_envarsize(tmp2);
+		envar_insert(&var->export, new, pos);
+	}
+	return (0);
 }

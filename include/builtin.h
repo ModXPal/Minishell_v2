@@ -6,15 +6,15 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/21 14:46:44 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/27 17:16:08 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-#include "struct.h"
-#include "../libft/libft.h"
+# include "struct.h"
+# include "../libft/libft.h"
 
 int		is_dash_n(char **str);
 int		ft_echo(t_var *var);
@@ -42,7 +42,7 @@ void	parsing_parent(t_var *var, int parent);
 char	*cd_str_and_path_not_set(t_var *var);
 int		get_home_unset_cd(t_var *var);
 int		cd_content_equal_tild_dash(t_var *var);
-int 	cd_content_equal_zero(t_var *var);
+int		cd_content_equal_zero(t_var *var);
 int		cd_dash_equal_one(t_var *var);
 int		unset_error_export_message(t_var *var, char *content);
 int		check_cdpath_exists(t_var *var);
@@ -52,7 +52,13 @@ int		swap_pwd_old_pwd_and_errors(t_var *var, char *str, int dir);
 int		cd_cdpath_application(t_var *var);
 int		split_len(char **split);
 char	*cd_str_and_path_not_set(t_var *var);
-int		swap_current_pwd(t_var * var, char *str2, char *content);
-
+int		swap_current_pwd(t_var *var, char *str2, char *content);
+void	free_list(t_var *var);
+void	free_split(char **split_str);
+void	free_envar(t_envar *envar);
+void	free_input(t_var *var);
+void	handle_sigusr1(int signum);
+char	*ft_env_new_pwd_2(t_var *var, t_envar *tmp, char *str2, char *str);
+int		cmd_export_insert(t_var *var, char *name, char *content, int equal);
 
 #endif

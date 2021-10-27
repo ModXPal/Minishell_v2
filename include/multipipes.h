@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   multipipes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 22:07:09 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/19 23:46:50 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/27 14:41:08 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef MULTIPIPES_H
+# define MULTIPIPES_H
 # define FAIL 0
 # define SUCCESS 1
 
@@ -25,6 +25,6 @@
 
 void	add_slash(t_pvar *pvar);
 char	**get_binaries_path(t_var *var);
-int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids);
+int		exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids);
 
 #endif

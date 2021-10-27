@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:53:16 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/07 18:58:52 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/27 14:44:36 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_substr(const char *s, int start, int len)
 {
-	char			*d;
-	 int	i;
+	char	*d;
+	int		i;
 
 	if (!s)
 		return (NULL);

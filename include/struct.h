@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
+/*   Updated: 2021/10/27 14:43:47 by vbachele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCT_H
 # define STRUCT_H
 
@@ -30,20 +42,20 @@ typedef struct s_input{
 	int				delimiter;
 	int				opt_nb;
 	int				arg_nb;
-	struct s_input *next;
+	struct	s_input *next;
 }		t_input;
 
-typedef	struct s_pvar{
+typedef	struct	s_pvar{
 	int				cmd_nb;
 	pid_t			*pids;
 	char			*cmd;
 	char			**path;
-} t_pvar;
+}	t_pvar;
 
 typedef	struct s_cd{
 	char			*HOME;
 	char			*cdpath;
-} t_cd;
+}	t_cd;
 
 typedef struct s_envar{
 	char			*name;
