@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:47 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/19 23:50:48 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/27 11:09:26 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdio.h>
+# include <signal.h>
 
 int		ft_echo(t_var *var);
 int		ft_env(t_var *var);
@@ -34,6 +36,6 @@ int		ft_pwd(t_var *var);
 int		ft_exit(t_var *var);
 int		count_pipes(t_var *var);
 int		ft_multipipes(t_var *var);
-void		free_envar(t_envar *envar);
+void	free_envar(t_envar *envar);
 
 #endif

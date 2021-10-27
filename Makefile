@@ -24,7 +24,7 @@ SRC_FILES	=	src/main.c \
 
 LIBFT_PATH	=	libft/
 
-LIBFT_LIB	=	libft/libft.a
+LIBFT_LIB	=	libft/libft.a 
 
 INCLUDE_PATH	=	include/
 
@@ -45,7 +45,7 @@ all:			$(NAME)
 
 $(NAME):		$(SRC_OBJS)
 				@$(LIBFTMAKE)
-				@$(CC) -lreadline $(CFLAGS) $(SRC_OBJS) $(LIBFT_LIB) -o $(NAME)
+				@$(CC) -lreadline -I $(CFLAGS) $(SRC_OBJS) $(LIBFT_LIB) -o $(NAME)
 				@echo "$(NAME) created"
 
 clean:

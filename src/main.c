@@ -6,11 +6,13 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/26 14:27:32 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/27 11:18:44 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -109,6 +111,19 @@ void	free_input(t_var *var)
 	free(var->input);
 }
 
+void handle_sigusr1(int signum)
+{
+	(void) signum;
+	
+	if (signum == SIGINT) 
+	{
+		printf("\n");
+		rl_on_new_line();
+   		rl_replace_line("", 0);
+   		rl_redisplay();
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	int			ret;
@@ -140,6 +155,7 @@ int	main(int ac, char **av, char **env)
 	var->envar = envar;
 	var->export = export;
 	get_home_unset_cd(var);
+	signal(SIGINT, handle_sigusr1);
 	while (1)
 	{
 		var->cmd = readline("minishell $> ");
