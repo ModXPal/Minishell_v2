@@ -63,6 +63,7 @@ CC			= gcc
 RM			= rm -rf
 
 CFLAGS		= -Wall -Wextra -Werror -I../include 
+
 all:		$(NAME)
 
 %.o : %.c

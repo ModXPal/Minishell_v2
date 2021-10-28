@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:51:17 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/27 18:21:22 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/28 17:39:16 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,16 @@ static unsigned int	ft_ult_strlen(char const *str, char charset)
 		}
 		while (str[i] == '>' && d_quote == FALSE && s_quote == FALSE) 
 		{
+			if (str[i + 1] == '<')
+				return (i + 2);
 			i++;
 			if (str[i] != '>')
 				return (i);
 		}
 		while (str[i] == '<' && d_quote == FALSE && s_quote == FALSE) 
 		{
+			if (str[i + 1] == '>')
+				return (i + 2);
 			i++;
 			if (str[i] != '<')
 				return (i);
@@ -81,15 +85,31 @@ static unsigned int	ft_count_words(char const *str, char charset)
 	{
 		if (*str == '<' && d_quote == FALSE && s_quote == FALSE)  
 		{
-			while (*str == '<' && *str)
-				str++;
-			words_count++;
+			if (*(str + 1) == '>')
+			{
+				str += 2;
+				words_count++;
+			}
+			else
+			{
+				while (*str == '<' && *str)
+					str++;
+				words_count++;
+			}
 		}
 		else if (*str == '>' && d_quote == FALSE && s_quote == FALSE)  
 		{
-			while (*str == '>' && *str)
-				str++;
-			words_count++;
+			if (*(str + 1) == '<')
+			{
+				str += 2;
+				words_count++;
+			}
+			else
+			{
+				while (*str == '>' && *str)
+					str++;
+				words_count++;
+			}
 		}
 		else if (is_charset(*str, charset) && s_quote == FALSE && d_quote == FALSE)
 			is_word = 1;

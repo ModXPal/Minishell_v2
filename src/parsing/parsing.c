@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/27 17:38:56 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/28 17:55:09 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,41 @@ int	split_len(char **split)
 	return (i);
 }
 
+int	syntax_error(char **input, int i, int j)
+{
+	if (j >= 2)
+	{
+		write (2, "minishell: syntax error near unexpected token `", 47);
+		write (2, &input[i][j], ft_strlen(&input[i][j]));
+		write (2, "'\n", 2);
+	}
+	return (-1);
+}
+
+int	syntax_check(char **input)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (input[++i])
+	{
+		j = -1;
+		while (input[i][++j] == '<')
+		{
+			if (j >= 2)
+				return (syntax_error(input, i, j));
+		}
+		j = -1;
+		while (input[i][++j] == '>')
+		{
+			if (j >= 2)
+				return (syntax_error(input, i, j));
+		}
+	}
+	return (0);
+}
+
 t_input	*get_input(t_var *var, char **split_input)
 {
 	int		i;
@@ -190,17 +225,19 @@ int	get_arguments(t_var *var)
 
 	i = -1;
 	if (var->cmd[0] == 0)
-		return (0);
+		return (-1);
 	if (check_unmatched_quotes(var) == TRUE)
 	{
 		printf("Unmatched quotes\n");
-		return (0);
+		return (-1);
 	}
 	split_pipes = ft_split(var->cmd, '|');
 	var->input = NULL;
 	while (split_pipes[++i])
 	{
 		split_input = ft_split_quotes(split_pipes[i], ' ');
+		if (syntax_check(split_input) == -1)
+			return (-1);
 		new = get_input(var, split_input);
 		input_add_back(&var->input, new);
 		free_split(split_input);
