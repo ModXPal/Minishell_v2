@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/26 14:27:32 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/29 16:26:27 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,15 @@ int	main(int ac, char **av, char **env)
 	{
 		var->cmd = readline("minishell $> ");
 		add_history(var->cmd);
-		if (get_arguments(var) == FAIL)
+		if (get_arguments(var) == -1)
 		{
 			free(var->cmd);
 			continue;
+		}
+		if (var->input->cmd == NULL)
+		{
+			free(var->cmd);
+			continue ;
 		}
 		ret = is_builtin(var->cmd, builtin);
 		if (ret >= 0)

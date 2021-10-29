@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:51:17 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/13 11:09:14 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/29 16:09:09 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,51 @@ static int	is_charset(char c, char charset)
 static unsigned int	ft_ult_strlen(char const *str, char charset)
 {
 	unsigned int	i;
+	int		s_quote;
+	int		d_quote;
 
 	i = 0;
+	s_quote = 0;
+	d_quote = 0;
+	//if (str[i] == '<' || str[i] == '>')
+	//	return (1);
 	while (str[i] && !is_charset(str[i], charset))
 	{
-		if (str[i] == '"')
+		if (i != 0 && (str[i] == '<' || str[i] == '>'))
+			break ;
+		if (str[i] == '"' && s_quote == FALSE)
 		{
-			i++;
-			while (str[i] != '"')
-				i++;
+			if (d_quote == FALSE)
+				d_quote = TRUE;
+			else
+				d_quote = FALSE;
 		}
-		if (str[i] == '\'')
+		if (str[i] == '\'' && d_quote == FALSE)
 		{
+			if (s_quote == FALSE)
+				s_quote = TRUE;
+			else
+				s_quote = FALSE;
+		}
+		while (str[i] == '>' && d_quote == FALSE && s_quote == FALSE) 
+		{
+			if (str[i + 1] == '<')
+				return (i + 2);
 			i++;
-			while (str[i] != '\'')
-				i++;
+			if (str[i] != '>')
+				return (i);
+		}
+		while (str[i] == '<' && d_quote == FALSE && s_quote == FALSE) 
+		{
+			if (str[i + 1] == '>')
+				return (i + 2);
+			i++;
+			if (str[i] != '<')
+				return (i);
 		}
 		i++;
 	}
+	printf("i2 = %d\n", i);
 	return (i);
 }
 
@@ -47,31 +74,52 @@ static unsigned int	ft_count_words(char const *str, char charset)
 {
 	unsigned int	words_count;
 	unsigned int	is_word;
+	int		s_quote;
+	int		d_quote;
 
 	words_count = 0;
 	is_word = 1;
+	s_quote = 0;
+	d_quote = 0;
 	while (str && *str)
 	{
-		if (is_charset(*str, charset))
+		if (*str == '<' && d_quote == FALSE && s_quote == FALSE)  
+		{
+			while (*str == '<' && *str)
+				str++;
+			words_count++;
+		}
+		else if (*str == '>' && d_quote == FALSE && s_quote == FALSE)  
+		{
+			while (*str == '>' && *str)
+				str++;
+			words_count++;
+		}
+		else if (is_charset(*str, charset) && s_quote == FALSE && d_quote == FALSE)
 			is_word = 1;
 		else if (is_word == 1)
 		{
 			words_count++;
 			is_word = 0;
 		}
-		if (*str == '"')
+		if (*str == '"' && s_quote == FALSE)
 		{
-			str++;
-			while (*str != '"')
-				str++;
+			if (d_quote == FALSE)
+				d_quote = TRUE;
+			else
+				d_quote = FALSE;
+		
 		}
-		if (*str == '\'')
+		if (*str == '\'' && d_quote == FALSE)
 		{
-			str++;
-			while (*str != '\'')
-				str++;
+			if (s_quote == FALSE)
+				s_quote = TRUE;
+			else
+				s_quote = FALSE;
+			
 		}
-		str++;
+		if (*str)
+			str++;
 	}
 	return (words_count);
 }
@@ -93,6 +141,7 @@ char	**ft_split_quotes(char const *s, char c)
 	int				j;
 	unsigned int	i;
 	unsigned int	words;
+	int		len;
 
 	if (!s)
 		return (NULL);
@@ -104,11 +153,12 @@ char	**ft_split_quotes(char const *s, char c)
 	{
 		while (*s && is_charset(*s, c))
 			s++;
-		tab[i] = (char *)malloc(sizeof(**tab) * (ft_ult_strlen(s, c) + 1));
+		len = ft_ult_strlen(s, c);
+		tab[i] = (char *)malloc(sizeof(**tab) * (len + 1));
 		if (!tab[i])
 			return (ft_free(tab, i));
 		j = 0;
-		while (*s && !is_charset(*s, c))
+		while (*s && j < len)
 		{
 			if (*s == '"')
 			{
