@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/28 17:15:57 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/29 14:14:00 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,11 @@ int	main(int ac, char **av, char **env)
 		{
 			free(var->cmd);
 			continue;
+		}
+		if (var->input->cmd == NULL)
+		{
+			free(var->cmd);
+			continue ;
 		}
 		ret = is_builtin(var->cmd, builtin);
 		if (ret >= 0)

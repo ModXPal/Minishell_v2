@@ -56,6 +56,8 @@ typedef struct s_var{
 	int					ac;
 	int					s_quote;
 	int					d_quote;
+	int					IN_FD;
+	int					OUT_FD;
 	t_list		*list;
 	t_input		*input;
 	t_envar		*envar;

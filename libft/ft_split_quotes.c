@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:51:17 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/28 17:39:16 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/29 16:09:09 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,31 +85,15 @@ static unsigned int	ft_count_words(char const *str, char charset)
 	{
 		if (*str == '<' && d_quote == FALSE && s_quote == FALSE)  
 		{
-			if (*(str + 1) == '>')
-			{
-				str += 2;
-				words_count++;
-			}
-			else
-			{
-				while (*str == '<' && *str)
-					str++;
-				words_count++;
-			}
+			while (*str == '<' && *str)
+				str++;
+			words_count++;
 		}
 		else if (*str == '>' && d_quote == FALSE && s_quote == FALSE)  
 		{
-			if (*(str + 1) == '<')
-			{
-				str += 2;
-				words_count++;
-			}
-			else
-			{
-				while (*str == '>' && *str)
-					str++;
-				words_count++;
-			}
+			while (*str == '>' && *str)
+				str++;
+			words_count++;
 		}
 		else if (is_charset(*str, charset) && s_quote == FALSE && d_quote == FALSE)
 			is_word = 1;
@@ -134,7 +118,8 @@ static unsigned int	ft_count_words(char const *str, char charset)
 				s_quote = FALSE;
 			
 		}
-		str++;
+		if (*str)
+			str++;
 	}
 	return (words_count);
 }

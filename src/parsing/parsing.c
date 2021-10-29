@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/28 17:55:09 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/29 16:08:21 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,25 @@ int	syntax_error(char **input, int i, int j)
 	if (j >= 2)
 	{
 		write (2, "minishell: syntax error near unexpected token `", 47);
-		write (2, &input[i][j], ft_strlen(&input[i][j]));
+		write (2, &input[i][0], 2);
+		write (2, "'\n", 2);
+	}
+	else if (input[i][0] == '<' && input[i][1] == '>')
+	{
+		write (2, "minishell: syntax error near unexpected token `", 47);
+		write (2, &input[i][1], ft_strlen(&input[i][1]));
+		write (2, "'\n", 2);
+	}
+	else if (input[i][0] == '>' && input[i][1] == '<')
+	{
+		write (2, "minishell: syntax error near unexpected token `", 47);
+		write (2, &input[i][1], ft_strlen(&input[i][1]));
+		write (2, "'\n", 2);
+	}
+	else
+	{
+		write (2, "minishell: syntax error near unexpected token `", 47);
+		write (2, "newline", 7);
 		write (2, "'\n", 2);
 	}
 	return (-1);
@@ -142,13 +160,38 @@ int	syntax_check(char **input)
 		{
 			if (j >= 2)
 				return (syntax_error(input, i, j));
+			else if (input[i][j + 1] == '>')
+				return (syntax_error(input, i, j));
+			else if (input[i + 1] == NULL && input[i][j + 1] != '<')
+				return (syntax_error(input, i, j));
 		}
 		j = -1;
 		while (input[i][++j] == '>')
 		{
 			if (j >= 2)
 				return (syntax_error(input, i, j));
+			else if (input[i][j + 1] == '<')
+				return (syntax_error(input, i, j));
+			else if (input[i + 1] == NULL && input[i][j + 1] != '>')
+				return (syntax_error(input, i, j));
 		}
+	}
+	return (0);
+}
+
+int	open_files(t_var *var, char *file, int redir)
+{
+	if (redir == STDIN)
+	{
+		var->IN_FD = open(file, O_RDONLY);
+	}
+	else if (redir == STDOUT)
+	{
+		var->OUT_FD = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	}
+	else if (redir == STDOUT_APPEND)
+	{
+		var->OUT_FD = open(file, O_CREAT | O_RDWR | O_APPEND);
 	}
 	return (0);
 }
@@ -156,6 +199,7 @@ int	syntax_check(char **input)
 t_input	*get_input(t_var *var, char **split_input)
 {
 	int		i;
+	int		j;
 	int		len;
 	char		*content;
 	t_input		*new;
@@ -163,28 +207,53 @@ t_input	*get_input(t_var *var, char **split_input)
 	i = -1;
 	new = malloc(sizeof(t_input));
 	new->args = (char **)malloc(sizeof(char *) * (split_len(split_input) + 1));
+	new->cmd = NULL;
 	if (new->args == FAIL)
 		return (0);
 	new->redir_nb = malloc(sizeof(int *) * count_redirection(split_input)); 
 	while (++i < count_redirection(split_input))
 		new->redir_nb = malloc(sizeof(int) * count_redirection(split_input));
 	i = -1;
+	j = 0;
 	printf("redirec nb = %d\n", count_redirection(split_input));
 	while (split_input[++i])
 	{
+		printf("i = %d\n", i);
 		var->s_quote = 0;
 		var->d_quote = 0;
 		len = get_string_len(split_input[i], var);
 		var->s_quote = 0;
 		var->d_quote = 0;
 		content = ft_trim(var, split_input[i], len);
-		if (i == 0)
+		if (ft_strcmp(content, "<") == TRUE)
+		{
+			i++;
+			open_files(var, ft_trim(var, split_input[i], get_string_len(split_input[i], var)), STDIN);
+			continue ;
+		}
+		else if (ft_strcmp(content, ">") == TRUE)
+		{
+			i++;
+			open_files(var, ft_trim(var, split_input[i], get_string_len(split_input[i], var)), STDOUT);
+			continue ;
+		}
+		else if (ft_strcmp(content, ">>") == TRUE)
+		{
+			i++;
+			open_files(var, ft_trim(var, split_input[i], get_string_len(split_input[i], var)), STDOUT_APPEND);
+			continue ;
+		}
+		else if (i == 0 || ((var->IN_FD > 0 || var->OUT_FD > 0) && new->cmd == NULL))
 			new->cmd = content;
 		printf("content = %s\n", content);
-		new->args[i] = content;
+		new->args[j++] = content;
 	}
-	new->args[i] = NULL;
+	printf("new cmd = %s\n", new->cmd);
+	new->args[j] = NULL;
 	new->next = NULL;
+	printf("new cmd = %s\n", new->cmd);
+	printf("in fd = %d\n", var->IN_FD);
+	printf("out fd = %d\n", var->OUT_FD);
 	return (new);
 }
 
