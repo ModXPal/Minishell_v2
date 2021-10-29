@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/20 17:58:56 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/29 17:24:10 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,38 @@ int	execve_error(t_var *var)
 }
 
 
-int	ft_execve(t_var *var)
+int	ft_execve(t_var *var, t_builtin *builtin)
 {
 	char 	*path_final;
 	char	**path_fromenvp;
 	pid_t	pid;
+	int	ret;
 	
-	pid = fork();
 	path_final = ft_envar_find_content(var->envar, "PATH");
 	path_fromenvp = ft_split(path_final, ':');
 	path_final = get_path(var, path_fromenvp);
-	// write(2, path_final, ft_strlen(path_final));
-	// write(2, "\n", 1);
-	// write(2, var->list->content, ft_strlen(var->list->content));
-	// write(2, "\n", 1);
-	// var->list = var->list->next;
+	ret = is_builtin(var->cmd, builtin);
+	if (ret == 6)
+		builtin[ret].func(var);
+	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(path_final, var->input->args, NULL) == -1)
+		if (var->IN_FD > 0)
+			dup2(var->IN_FD, STDIN_FILENO);
+		if (var->OUT_FD > 0)
+			dup2(var->OUT_FD, STDOUT_FILENO);
+		if (ret >= 0)
+			builtin[ret].func(var);
+		else if (execve(path_final, var->input->args, NULL) == -1)
 		{
 			execve_error(var);
 			exit (1);
 		}
 	}
+	if (var->IN_FD > 0)
+		close(var->IN_FD);
+	if (var->OUT_FD > 0)
+		close(var->OUT_FD);
 	waitpid(0, 0, 0);
 	return (0);
 }
-

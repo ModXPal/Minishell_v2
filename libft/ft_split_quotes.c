@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:51:17 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/29 16:09:09 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/29 16:45:02 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ static unsigned int	ft_ult_strlen(char const *str, char charset)
 	i = 0;
 	s_quote = 0;
 	d_quote = 0;
-	//if (str[i] == '<' || str[i] == '>')
-	//	return (1);
 	while (str[i] && !is_charset(str[i], charset))
 	{
 		if (i != 0 && (str[i] == '<' || str[i] == '>'))
@@ -66,7 +64,6 @@ static unsigned int	ft_ult_strlen(char const *str, char charset)
 		}
 		i++;
 	}
-	printf("i2 = %d\n", i);
 	return (i);
 }
 

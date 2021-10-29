@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/29 16:26:27 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/29 17:24:56 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	envar = NULL;
 	export = NULL;
+	var->IN_FD = 0;
+	var->OUT_FD = 0;
 	get_env_var(var, &envar);
 	get_env_var(var, &export);
 	var->envar = envar;
@@ -154,13 +156,10 @@ int	main(int ac, char **av, char **env)
 			free(var->cmd);
 			continue ;
 		}
-		ret = is_builtin(var->cmd, builtin);
-		if (ret >= 0)
-			builtin[ret].func(var);
-		else if (count_pipes(var) > 1)
+		if (count_pipes(var) > 1)
 			ft_multipipes(var);
 		else
-			ft_execve(var);
+			ft_execve(var, builtin);
 		free_input(var);
 		free(var->cmd);
 	}

@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/29 16:08:21 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/29 17:31:56 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ int	open_files(t_var *var, char *file, int redir)
 	}
 	else if (redir == STDOUT_APPEND)
 	{
-		var->OUT_FD = open(file, O_CREAT | O_RDWR | O_APPEND);
+		var->OUT_FD = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
 	}
 	return (0);
 }
@@ -215,10 +215,8 @@ t_input	*get_input(t_var *var, char **split_input)
 		new->redir_nb = malloc(sizeof(int) * count_redirection(split_input));
 	i = -1;
 	j = 0;
-	printf("redirec nb = %d\n", count_redirection(split_input));
 	while (split_input[++i])
 	{
-		printf("i = %d\n", i);
 		var->s_quote = 0;
 		var->d_quote = 0;
 		len = get_string_len(split_input[i], var);
@@ -245,15 +243,13 @@ t_input	*get_input(t_var *var, char **split_input)
 		}
 		else if (i == 0 || ((var->IN_FD > 0 || var->OUT_FD > 0) && new->cmd == NULL))
 			new->cmd = content;
-		printf("content = %s\n", content);
+		//printf("content = %s\n", content);
 		new->args[j++] = content;
 	}
-	printf("new cmd = %s\n", new->cmd);
 	new->args[j] = NULL;
 	new->next = NULL;
-	printf("new cmd = %s\n", new->cmd);
-	printf("in fd = %d\n", var->IN_FD);
-	printf("out fd = %d\n", var->OUT_FD);
+	//printf("in fd = %d\n", var->IN_FD);
+	//printf("out fd = %d\n", var->OUT_FD);
 	return (new);
 }
 
