@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:47 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/19 23:50:48 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/29 16:42:56 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		ft_pwd(t_var *var);
 int		ft_exit(t_var *var);
 int		count_pipes(t_var *var);
 int		ft_multipipes(t_var *var);
+int		ft_execve(t_var *var, t_builtin *builtin);
 void		free_envar(t_envar *envar);
 
 #endif

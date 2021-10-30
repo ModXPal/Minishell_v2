@@ -6,11 +6,31 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/21 14:59:24 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/29 17:31:56 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+int	count_redirection(char	**input)
+{
+	int	i;
+	int	j;
+	int	count;
+
+	i = -1;
+	count = 0;
+	while (input[++i])
+	{
+		j = -1;
+		while (input[i][++j] == '<' || input[i][j] == '>')
+		{
+			if (input[i][j + 1] == 0)
+				count++;
+		}
+	}
+	return (count);
+}
 
 char	*get_valid_envar(t_var *var, char *str, int i)
 {
@@ -98,9 +118,88 @@ int	split_len(char **split)
 	return (i);
 }
 
+int	syntax_error(char **input, int i, int j)
+{
+	if (j >= 2)
+	{
+		write (2, "minishell: syntax error near unexpected token `", 47);
+		write (2, &input[i][0], 2);
+		write (2, "'\n", 2);
+	}
+	else if (input[i][0] == '<' && input[i][1] == '>')
+	{
+		write (2, "minishell: syntax error near unexpected token `", 47);
+		write (2, &input[i][1], ft_strlen(&input[i][1]));
+		write (2, "'\n", 2);
+	}
+	else if (input[i][0] == '>' && input[i][1] == '<')
+	{
+		write (2, "minishell: syntax error near unexpected token `", 47);
+		write (2, &input[i][1], ft_strlen(&input[i][1]));
+		write (2, "'\n", 2);
+	}
+	else
+	{
+		write (2, "minishell: syntax error near unexpected token `", 47);
+		write (2, "newline", 7);
+		write (2, "'\n", 2);
+	}
+	return (-1);
+}
+
+int	syntax_check(char **input)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (input[++i])
+	{
+		j = -1;
+		while (input[i][++j] == '<')
+		{
+			if (j >= 2)
+				return (syntax_error(input, i, j));
+			else if (input[i][j + 1] == '>')
+				return (syntax_error(input, i, j));
+			else if (input[i + 1] == NULL && input[i][j + 1] != '<')
+				return (syntax_error(input, i, j));
+		}
+		j = -1;
+		while (input[i][++j] == '>')
+		{
+			if (j >= 2)
+				return (syntax_error(input, i, j));
+			else if (input[i][j + 1] == '<')
+				return (syntax_error(input, i, j));
+			else if (input[i + 1] == NULL && input[i][j + 1] != '>')
+				return (syntax_error(input, i, j));
+		}
+	}
+	return (0);
+}
+
+int	open_files(t_var *var, char *file, int redir)
+{
+	if (redir == STDIN)
+	{
+		var->IN_FD = open(file, O_RDONLY);
+	}
+	else if (redir == STDOUT)
+	{
+		var->OUT_FD = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	}
+	else if (redir == STDOUT_APPEND)
+	{
+		var->OUT_FD = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
+	}
+	return (0);
+}
+
 t_input	*get_input(t_var *var, char **split_input)
 {
 	int		i;
+	int		j;
 	int		len;
 	char		*content;
 	t_input		*new;
@@ -108,8 +207,14 @@ t_input	*get_input(t_var *var, char **split_input)
 	i = -1;
 	new = malloc(sizeof(t_input));
 	new->args = (char **)malloc(sizeof(char *) * (split_len(split_input) + 1));
+	new->cmd = NULL;
 	if (new->args == FAIL)
 		return (0);
+	new->redir_nb = malloc(sizeof(int *) * count_redirection(split_input)); 
+	while (++i < count_redirection(split_input))
+		new->redir_nb = malloc(sizeof(int) * count_redirection(split_input));
+	i = -1;
+	j = 0;
 	while (split_input[++i])
 	{
 		var->s_quote = 0;
@@ -118,12 +223,33 @@ t_input	*get_input(t_var *var, char **split_input)
 		var->s_quote = 0;
 		var->d_quote = 0;
 		content = ft_trim(var, split_input[i], len);
-		if (i == 0)
+		if (ft_strcmp(content, "<") == TRUE)
+		{
+			i++;
+			open_files(var, ft_trim(var, split_input[i], get_string_len(split_input[i], var)), STDIN);
+			continue ;
+		}
+		else if (ft_strcmp(content, ">") == TRUE)
+		{
+			i++;
+			open_files(var, ft_trim(var, split_input[i], get_string_len(split_input[i], var)), STDOUT);
+			continue ;
+		}
+		else if (ft_strcmp(content, ">>") == TRUE)
+		{
+			i++;
+			open_files(var, ft_trim(var, split_input[i], get_string_len(split_input[i], var)), STDOUT_APPEND);
+			continue ;
+		}
+		else if (i == 0 || ((var->IN_FD > 0 || var->OUT_FD > 0) && new->cmd == NULL))
 			new->cmd = content;
-		new->args[i] = content;
+		//printf("content = %s\n", content);
+		new->args[j++] = content;
 	}
-	new->args[i] = NULL;
+	new->args[j] = NULL;
 	new->next = NULL;
+	//printf("in fd = %d\n", var->IN_FD);
+	//printf("out fd = %d\n", var->OUT_FD);
 	return (new);
 }
 
@@ -164,17 +290,19 @@ int	get_arguments(t_var *var)
 
 	i = -1;
 	if (var->cmd[0] == 0)
-		return (0);
+		return (-1);
 	if (check_unmatched_quotes(var) == TRUE)
 	{
 		printf("Unmatched quotes\n");
-		return (0);
+		return (-1);
 	}
 	split_pipes = ft_split(var->cmd, '|');
 	var->input = NULL;
 	while (split_pipes[++i])
 	{
 		split_input = ft_split_quotes(split_pipes[i], ' ');
+		if (syntax_check(split_input) == -1)
+			return (-1);
 		new = get_input(var, split_input);
 		input_add_back(&var->input, new);
 		free_split(split_input);

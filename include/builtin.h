@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/21 14:46:44 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/29 16:43:46 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int		ft_unset(t_var *var);
 int		ft_cd(t_var *var);
 int		ft_export(t_var *var);
 int		ft_unset(t_var *var);
-int		ft_execve(t_var *var);
 int		ft_multipipes(t_var *var);
 int		cmd_export_alone(t_var *var);
 char	*export_name_equal_search(char *str, int *i, int *equal, char *name);
@@ -53,6 +52,6 @@ int		cd_cdpath_application(t_var *var);
 int		split_len(char **split);
 char	*cd_str_and_path_not_set(t_var *var);
 int		swap_current_pwd(t_var * var, char *str2, char *content);
-
+int	is_builtin(char *line, t_builtin *builtin);
 
 #endif
