@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/31 17:59:35 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/31 18:19:30 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,29 @@ int	execve_error(t_var *var, char *path_final)
 	return (-1);
 }
 
-int	ft_execve(t_var *var)
+int	ft_execve(t_var *var, t_builtin *builtin)
 {
 	char	*path_final;
 	char	**path_fromenvp;
 	pid_t	pid;
-	pid = fork();
+	int	ret;
+	
 	path_final = ft_envar_find_content(var->envar, "PATH");
 	path_fromenvp = ft_split(path_final, ':');
 	path_final = get_path(var, path_fromenvp);
+	ret = is_builtin(var->cmd, builtin);
+	if (ret == 6)
+		builtin[ret].func(var);
+	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(path_final, var->input->args, NULL) == -1)
+		if (var->input->IN_FD > 0)
+			dup2(var->input->IN_FD, STDIN_FILENO);
+		if (var->input->OUT_FD > 0)
+			dup2(var->input->OUT_FD, STDOUT_FILENO);
+		if (ret >= 0)
+			builtin[ret].func(var);
+		else if (execve(path_final, var->input->args, NULL) == -1)
 		{
 			free_split(path_fromenvp);
 			execve_error(var, path_final);
@@ -69,6 +80,10 @@ int	ft_execve(t_var *var)
 	if (path_final)
 		free(path_final);
 	free_split(path_fromenvp);
+	if (var->input->IN_FD > 0)
+		close(var->input->IN_FD);
+	if (var->input->OUT_FD > 0)
+		close(var->input->OUT_FD);
 	waitpid(0, 0, 0);
 	return (0);
 }

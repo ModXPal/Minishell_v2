@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/27 18:09:39 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:26:29 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ typedef struct s_list
 }	t_list;
 
 typedef struct s_input{
-	char			*cmd;
-	char			**args;
-	int				delimiter;
-	int				opt_nb;
-	int				arg_nb;
-	struct s_input	*next;
+	char	*cmd;
+	char	**args;
+	int	**redir_nb;
+	int			IN_FD;
+	int			OUT_FD;
+	struct s_input *next;
 }		t_input;
 
 typedef struct s_pvar{

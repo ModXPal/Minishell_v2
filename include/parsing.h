@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:31:43 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/27 17:41:42 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:27:17 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # define SUCCESS 1
 # define FALSE 0
 # define TRUE 1
+# define STDIN 0
+# define STDOUT 1
+# define STDOUT_APPEND 2
 
 # include <unistd.h>
 # include <stdio.h>
@@ -40,6 +43,7 @@ int		check_quotes(char *str, int *j, t_var *var);
 int		get_arguments(t_var *var);
 int		check_unmatched_quotes(t_var *var);
 int		count_pipes(t_var *var);
+int		ft_strcmp(const char *s1, const char *s2);
 void	init_builtin(t_builtin *builtin);
 void	init_var(t_var *var, char **env, int ac);
 char	*get_valid_envar(t_var *var, char *str, int i);

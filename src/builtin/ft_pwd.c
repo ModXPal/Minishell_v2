@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 11:39:06 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/29 14:38:38 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:24:59 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ int	ft_pwd(t_var *var)
 		printf("//\n");
 	}
 	else
+	{
 		printf("%s\n", test);
 		free(test);
-	return (0);
+	}
+	exit (0);
 }
