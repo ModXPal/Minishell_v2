@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:51:17 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/29 16:45:02 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/31 10:55:26 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static unsigned int	ft_ult_strlen(char const *str, char charset)
 	d_quote = 0;
 	while (str[i] && !is_charset(str[i], charset))
 	{
-		if (i != 0 && (str[i] == '<' || str[i] == '>'))
-			break ;
+		//if (i != 0 && (str[i] == '<' || str[i] == '>'))
+		//	break ;
 		if (str[i] == '"' && s_quote == FALSE)
 		{
 			if (d_quote == FALSE)

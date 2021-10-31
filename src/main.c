@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/29 17:24:56 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/30 13:21:24 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,6 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	envar = NULL;
 	export = NULL;
-	var->IN_FD = 0;
-	var->OUT_FD = 0;
 	get_env_var(var, &envar);
 	get_env_var(var, &export);
 	var->envar = envar;
@@ -151,12 +149,17 @@ int	main(int ac, char **av, char **env)
 			free(var->cmd);
 			continue;
 		}
-		if (var->input->cmd == NULL)
+		else if (var->input->cmd == NULL)
 		{
+			if (var->input->IN_FD > 0)
+				close(var->input->IN_FD);
+			if (var->input->OUT_FD > 0)
+				close(var->input->OUT_FD);
+			free_input(var);
 			free(var->cmd);
 			continue ;
 		}
-		if (count_pipes(var) > 1)
+		else if (count_pipes(var) > 1)
 			ft_multipipes(var);
 		else
 			ft_execve(var, builtin);

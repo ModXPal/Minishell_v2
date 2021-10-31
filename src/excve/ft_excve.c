@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/30 10:03:54 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/30 13:30:34 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (var->IN_FD > 0)
-			dup2(var->IN_FD, STDIN_FILENO);
-		if (var->OUT_FD > 0)
-			dup2(var->OUT_FD, STDOUT_FILENO);
+		if (var->input->IN_FD > 0)
+			dup2(var->input->IN_FD, STDIN_FILENO);
+		if (var->input->OUT_FD > 0)
+			dup2(var->input->OUT_FD, STDOUT_FILENO);
 		if (ret >= 0)
 			builtin[ret].func(var);
 		else if (execve(path_final, var->input->args, NULL) == -1)
@@ -73,10 +73,10 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 			exit (1);
 		}
 	}
-	if (var->IN_FD > 0)
-		close(var->IN_FD);
-	if (var->OUT_FD > 0)
-		close(var->OUT_FD);
+	if (var->input->IN_FD > 0)
+		close(var->input->IN_FD);
+	if (var->input->OUT_FD > 0)
+		close(var->input->OUT_FD);
 	waitpid(0, 0, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/30 10:03:08 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/31 10:38:59 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,9 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	int		i;
 
 	i = -1;
-	printf("var->input->cmd = %s\n", var->input->cmd);
 	while (pvar->path[++i])
 	{
 		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
-		printf("pvar cmd = %s\n", pvar->cmd);
 		if (check_access(pvar, i) == SUCCESS)
 			break ;
 		else if (check_access(pvar, i) == FAIL)
@@ -73,7 +71,12 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 
 int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 {
-	dup2(pipefd[i + 1][1], STDOUT_FILENO);
+	if (var->input->IN_FD > 0)
+		dup2(var->input->IN_FD, STDIN_FILENO);
+	if (var->input->OUT_FD > 0)
+		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	else
+		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
 	if (execve(pvar->cmd, var->input->args, NULL) == -1)
 		perror("Execve failed:");
@@ -82,8 +85,14 @@ int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 
 int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
-	dup2(pipefd[i][0], STDIN_FILENO);
-	dup2(pipefd[i + 1][1], STDOUT_FILENO);
+	if (var->input->IN_FD > 0)
+		dup2(var->input->IN_FD, STDIN_FILENO);
+	else
+		dup2(pipefd[i][0], STDIN_FILENO);
+	if (var->input->OUT_FD > 0)
+		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	else
+		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
 	execve(pvar->cmd, var->input->args, NULL);
 	return (1);
@@ -91,7 +100,12 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 
 int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
-	dup2(pipefd[i][0], STDIN_FILENO);
+	if (var->input->IN_FD > 0)
+		dup2(var->input->IN_FD, STDIN_FILENO);
+	else
+		dup2(pipefd[i][0], STDIN_FILENO);
+	if (var->input->OUT_FD > 0)
+		dup2(var->input->OUT_FD, STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
 	if (execve(pvar->cmd, var->input->args, NULL) == -1)
 		perror("Execve failed:");
@@ -141,6 +155,10 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 		if (pids[i] == 0)
 		{
 			proceed_pipes(pvar, var, pipefd, i);
+			if (var->input->IN_FD > 0)
+				close(var->input->IN_FD);
+			if (var->input->OUT_FD > 0)
+				close(var->input->OUT_FD);
 			break ;
 		}
 	}
