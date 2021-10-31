@@ -15,13 +15,11 @@ SRC_FILES	=	src/main.c \
 			src/builtin/ft_cd_utils_3.c \
 			src/excve/ft_excve.c \
 			src/multipipes/exec.c \
-			src/multipipes/exec_2.c \
 			src/multipipes/get_path.c \
 			src/multipipes/multipipes.c \
 			src/parsing/init.c \
 			src/parsing/parsing.c \
 			src/parsing/parsing_utils.c \
-			src/parsing/parsing_utils_2.c \
 			src/parsing/get_len.c \
 			src/parsing/get_envar.c \
 			src/parsing/error.c \
