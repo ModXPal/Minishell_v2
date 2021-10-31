@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_envar_remove.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:42:33 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/12 14:42:48 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/29 16:13:30 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	envar_remove(t_envar **envar, int pos)
 			(*envar)->next = (*envar)->next->next;
 		else
 			(*envar)->next = NULL;
-		free(tmp);
+		if (tmp)
+			free(tmp);
 		*envar = start;
 	}
 	return (1);

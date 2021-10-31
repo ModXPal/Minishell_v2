@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:08:16 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/27 15:54:15 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/29 15:18:43 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*ft_export_new_pwd(t_var *var, char *str)
 	t_envar	*tmp;
 
 	tmp = var->export;
+	str2 = NULL;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->name, "PWD"))
@@ -54,6 +55,7 @@ char	*ft_env_new_pwd(t_var *var, char *str)
 	t_envar	*tmp;
 
 	tmp = var->envar;
+	str2 = NULL;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->name, "PWD"))
@@ -96,6 +98,12 @@ int	swap_pwd_old_pwd(t_var *var)
 	str = getcwd(0, 150);
 	dir = chdir(var->input->args[1]);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
+	{
+		if (str)
+			free(str);
 		return (1);
+	}
+	if (str)
+		free(str);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multipipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:01:54 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/20 18:08:15 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/27 17:39:30 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void	free_pipe(t_pvar *pvar, int **pipefd)
 
 int	ft_multipipes(t_var *var)
 {
-	int	**pipefd;
+	int		**pipefd;
+	t_pvar	pvar[1];
 
 	pipefd = NULL;
-	t_pvar	pvar[1];
 	init_pvar(pvar, var);
 	init_pipefd(pvar, &pipefd);
 	exec(pvar, var, pipefd, pvar->pids);

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/27 14:43:47 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/27 18:09:39 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ typedef struct s_echo{
 	int				dollar;
 }	t_echo;
 
-enum Operator{
-	PIPE = 1,
-	REDIRECT = 2,
-	APPEND = 3
-};
-
 typedef struct s_list
 {
 	char			*content;
@@ -42,18 +36,18 @@ typedef struct s_input{
 	int				delimiter;
 	int				opt_nb;
 	int				arg_nb;
-	struct	s_input *next;
+	struct s_input	*next;
 }		t_input;
 
-typedef	struct	s_pvar{
+typedef struct s_pvar{
 	int				cmd_nb;
 	pid_t			*pids;
 	char			*cmd;
 	char			**path;
 }	t_pvar;
 
-typedef	struct s_cd{
-	char			*HOME;
+typedef struct s_cd{
+	// char			*HOME; // on va surement pas gerer le unset donc a supprimer
 	char			*cdpath;
 }	t_cd;
 

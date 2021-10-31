@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:31:43 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/27 15:38:32 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/27 17:41:42 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ int		check_unmatched_quotes(t_var *var);
 int		count_pipes(t_var *var);
 void	init_builtin(t_builtin *builtin);
 void	init_var(t_var *var, char **env, int ac);
+char	*get_valid_envar(t_var *var, char *str, int i);
 
 #endif

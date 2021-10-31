@@ -6,17 +6,17 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 16:09:34 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/21 14:52:29 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/29 14:52:09 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	get_home_unset_cd(t_var *var)
-{
-	var->cd->HOME = ft_envar_find_content(var->envar, "HOME");
-	return (0);
-}
+// int	get_home_unset_cd(t_var *var) // surement a supprimer car on ne gere pas le unset HOME
+// {
+// 	var->cd->HOME = ft_envar_find_content(var->envar, "HOME");
+// 	return (0);
+// }
 
 int	cd_content_equal_zero(t_var	*var)
 {
@@ -54,12 +54,17 @@ int	cd_dash_equal_one(t_var *var)
 	int		dir;
 	char	*str;
 	t_envar	*tmp2;
+	char	*current_path;
 
 	tmp2 = var->envar;
 	str = NULL;
+	current_path = NULL;
 	str = ft_envar_find_content(tmp2, "OLDPWD");
 	dir = chdir (str);
-	printf("%s\n", getcwd(0, 150));
+	current_path = getcwd(0, 150);
+	printf("%s\n", current_path);
+	if (current_path)
+		free(current_path);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
 		return (1);
 	return (0);

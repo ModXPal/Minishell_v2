@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/27 15:57:07 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/27 18:06:59 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int ac, char **av, char **env)
 	get_env_var(var, &export);
 	var->envar = envar;
 	var->export = export;
-	get_home_unset_cd(var);
+	// get_home_unset_cd(var); // surement a supprimer car on ne gere pas le unset HOME
 	signal(SIGINT, handle_sigusr1);
 	signal(SIGQUIT, handle_sigusr1);
 	exec_minishell(var, builtin);

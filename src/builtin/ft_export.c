@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 15:45:05 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/27 17:17:51 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/29 16:18:33 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,26 +72,37 @@ void	export_execution(t_var *var, char *args)
 	int		equal;
 	char	*name;
 	char	*content;
+	int		j;
 
 	i = 0;
 	equal = 0;
+	content = 0;
+	j = 0;
+	name = 0;
 	if (unset_export_error_handling(var, args) != -1)
 	{
-		name
-			= (char *) malloc(sizeof(ft_strlen(args) + 1));
-		content
-			= (char *) malloc(sizeof(ft_strlen(args) + 1));
-		name
-			= export_name_equal_search
-			(args, &i, &equal, name);
-		content
-			= export_content_search
-			(&i, args, content);
+		name = ((char *)malloc(sizeof(char) * (export_name_len(args) + 1)));
+		name = export_name_equal_search(args, &i, &equal, name);
+		if (equal == 1)
+			j = ft_strlen(args) - export_name_len(args);
+		if (j > 0 && equal == 1)
+		{
+			content = ((char *) malloc(sizeof(char) * (j + 1)));
+			content = export_content_search(&i, args, content);
+		}
 		i = export_env_reassigned_check(var, name, content, equal);
 		if (equal == 1 && i != -1)
 			export_env_insert(var, name, content);
 		if (export_export_reassigned_check(var, name, content, equal) != -1)
 			cmd_export_insert(var, name, content, equal);
+	}
+	if (name)
+	{
+		free (name);
+	}
+	if (content && equal == 1)
+	{
+		free (content);
 	}
 }
 

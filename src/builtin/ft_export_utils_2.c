@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_export_utils_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/27 15:08:18 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/31 14:44:50 by vbachele         ###   ########.fr       */
+/*   Created: 2021/10/28 16:04:04 by vbachele          #+#    #+#             */
+/*   Updated: 2021/10/28 16:12:20 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	export_name_len(char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
+	while (str[i])
 	{
-		if (s2[i + 1] == 0 && (s1[i + 1] == ' ' || s1[i + 1] == 0))
-			return (1);
+		if (str[i] == '=')
+		{
+			break ;
+		}
 		i++;
 	}
-	return (0);
+	return (i);
 }
+
