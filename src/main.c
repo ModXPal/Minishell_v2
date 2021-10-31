@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/27 18:06:59 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:17:45 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,34 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 	{
 		var->cmd = readline("minishell $> ");
 		add_history(var->cmd);
-		if (get_arguments(var) == FAIL)
+		if (get_arguments(var) == -1)
+		{
+			free(var->cmd);
+			continue;
+		}
+		else if (var->input->cmd == NULL)
+		{
+			if (var->input->IN_FD > 0)
+				close(var->input->IN_FD);
+			if (var->input->OUT_FD > 0)
+				close(var->input->OUT_FD);
+			free_input(var);
+			free(var->cmd);
+			continue ;
+		}
+		else if (count_pipes(var) > 1)
+			ft_multipipes(var);
+		else
+			ft_execve(var, builtin);
+		free_input(var);
+		free(var->cmd);
+	}
+	/*
+	while (1)
+	{
+		var->cmd = readline("minishell $> ");
+		add_history(var->cmd);
+		if (get_arguments(var) == -1)
 		{
 			free(var->cmd);
 			continue ;
@@ -52,6 +79,7 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 		free_input(var);
 		free(var->cmd);
 	}
+	*/
 }
 
 int	main(int ac, char **av, char **env)
@@ -76,5 +104,6 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, handle_sigusr1);
 	signal(SIGQUIT, handle_sigusr1);
 	exec_minishell(var, builtin);
+	//get_home_unset_cd(var);
 	return (0);
 }

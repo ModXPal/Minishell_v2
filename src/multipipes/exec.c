@@ -6,16 +6,93 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/27 17:37:14 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:07:21 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "multipipes.h"
 
+int	close_pipes(t_pvar *pvar, int **pipefd)
+{
+	int	j;
+
+	j = -1;
+	while (++j < pvar->cmd_nb + 1)
+	{
+		if (close(pipefd[j][0]) == -1)
+		{
+			perror("Failed to close pipe");
+			return (0);
+		}
+		if (close(pipefd[j][1]) == -1)
+		{
+			perror("Failed to close pipe");
+			return (0);
+		}
+	}
+	return (1);
+}
+
+int	check_access(t_pvar *pvar, int i)
+{
+	if (pvar->cmd == 0)
+		return (0);
+	if (access(pvar->cmd, X_OK) == -1 && pvar->path[i + 1] == 0)
+		return (0);
+	else if (access(pvar->cmd, X_OK) == 0)
+		return (1);
+	return (-1);
+}
+
+int	cmd_not_found(t_var *var, t_pvar *pvar)
+{
+	write (2, var->input->cmd, ft_strlen(var->input->cmd));
+	write (2, ": command not found\n", 20);
+	free(pvar->cmd);
+	return (0);
+}
+
+int	get_cmds(t_pvar *pvar, t_var *var)
+{
+	int		i;
+
+	i = -1;
+	while (pvar->path[++i])
+	{
+		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
+		if (check_access(pvar, i) == SUCCESS)
+			break ;
+		else if (check_access(pvar, i) == FAIL)
+			return (cmd_not_found(var, pvar));
+		free(pvar->cmd);
+	}
+	return (1);
+}
+
+int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
+{
+	if (var->input->IN_FD > 0)
+		dup2(var->input->IN_FD, STDIN_FILENO);
+	if (var->input->OUT_FD > 0)
+		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	else
+		dup2(pipefd[i + 1][1], STDOUT_FILENO);
+	close_pipes(pvar, pipefd);
+	if (execve(pvar->cmd, var->input->args, NULL) == -1)
+		perror("Execve failed:");
+	return (1);
+}
+
 int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
-	dup2(pipefd[i][0], STDIN_FILENO);
-	dup2(pipefd[i + 1][1], STDOUT_FILENO);
+	if (var->input->IN_FD > 0)
+		dup2(var->input->IN_FD, STDIN_FILENO);
+	else
+		dup2(pipefd[i][0], STDIN_FILENO);
+	if (var->input->OUT_FD > 0)
+		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	else
+		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
 	execve(pvar->cmd, var->input->args, NULL);
 	return (1);
@@ -23,7 +100,12 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 
 int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
-	dup2(pipefd[i][0], STDIN_FILENO);
+	if (var->input->IN_FD > 0)
+		dup2(var->input->IN_FD, STDIN_FILENO);
+	else
+		dup2(pipefd[i][0], STDIN_FILENO);
+	if (var->input->OUT_FD > 0)
+		dup2(var->input->OUT_FD, STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
 	if (execve(pvar->cmd, var->input->args, NULL) == -1)
 		perror("Execve failed:");
@@ -70,6 +152,10 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 		if (pids[i] == 0)
 		{
 			proceed_pipes(pvar, var, pipefd, i);
+			if (var->input->IN_FD > 0)
+				close(var->input->IN_FD);
+			if (var->input->OUT_FD > 0)
+				close(var->input->OUT_FD);
 			break ;
 		}
 	}

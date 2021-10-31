@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/28 16:10:25 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:28:25 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int		ft_unset(t_var *var);
 int		ft_cd(t_var *var);
 int		ft_export(t_var *var);
 int		ft_unset(t_var *var);
-int		ft_execve(t_var *var);
 int		ft_multipipes(t_var *var);
 int		cmd_export_alone(t_var *var);
 char	*export_name_equal_search(char *str, int *i, int *equal, char *name);
@@ -61,4 +60,6 @@ void	handle_sigusr1(int signum);
 char	*ft_env_new_pwd_2(t_var *var, t_envar *tmp, char *str2, char *str);
 int		cmd_export_insert(t_var *var, char *name, char *content, int equal);
 int		export_name_len(char *str);
+int		is_builtin(char *line, t_builtin *builtin);
+
 #endif

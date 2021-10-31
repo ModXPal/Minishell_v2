@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 15:41:31 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/27 15:56:32 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:25:51 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ int	ft_env(t_var *var)
 		printf("%s=%s\n", tmp->name, tmp->content);
 		tmp = tmp->next;
 	}
-	return (0);
+	exit (0);
 }
