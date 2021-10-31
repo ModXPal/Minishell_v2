@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
+/*   Updated: 2021/10/27 18:09:39 by vbachele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCT_H
 # define STRUCT_H
 
@@ -12,12 +24,6 @@ typedef struct s_echo{
 	int				dollar;
 }	t_echo;
 
-enum Operator{
-	PIPE = 1,
-	REDIRECT = 2,
-	APPEND = 3
-};
-
 typedef struct s_list
 {
 	char			*content;
@@ -25,25 +31,25 @@ typedef struct s_list
 }	t_list;
 
 typedef struct s_input{
-	char	*cmd;
-	char	**args;
-	int	delimiter;
-	int	opt_nb;
-	int	arg_nb;
-	struct s_input *next;
+	char			*cmd;
+	char			**args;
+	int				delimiter;
+	int				opt_nb;
+	int				arg_nb;
+	struct s_input	*next;
 }		t_input;
 
-typedef	struct s_pvar{
-	int		cmd_nb;
-	pid_t		*pids;
-	char	*cmd;
-	char	**path;
-} t_pvar;
+typedef struct s_pvar{
+	int				cmd_nb;
+	pid_t			*pids;
+	char			*cmd;
+	char			**path;
+}	t_pvar;
 
-typedef	struct s_cd{
-	char			*HOME;
+typedef struct s_cd{
+	// char			*HOME; // on va surement pas gerer le unset donc a supprimer
 	char			*cdpath;
-} t_cd;
+}	t_cd;
 
 typedef struct s_envar{
 	char			*name;
@@ -52,16 +58,17 @@ typedef struct s_envar{
 }		t_envar;
 
 typedef struct s_var{
-	char				**env;
-	char				*cmd;
-	char				*variable;
-	int					ac;
-	int					s_quote;
-	int					d_quote;
-	t_list		*list;
-	t_input		*input;
-	t_envar		*envar;
-	t_envar		*export;
+	char			**env;
+	char			*cmd;
+	char			*variable;
+	int				ac;
+	int				s_quote;
+	int				d_quote;
+	char			interruption;
+	t_list			*list;
+	t_input			*input;
+	t_envar			*envar;
+	t_envar			*export;
 	//t_pipes		*pipes;
 	t_cd			*cd;
 }		t_var;

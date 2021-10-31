@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:29:33 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/17 23:32:18 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/10/27 17:40:09 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	get_string_len(char *str, t_var *var)
 		if (check_quotes(str, &i, var) == TRUE)
 		{
 			i--;
-			continue;
+			continue ;
 		}
 		if (str[i] == '$' && var->s_quote == FALSE && is_valid_dollar(str, i))
 		{

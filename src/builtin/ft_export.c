@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 15:45:05 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/21 15:25:32 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/29 16:18:33 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,36 +66,48 @@ int	export_env_insert(t_var *var, char *name, char *content)
 	return (0);
 }
 
-int	cmd_export_insert(t_var *var, char *name, char *content, int equal)
+void	export_execution(t_var *var, char *args)
 {
-	t_envar	*new;
-	t_envar	*tmp2;
-	int		pos;
+	int		i;
+	int		equal;
+	char	*name;
+	char	*content;
+	int		j;
 
-	tmp2 = var->export;
-	// if (tmp->next != FALSE)
-	// 	str = tmp->next->content;
-	if (equal == 0)
+	i = 0;
+	equal = 0;
+	content = 0;
+	j = 0;
+	name = 0;
+	if (unset_export_error_handling(var, args) != -1)
 	{
-		new = ft_envar_new(name, 0);
-		pos = ft_envarsize(tmp2);
-		envar_insert(&var->export, new, pos);
+		name = ((char *)malloc(sizeof(char) * (export_name_len(args) + 1)));
+		name = export_name_equal_search(args, &i, &equal, name);
+		if (equal == 1)
+			j = ft_strlen(args) - export_name_len(args);
+		if (j > 0 && equal == 1)
+		{
+			content = ((char *) malloc(sizeof(char) * (j + 1)));
+			content = export_content_search(&i, args, content);
+		}
+		i = export_env_reassigned_check(var, name, content, equal);
+		if (equal == 1 && i != -1)
+			export_env_insert(var, name, content);
+		if (export_export_reassigned_check(var, name, content, equal) != -1)
+			cmd_export_insert(var, name, content, equal);
 	}
-	else
+	if (name)
 	{
-		new = ft_envar_new(name, content);
-		pos = ft_envarsize(tmp2);
-		envar_insert(&var->export, new, pos);
+		free (name);
 	}
-	return (0);
+	if (content && equal == 1)
+	{
+		free (content);
+	}
 }
 
 int	ft_export(t_var *var)
 {
-	int		i;
-	char	*name;
-	char	*content;
-	int		equal;
 	int		j;
 
 	if (cmd_export_alone(var) == 1)
@@ -103,20 +115,7 @@ int	ft_export(t_var *var)
 	j = 1;
 	while (var->input->args[j])
 	{
-		i = 0;
-		equal = 0;
-		if (unset_export_error_handling(var, var->input->args[j]) != -1)
-		{
-			name = (char *)malloc(sizeof(ft_strlen(var->input->args[j]) + 1));
-			content = (char *)malloc(sizeof(ft_strlen(var->input->args[j]) + 1));
-			name = export_name_equal_search(var->input->args[j], &i, &equal, name);
-			content = export_content_search(&i, var->input->args[j], content);
-			i = export_env_reassigned_check(var, name, content, equal);
-			if (equal == 1 && i != -1)
-				export_env_insert(var, name, content);
-			if (export_export_reassigned_check(var, name, content, equal) != -1)
-				cmd_export_insert(var, name, content, equal);
-		}
+		export_execution(var, var->input->args[j]);
 		j++;
 	}
 	return (0); // bien penser a free ici

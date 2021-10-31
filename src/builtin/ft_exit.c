@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 10:57:38 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/26 14:29:18 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/10/29 11:54:41 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ int	exit_with_digits(t_var *var)
 	i = ft_atoi(var->input->args[1]);
 	ft_putendl_fd("exit", 2);
 	printf ("EXIT : %d\n", i);
+	free_list(var);
+	free_input(var);
+	free_envar(var->envar);
 	exit (i);
 }
 
@@ -31,6 +34,9 @@ int	exit_with_too_many_arguments(t_var *var)
 		write(2, "minishell: ", 12);
 		write(2, var->input->cmd, ft_strlen(var->input->cmd));
 		ft_putendl_fd(": too many arguments", 2);
+		free_list(var);
+		free_input(var);
+		free_envar(var->envar);
 		exit (EXIT_FAILURE);
 	}
 	return (0);
@@ -51,6 +57,9 @@ int	exit_with_errors(t_var *var)
 			write (2, ": ", 2);
 			write(2, var->input->args[1], ft_strlen(var->input->args[1]));
 			ft_putendl_fd(": numeric argument required", 2);
+			free_list(var);
+			free_input(var);
+			free_envar(var->envar);
 			exit (EXIT_FAILURE);
 		}
 		i++;
@@ -63,6 +72,9 @@ int	exit_without_cmd(t_var *var)
 	if (var->input->args[1] == 0)
 	{
 		ft_putendl_fd("exit", 2);
+		free_list(var);
+		free_input(var);
+		free_envar(var->envar);
 		exit (EXIT_SUCCESS);
 	}
 	return (0);
@@ -77,8 +89,9 @@ int	ft_exit(t_var *var)
 	exit_with_too_many_arguments(var);
 	exit_with_errors(var);
 	exit_with_digits(var);
-	if (var->envar)
-		free_envar(var->envar);
+	free_list(var);
+	free_input(var);
+	free_envar(var->envar);
 	clear_history();
 	return (0);
 }

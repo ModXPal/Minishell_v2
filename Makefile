@@ -5,6 +5,7 @@ SRC_FILES	=	src/main.c \
 			src/builtin/ft_env.c \
 			src/builtin/ft_export.c \
 			src/builtin/ft_export_utils.c \
+			src/builtin/ft_export_utils_2.c \
 			src/builtin/ft_pwd.c \
 			src/builtin/ft_exit.c \
 			src/builtin/ft_unset.c \
@@ -14,17 +15,23 @@ SRC_FILES	=	src/main.c \
 			src/builtin/ft_cd_utils_3.c \
 			src/excve/ft_excve.c \
 			src/multipipes/exec.c \
+			src/multipipes/exec_2.c \
 			src/multipipes/get_path.c \
 			src/multipipes/multipipes.c \
+			src/parsing/init.c \
 			src/parsing/parsing.c \
 			src/parsing/parsing_utils.c \
+			src/parsing/parsing_utils_2.c \
 			src/parsing/get_len.c \
 			src/parsing/get_envar.c \
 			src/parsing/error.c \
+			src/free/free_1.c \
+			src/signal/signal.c \
+
 
 LIBFT_PATH	=	libft/
 
-LIBFT_LIB	=	libft/libft.a
+LIBFT_LIB	=	libft/libft.a 
 
 INCLUDE_PATH	=	include/
 
@@ -34,7 +41,7 @@ LIBFTMAKE	=	$(MAKE) --no-print-directory -C $(LIBFT_PATH)
 
 CC		=	clang
 
-CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH)
+CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH) -g
 
 RM		=	rm -rf
 

@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/24 16:52:53 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/27 15:08:40 by vbachele         ###   ########.fr       */
+/*   Created: 2021/10/27 15:34:28 by vbachele          #+#    #+#             */
+/*   Updated: 2021/10/27 17:49:16 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+void	handle_sigusr1(int signum)
 {
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	if (*needle == 0)
-		return ((char *)haystack);
-	while (haystack[i] && len && i < len)
+	(void) signum;
+	if (signum == SIGINT)
 	{
-		j = 0;
-		while (needle[j] == haystack[i + j] && (i + j) < len)
-		{
-			j++;
-			if (needle[j] == 0)
-				return ((char *)&(haystack[i]));
-		}
-		i++;
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
-	return (NULL);
+	else if (signum == SIGQUIT)
+	{
+		write(1, "\b\b  \b\b", 6);
+	}
 }
