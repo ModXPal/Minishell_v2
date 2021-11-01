@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 10:57:38 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/29 11:54:41 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/01 17:22:57 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int	exit_with_digits(t_var *var)
 	i = 0;
 	i = ft_atoi(var->input->args[1]);
 	ft_putendl_fd("exit", 2);
-	printf ("EXIT : %d\n", i);
 	free_list(var);
 	free_input(var);
 	free_envar(var->envar);
-	exit (i);
+	EXIT_STATUS = i;
+	exit (EXIT_STATUS);
 }
 
 int	exit_with_too_many_arguments(t_var *var)
@@ -37,7 +37,8 @@ int	exit_with_too_many_arguments(t_var *var)
 		free_list(var);
 		free_input(var);
 		free_envar(var->envar);
-		exit (EXIT_FAILURE);
+		EXIT_STATUS = 1;
+		exit (EXIT_STATUS);
 	}
 	return (0);
 }
@@ -60,7 +61,8 @@ int	exit_with_errors(t_var *var)
 			free_list(var);
 			free_input(var);
 			free_envar(var->envar);
-			exit (EXIT_FAILURE);
+			EXIT_STATUS = 1;
+			exit (EXIT_STATUS);
 		}
 		i++;
 	}
@@ -75,7 +77,8 @@ int	exit_without_cmd(t_var *var)
 		free_list(var);
 		free_input(var);
 		free_envar(var->envar);
-		exit (EXIT_SUCCESS);
+		EXIT_STATUS = 0;
+		exit (EXIT_STATUS);
 	}
 	return (0);
 }

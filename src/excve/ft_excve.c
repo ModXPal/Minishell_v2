@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/31 18:41:51 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/01 17:33:13 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	execve_error(t_var *var, char *path_final)
 	write (2, "minishell: ", 11);
 	write(2, var->input->cmd, ft_strlen(var->input->cmd));
 	ft_putendl_fd(": command not found", 2);
-	return (-1);
+	return (127);
 }
 
 int	ft_execve(t_var *var, t_builtin *builtin)
@@ -53,6 +53,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	char	*path_final;
 	char	**path_fromenvp;
 	pid_t	pid;
+	int 	status;
 	int	ret;
 	
 	path_final = ft_envar_find_content(var->envar, "PATH");
@@ -74,7 +75,8 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 		{
 			free_split(path_fromenvp);
 			execve_error(var, path_final);
-			return (-1);
+			EXIT_STATUS = 126;
+			exit (EXIT_STATUS);
 		}
 	}
 	if (path_final)
@@ -84,6 +86,8 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 		close(var->input->IN_FD);
 	if (var->input->OUT_FD > 0)
 		close(var->input->OUT_FD);
-	waitpid(0, 0, 0);
-	return (0);
+	waitpid(0, &status, WUNTRACED);
+	if (WIFEXITED(status))
+		EXIT_STATUS = WEXITSTATUS(status);
+	return (EXIT_STATUS);
 }
