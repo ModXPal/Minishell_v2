@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/31 18:19:30 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/02 17:15:58 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	char	**path_fromenvp;
 	pid_t	pid;
 	int	ret;
+	int	pipe_fd[2];
 	
 	path_final = ft_envar_find_content(var->envar, "PATH");
 	path_fromenvp = ft_split(path_final, ':');
@@ -68,6 +69,14 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 			dup2(var->input->IN_FD, STDIN_FILENO);
 		if (var->input->OUT_FD > 0)
 			dup2(var->input->OUT_FD, STDOUT_FILENO);
+		if (var->input->heredoc)
+		{
+			pipe(pipe_fd);
+			write (pipe_fd[1], var->input->heredoc, ft_strlen(var->input->heredoc));
+			dup2(pipe_fd[0], STDIN_FILENO);
+			close(pipe_fd[0]);
+			close(pipe_fd[1]);
+		}
 		if (ret >= 0)
 			builtin[ret].func(var);
 		else if (execve(path_final, var->input->args, NULL) == -1)

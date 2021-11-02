@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/31 18:17:45 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/02 17:27:04 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,6 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 		free_input(var);
 		free(var->cmd);
 	}
-	/*
-	while (1)
-	{
-		var->cmd = readline("minishell $> ");
-		add_history(var->cmd);
-		if (get_arguments(var) == -1)
-		{
-			free(var->cmd);
-			continue ;
-		}
-		ret = is_builtin(var->cmd, builtin);
-		if (ret >= 0)
-			builtin[ret].func(var);
-		else if (count_pipes(var) > 1)
-			ft_multipipes(var);
-		else
-			ft_execve(var);
-		free_input(var);
-		free(var->cmd);
-	}
-	*/
 }
 
 int	main(int ac, char **av, char **env)

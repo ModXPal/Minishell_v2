@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/31 18:06:48 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/02 17:58:46 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,59 @@ int	syntax_check(char **input)
 	return (0);
 }
 
+char	*delete_last_line(char *str)
+{
+	int	i;
+	char	*final_str;
+
+	if (str == NULL)
+		return (NULL);
+	i = ft_strlen(str) - 2;
+	while (str[i - 1] != '\n')
+		i--;
+	final_str = malloc(sizeof(char) * i);
+	final_str[i] = 0;
+	while (--i >= 0)
+		final_str[i] = str[i];
+	return (final_str);
+}
+
+int	here_doc(t_input *input, char *delimiter)
+{
+	char    *line;
+	char	buff[2];
+	int		ret;
+	int		i;
+	int		j;
+
+	line = ft_strdup("");
+	j = 0;
+	i = 0;
+	while (ft_strcmp(&line[ft_strlen(line) - i], delimiter) == 0)
+	{
+		if (i != 0)
+			line = ft_strjoin(line, "\n");
+		i = 0;
+		ret = 1;
+		buff[0] = 0;
+		write(STDOUT_FILENO, "> ", 2);
+		while (ret > 0 && buff[0] != '\n')
+		{
+			ret = read(STDIN_FILENO, buff, 1);
+			buff[1] = 0;
+			if (buff[0] != '\n')
+				line = ft_strjoin(line, buff);
+			i++;
+		}
+		i--;
+	}
+	line = ft_strjoin(line, "\n");
+	line = delete_last_line(line);
+	//printf("%s\n", line);
+	input->heredoc = line;
+	return (0);
+}
+
 int	open_files(t_input *input, char *file, int redir)
 {
 	if (redir == STDIN)
@@ -203,28 +256,56 @@ int	open_files(t_input *input, char *file, int redir)
 	{
 		input->OUT_FD = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
 	}
+	else if (redir == HERE_DOC)
+	{
+		here_doc(input, file);
+		input->IN_FD = 0;
+	}
 	return (0);
 }
 
-t_input	*get_input(t_var *var, char **split_input)
+int	handle_redir(t_var *var, t_input *input, char **split_input, int *i)
 {
-	int		i;
-	int		j;
-	int		len;
-	char	*content;
-	t_input	*new;
+	int	len;
 
-	i = -1;
-	new = malloc(sizeof(t_input));
-	new->args = (char **)malloc(sizeof(char *) * (split_len(split_input) + 1));
-	new->cmd = NULL;
-	if (new->args == FAIL)
+	len = get_string_len(split_input[(*i) + 1], var);
+	if (ft_strcmp(split_input[*i], "<") == TRUE)
+	{
+		(*i)++;
+		open_files(input, ft_trim(var, split_input[*i], len), STDIN);
+		if (input->IN_FD > 0)
+			return (0);
+	}
+	else if (ft_strcmp(split_input[*i], "<<") == TRUE)
+	{
+		(*i)++;
+		open_files(input, ft_trim(var, split_input[*i], len), HERE_DOC);
 		return (0);
-	new->redir_nb = malloc(sizeof(int *) * count_redirection(split_input)); 
-	new->IN_FD = 0;
-	new->OUT_FD = 0;
-	while (++i < count_redirection(split_input))
-		new->redir_nb = malloc(sizeof(int) * count_redirection(split_input));
+	}
+	else if (ft_strcmp(split_input[*i], ">") == TRUE)
+	{
+		(*i)++;
+		open_files(input, ft_trim(var, split_input[*i], len), STDOUT);
+		if (input->OUT_FD > 0)
+			return (0);
+	}
+	else if (ft_strcmp(split_input[*i], ">>") == TRUE)
+	{
+		(*i)++;
+		open_files(input, ft_trim(var, split_input[*i], len), STDOUT_APPEND);
+		if (input->OUT_FD > 0)
+			return (0);
+	}
+	return (-1);
+}
+
+void	handle_input(t_var *var, t_input *new, char **split_input)
+{
+	int	i;
+	int	j;
+	int	len;
+	char	*content;
+
 	i = -1;
 	j = 0;
 	while (split_input[++i])
@@ -235,32 +316,53 @@ t_input	*get_input(t_var *var, char **split_input)
 		var->s_quote = 0;
 		var->d_quote = 0;
 		content = ft_trim(var, split_input[i], len);
-		if (ft_strcmp(split_input[i], "<") == TRUE)
-		{
-			i++;
-			open_files(new, ft_trim(var, split_input[i], get_string_len(split_input[i], var)), STDIN);
+		if (handle_redir(var, new, split_input, &i) == 0)
 			continue ;
-		}
-		else if (ft_strcmp(split_input[i], ">") == TRUE)
-		{
-			i++;
-			open_files(new, ft_trim(var, split_input[i], get_string_len(split_input[i], var)), STDOUT);
-			continue ;
-		}
-		else if (ft_strcmp(split_input[i], ">>") == TRUE)
-		{
-			i++;
-			open_files(new, ft_trim(var, split_input[i], get_string_len(split_input[i], var)), STDOUT_APPEND);
-			continue ;
-		}
-		else if (i == 0 || ((new->IN_FD > 0 || new->OUT_FD > 0) && new->cmd == NULL))
+		else if (i == 0 || ((new->IN_FD > 0 || new->OUT_FD > 0 || new->heredoc) && new->cmd == NULL))
 			new->cmd = content;
 		//printf("content = %s\n", content);
 		new->args[j++] = content;
 	}
 	new->args[j] = NULL;
 	new->next = NULL;
-	//printf("in fd = %d\n", var->IN_FD);
+}
+
+int	count_heredoc(char **split_input)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = -1;
+	while (split_input[++i])
+	{
+		if (ft_strcmp(split_input[i], "<<") == TRUE)
+			count++;
+	}
+	return (count);
+}
+
+t_input	*get_input(t_var *var, char **split_input)
+{
+	int		i;
+	int		j;
+	t_input	*new;
+
+	i = -1;
+	new = malloc(sizeof(t_input));
+	if (new == 0)
+		return (0);
+	new->args = (char **)malloc(sizeof(char *) * (split_len(split_input) + count_heredoc(split_input) + 1));
+	if (new->args == FAIL)
+		return (0);
+	new->cmd = NULL;
+	new->IN_FD = 0;
+	new->OUT_FD = 0;
+	new->heredoc = 0;
+	i = -1;
+	j = 0;
+	handle_input(var, new, split_input);
+		//printf("in fd = %d\n", var->IN_FD);
 	//printf("out fd = %d\n", var->OUT_FD);
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:31:43 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/31 18:27:17 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/02 13:33:55 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define STDIN 0
 # define STDOUT 1
 # define STDOUT_APPEND 2
+# define HERE_DOC 3
 
 # include <unistd.h>
 # include <stdio.h>
@@ -47,5 +48,9 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	init_builtin(t_builtin *builtin);
 void	init_var(t_var *var, char **env, int ac);
 char	*get_valid_envar(t_var *var, char *str, int i);
+int    endofline(char *str);
+int    test_flag(int flag, char *save);
+int    check_error(int fd, char buff[2], char **line);
+int    get_next_line(int fd, char **line, int flag);
 
 #endif

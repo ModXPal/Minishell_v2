@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:29:33 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/27 17:40:09 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/02 11:22:45 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	get_string_len(char *str, t_var *var)
 
 	i = -1;
 	j = 0;
+	if (str == NULL)
+		return (0);
 	while (str[++i])
 	{
 		if (check_quotes(str, &i, var) == TRUE)
