@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/01 17:33:13 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/02 17:37:28 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	execve_error(t_var *var, char *path_final)
 	return (127);
 }
 
-int	ft_execve(t_var *var, t_builtin *builtin)
+int	 ft_execve(t_var *var, t_builtin *builtin)
 {
 	char	*path_final;
 	char	**path_fromenvp;
@@ -62,6 +62,10 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	ret = is_builtin(var->cmd, builtin);
 	if (ret == 6)
 		builtin[ret].func(var);
+	if (ret == -1)
+	{
+		EXIT_STATUS = 123456789;
+	}
 	pid = fork();
 	if (pid == 0)
 	{
@@ -70,7 +74,9 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 		if (var->input->OUT_FD > 0)
 			dup2(var->input->OUT_FD, STDOUT_FILENO);
 		if (ret >= 0)
+		{
 			builtin[ret].func(var);
+		}
 		else if (execve(path_final, var->input->args, NULL) == -1)
 		{
 			free_split(path_fromenvp);
@@ -87,7 +93,12 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	if (var->input->OUT_FD > 0)
 		close(var->input->OUT_FD);
 	waitpid(0, &status, WUNTRACED);
+	// signal(SIGINT, handle_sigusr2);
 	if (WIFEXITED(status))
+	{
 		EXIT_STATUS = WEXITSTATUS(status);
+		if (EXIT_STATUS == 123456789)
+			EXIT_STATUS = 130;
+	}
 	return (EXIT_STATUS);
 }

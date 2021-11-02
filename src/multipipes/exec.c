@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/01 17:40:29 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/02 17:37:05 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,11 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 	while (++i < pvar->cmd_nb)
 		waitpid(0, &status, WUNTRACED);
 	if (WIFEXITED(status))
+	{
 		EXIT_STATUS = WEXITSTATUS(status);
+		if (EXIT_STATUS == 123456789)
+			EXIT_STATUS = 0;
+	}
 	//free(pids);
 	var->input = start;
 	free_split(pvar->path);

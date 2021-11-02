@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/31 18:28:25 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/02 17:13:20 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ char	*ft_env_new_pwd_2(t_var *var, t_envar *tmp, char *str2, char *str);
 int		cmd_export_insert(t_var *var, char *name, char *content, int equal);
 int		export_name_len(char *str);
 int		is_builtin(char *line, t_builtin *builtin);
+void	handle_sigusr2(int signum);
 
 #endif
