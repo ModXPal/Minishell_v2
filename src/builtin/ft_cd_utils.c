@@ -12,6 +12,8 @@
 
 #include "builtin.h"
 
+extern int EXIT_STATUS;
+
 char	*ft_export_new_pwd(t_var *var, char *str)
 {
 	char	*str2;

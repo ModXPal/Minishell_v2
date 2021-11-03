@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int EXIT_STATUS;
+
 int	is_builtin(char *line, t_builtin *builtin)
 {
 	int	i;

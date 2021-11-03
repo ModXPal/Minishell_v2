@@ -93,7 +93,6 @@ int	 ft_execve(t_var *var, t_builtin *builtin)
 	if (var->input->OUT_FD > 0)
 		close(var->input->OUT_FD);
 	waitpid(0, &status, WUNTRACED);
-	// signal(SIGINT, handle_sigusr2);
 	if (WIFEXITED(status))
 	{
 		EXIT_STATUS = WEXITSTATUS(status);

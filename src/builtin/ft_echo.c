@@ -12,7 +12,6 @@
 
 #include "builtin.h"
 
-
 int	is_dash_n(char **str)
 {
 	int	i;
