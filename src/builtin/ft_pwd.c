@@ -6,11 +6,11 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 11:39:06 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/31 18:24:59 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/04 13:55:22 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtin.h"
 
 int	ft_pwd(t_var *var)
 {
@@ -32,5 +32,6 @@ int	ft_pwd(t_var *var)
 		printf("%s\n", test);
 		free(test);
 	}
-	exit (0);
+	EXIT_STATUS = 0;
+	return (EXIT_STATUS);
 }

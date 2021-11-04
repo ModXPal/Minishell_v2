@@ -6,11 +6,13 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/31 18:17:45 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/04 13:51:18 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int EXIT_STATUS;
 
 int	is_builtin(char *line, t_builtin *builtin)
 {
@@ -33,6 +35,8 @@ _Noreturn int	exec_minishell(t_var *var, t_builtin *builtin)
 	while (1)
 	{
 		var->cmd = readline("minishell $> ");
+		if (!var->cmd)
+			break;
 		add_history(var->cmd);
 		if (get_arguments(var) == -1)
 		{
@@ -50,33 +54,19 @@ _Noreturn int	exec_minishell(t_var *var, t_builtin *builtin)
 			continue ;
 		}
 		else if (count_pipes(var) > 1)
-			ft_multipipes(var);
-		else
-			ft_execve(var, builtin);
-		free_input(var);
-		free(var->cmd);
-	}
-	/*
-	while (1)
-	{
-		var->cmd = readline("minishell $> ");
-		add_history(var->cmd);
-		if (get_arguments(var) == -1)
 		{
-			free(var->cmd);
-			continue ;
-		}
-		ret = is_builtin(var->cmd, builtin);
-		if (ret >= 0)
-			builtin[ret].func(var);
-		else if (count_pipes(var) > 1)
+			EXIT_STATUS = 123456789;
 			ft_multipipes(var);
+		}
 		else
-			ft_execve(var);
+		{
+			ft_execve(var, builtin);
+		}
 		free_input(var);
 		free(var->cmd);
 	}
-	*/
+	printf("exit\n");
+	return (0);
 }
 
 int	main(int ac, char **av, char **env)
@@ -92,7 +82,9 @@ int	main(int ac, char **av, char **env)
 	init_var(var, env, ac);
 	(void)av;
 	envar = NULL;
+	var->cd->exit_cd = 0;
 	export = NULL;
+	EXIT_STATUS = 0;
 	get_env_var(var, &envar);
 	get_env_var(var, &export);
 	var->envar = envar;

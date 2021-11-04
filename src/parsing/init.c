@@ -6,11 +6,11 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:37:07 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/27 17:40:15 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/01 14:08:57 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 void	init_builtin(t_builtin *builtin)
 {
@@ -41,4 +41,5 @@ void	init_var(t_var *var, char **env, int ac)
 	var->d_quote = 0;
 	var->env = env;
 	var->ac = ac;
+	// var->exit_status = 0;
 }

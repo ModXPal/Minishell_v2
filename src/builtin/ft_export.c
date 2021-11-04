@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 15:45:05 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/31 18:25:41 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/04 13:56:04 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,16 @@ int	ft_export(t_var *var)
 	int		j;
 
 	if (cmd_export_alone(var) == 1)
-		exit (0);
+	{
+		var->exit_status = 0;
+		exit (var->exit_status);
+	}
 	j = 1;
 	while (var->input->args[j])
 	{
 		export_execution(var, var->input->args[j]);
 		j++;
 	}
-	exit (0); // bien penser a free ici
+	EXIT_STATUS = 0;
+	return (EXIT_STATUS); // bien penser a free ici
 }

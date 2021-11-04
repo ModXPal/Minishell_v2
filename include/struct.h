@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/31 18:26:29 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/04 13:59:14 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define STRUCT_H
 
 # include <sys/wait.h>
+
+extern int EXIT_STATUS;
 
 typedef struct s_echo{
 	struct s_list	*echo_list;
@@ -32,7 +34,9 @@ typedef struct s_list
 
 typedef struct s_input{
 	char	*cmd;
+	char	*heredoc;
 	char	**args;
+	char	*delimiter;
 	int	**redir_nb;
 	int			IN_FD;
 	int			OUT_FD;
@@ -49,6 +53,7 @@ typedef struct s_pvar{
 typedef struct s_cd{
 	// char			*HOME; // on va surement pas gerer le unset donc a supprimer
 	char			*cdpath;
+	int				exit_cd;
 }	t_cd;
 
 typedef struct s_envar{
@@ -62,6 +67,7 @@ typedef struct s_var{
 	char			*cmd;
 	char			*variable;
 	int				ac;
+	int				exit_status;
 	int				s_quote;
 	int				d_quote;
 	char			interruption;

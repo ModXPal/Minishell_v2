@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/31 18:07:21 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/04 13:51:37 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,14 @@ int	check_access(t_pvar *pvar, int i)
 {
 	if (pvar->cmd == 0)
 		return (0);
-	if (access(pvar->cmd, X_OK) == -1 && pvar->path[i + 1] == 0)
+	if (i == -1)
+	{
+		if (access(pvar->cmd, X_OK) == 0)
+			return (1);
+		else
+			return (0);
+	}
+	else if (access(pvar->cmd, X_OK) == -1 && pvar->path[i + 1] == 0)
 		return (0);
 	else if (access(pvar->cmd, X_OK) == 0)
 		return (1);
@@ -46,9 +53,18 @@ int	check_access(t_pvar *pvar, int i)
 
 int	cmd_not_found(t_var *var, t_pvar *pvar)
 {
+	write (2, "minishell: ", 11);
 	write (2, var->input->cmd, ft_strlen(var->input->cmd));
 	write (2, ": command not found\n", 20);
 	free(pvar->cmd);
+	return (0);
+}
+
+int	no_such_file(t_var *var)
+{
+	write (2, "minishell: ", 11);
+	write (2, var->input->cmd, ft_strlen(var->input->cmd));
+	write (2, ": no such file or directory\n", 28);
 	return (0);
 }
 
@@ -57,13 +73,27 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	int		i;
 
 	i = -1;
+	if (var->input->cmd[0] == '/')
+	{
+		pvar->cmd = var->input->cmd;
+		if (check_access(pvar, -1) == SUCCESS)
+			return (1);
+		else if (check_access(pvar, -1) == FAIL)
+		{
+			free_split(pvar->path);
+			return (no_such_file(var));
+		}
+	}
 	while (pvar->path[++i])
 	{
 		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
 		if (check_access(pvar, i) == SUCCESS)
 			break ;
 		else if (check_access(pvar, i) == FAIL)
+		{
+			free_split(pvar->path);
 			return (cmd_not_found(var, pvar));
+		}
 		free(pvar->cmd);
 	}
 	return (1);
@@ -174,9 +204,15 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 	close_pipes(pvar, pipefd);
 	i = -1;
 	while (++i < pvar->cmd_nb)
-		waitpid(0, &status, 0);
+		waitpid(0, &status, WUNTRACED);
+	if (WIFEXITED(status))
+	{
+		EXIT_STATUS = WEXITSTATUS(status);
+		if (EXIT_STATUS == 123456789)
+			EXIT_STATUS = 0;
+	}
 	//free(pids);
 	var->input = start;
 	free_split(pvar->path);
-	return (1);
+	return (EXIT_STATUS);
 }
