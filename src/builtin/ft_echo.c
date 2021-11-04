@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 16:29:41 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/01 17:20:47 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/04 13:56:42 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@ int	ft_echo(t_var *var)
 	if (ret == FALSE)
 		printf("\n");
 	EXIT_STATUS = 0;
-	exit (EXIT_STATUS);
+	return (EXIT_STATUS);
 }

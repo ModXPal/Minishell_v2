@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/03 13:51:49 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/04 13:59:14 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ typedef struct s_list
 
 typedef struct s_input{
 	char	*cmd;
+	char	*heredoc;
 	char	**args;
+	char	*delimiter;
 	int	**redir_nb;
 	int			IN_FD;
 	int			OUT_FD;

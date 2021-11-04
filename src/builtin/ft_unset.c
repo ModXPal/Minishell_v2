@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:29:54 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/01 17:25:38 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/04 13:54:49 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,5 @@ int	ft_unset(t_var *var)
 		i++;
 	}
 	EXIT_STATUS = 0;
-	exit (EXIT_STATUS);
+	return (EXIT_STATUS);
 }
