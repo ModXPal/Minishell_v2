@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/02 17:58:46 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/04 13:47:40 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,34 @@ char	*ft_trim(t_var *var, char *str, int len)
 		trim_str[i++] = str[j++];
 	}
 	trim_str[i] = 0;
+	return (trim_str);
+}
+
+char	*trim_heredoc(char *str, int len, t_var *var)
+{
+	char	*trim_str;
+	int		i;
+	int		j;
+	int		k;
+
+	trim_str = malloc(sizeof(char) * (len + 1));
+	i = 0;
+	j = 0;
+	while (i < len)
+	{
+		k = 0;
+		if (str[j] == '$' && ft_isalnum(str[j + 1]))
+		{
+			j++;
+			while (get_valid_envar(var, str, j)[k])
+				trim_str[i++] = get_valid_envar(var, str, j)[k++];
+			skip_alnum(str, &j);
+			continue ;
+		}
+		trim_str[i++] = str[j++];
+	}
+	trim_str[i] = 0;
+	free (str);
 	return (trim_str);
 }
 
@@ -193,22 +221,28 @@ char	*delete_last_line(char *str)
 {
 	int	i;
 	char	*final_str;
+	char	*tmp;
 
 	if (str == NULL)
 		return (NULL);
+	tmp = str;
 	i = ft_strlen(str) - 2;
 	while (str[i - 1] != '\n')
 		i--;
 	final_str = malloc(sizeof(char) * i);
+	if (final_str == 0)
+		return (NULL);
 	final_str[i] = 0;
 	while (--i >= 0)
 		final_str[i] = str[i];
+	free (str);
 	return (final_str);
 }
 
-int	here_doc(t_input *input, char *delimiter)
+int	here_doc(t_input *input, char *delimiter, t_var *var)
 {
 	char    *line;
+	char	*tmp;
 	char	buff[2];
 	int		ret;
 	int		i;
@@ -217,6 +251,7 @@ int	here_doc(t_input *input, char *delimiter)
 	line = ft_strdup("");
 	j = 0;
 	i = 0;
+	input->IN_FD = 0;
 	while (ft_strcmp(&line[ft_strlen(line) - i], delimiter) == 0)
 	{
 		if (i != 0)
@@ -235,10 +270,13 @@ int	here_doc(t_input *input, char *delimiter)
 		}
 		i--;
 	}
+	tmp = line;
 	line = ft_strjoin(line, "\n");
+	free(tmp);
 	line = delete_last_line(line);
-	//printf("%s\n", line);
-	input->heredoc = line;
+	if (input->heredoc)
+		free(input->heredoc);
+	input->heredoc = trim_heredoc(line, get_heredoc_len(line, var), var);
 	return (0);
 }
 
@@ -256,11 +294,13 @@ int	open_files(t_input *input, char *file, int redir)
 	{
 		input->OUT_FD = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
 	}
+	/*
 	else if (redir == HERE_DOC)
 	{
 		here_doc(input, file);
 		input->IN_FD = 0;
 	}
+	*/
 	return (0);
 }
 
@@ -279,7 +319,8 @@ int	handle_redir(t_var *var, t_input *input, char **split_input, int *i)
 	else if (ft_strcmp(split_input[*i], "<<") == TRUE)
 	{
 		(*i)++;
-		open_files(input, ft_trim(var, split_input[*i], len), HERE_DOC);
+		here_doc(input, ft_trim(var, split_input[*i], len), var);
+		//open_files(input, ft_trim(var, split_input[*i], len), HERE_DOC);
 		return (0);
 	}
 	else if (ft_strcmp(split_input[*i], ">") == TRUE)

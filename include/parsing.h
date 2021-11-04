@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:31:43 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/02 13:33:55 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/04 13:33:54 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ int    endofline(char *str);
 int    test_flag(int flag, char *save);
 int    check_error(int fd, char buff[2], char **line);
 int    get_next_line(int fd, char **line, int flag);
+int	get_heredoc_len(char *str, t_var *var);
 
 #endif
