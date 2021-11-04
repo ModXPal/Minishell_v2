@@ -28,11 +28,8 @@ int	is_builtin(char *line, t_builtin *builtin)
 	return (-1);
 }
 
-int	exec_minishell(t_var *var, t_builtin *builtin)
+_Noreturn int	exec_minishell(t_var *var, t_builtin *builtin)
 {
-	int	ret;
-
-	ret = 0;
 	while (1)
 	{
 		var->cmd = readline("minishell $> ");
