@@ -15,7 +15,7 @@
 
 # include <sys/wait.h>
 
-int EXIT_STATUS;
+extern int EXIT_STATUS;
 
 typedef struct s_echo{
 	struct s_list	*echo_list;
