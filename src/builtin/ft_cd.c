@@ -102,14 +102,14 @@ int	ft_cd(t_var *var)
 {
 	if (check_cdpath_exists(var) == 1)
 	{
-		EXIT_STATUS = 1;
-		exit (EXIT_STATUS);
+		g_exit_status = 1;
+		exit (g_exit_status);
 	}
 	if (cd_application(var) == 1)
 	{
-		EXIT_STATUS = 1;
-		exit (EXIT_STATUS);
+		g_exit_status = 1;
+		exit (g_exit_status);
 	}
-	EXIT_STATUS = 0;
-	exit (EXIT_STATUS);
+	g_exit_status = 0;
+	exit (g_exit_status);
 }

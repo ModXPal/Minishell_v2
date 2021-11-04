@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int	g_exit_status;
+
 int	is_builtin(char *line, t_builtin *builtin)
 {
 	int	i;
@@ -37,26 +39,26 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 	{
 		var->cmd = readline("minishell $> ");
 		if (!var->cmd)
-			break;
+			break ;
 		add_history(var->cmd);
 		if (get_arguments(var) == -1)
 		{
 			free(var->cmd);
-			continue;
+			continue ;
 		}
 		else if (var->input->cmd == NULL)
 		{
-			if (var->input->IN_FD > 0)
-				close(var->input->IN_FD);
-			if (var->input->OUT_FD > 0)
-				close(var->input->OUT_FD);
+			if (var->input->in_fd > 0)
+				close(var->input->in_fd);
+			if (var->input->out_fd > 0)
+				close(var->input->out_fd);
 			free_input(var);
 			free(var->cmd);
 			continue ;
 		}
 		else if (count_pipes(var) > 1)
 		{
-			EXIT_STATUS = 123456789;
+			g_exit_status = 123456789;
 			ft_multipipes(var);
 		}
 		else
@@ -85,15 +87,13 @@ int	main(int ac, char **av, char **env)
 	envar = NULL;
 	var->cd->exit_cd = 0;
 	export = NULL;
-	EXIT_STATUS = 0;
+	g_exit_status = 0;
 	get_env_var(var, &envar);
 	get_env_var(var, &export);
 	var->envar = envar;
 	var->export = export;
-	// get_home_unset_cd(var); // surement a supprimer car on ne gere pas le unset HOME
 	signal(SIGINT, handle_sigusr1);
 	signal(SIGQUIT, handle_sigusr1);
 	exec_minishell(var, builtin);
-	//get_home_unset_cd(var);
 	return (0);
 }

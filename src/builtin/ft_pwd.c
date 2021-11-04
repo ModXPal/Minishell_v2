@@ -32,6 +32,6 @@ int	ft_pwd(t_var *var)
 		printf("%s\n", test);
 		free(test);
 	}
-	EXIT_STATUS = 0;
-	exit (EXIT_STATUS);
+	g_exit_status = 0;
+	exit (g_exit_status);
 }

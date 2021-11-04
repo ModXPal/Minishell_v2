@@ -39,6 +39,7 @@ int	unset_export_error_handling(t_var *var, char *content)
 int	unset_error_export_message(t_var *var, char *content)
 {
 	(void) content;
+	var->error = 1;
 	write (2, "minishell: ", 12);
 	write(2, var->input->cmd, ft_strlen(var->input->cmd));
 	write (2, ": `", 3);
@@ -100,6 +101,7 @@ int	ft_unset(t_var *var)
 
 	pos = 0;
 	i = 0;
+	var->error = 0;
 	cmd_exist = 0;
 	tmp_list = var->list;
 	tmp = var->envar;
@@ -109,10 +111,10 @@ int	ft_unset(t_var *var)
 	{
 		cmd_exist = 0;
 		unset_search_and_remove(var, &cmd_exist, var->input->args[i]);
-		// if (cmd_exist == 0)
-		// 	unset_error_export_message(var, var->input->args[i]);
 		i++;
 	}
-	EXIT_STATUS = 0;
-	exit (EXIT_STATUS);
+	g_exit_status = 0;
+	if (var->error == 1)
+		g_exit_status = 1;
+	exit (g_exit_status);
 }

@@ -71,10 +71,10 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 
 int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 {
-	if (var->input->IN_FD > 0)
-		dup2(var->input->IN_FD, STDIN_FILENO);
-	if (var->input->OUT_FD > 0)
-		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	if (var->input->in_fd > 0)
+		dup2(var->input->in_fd, STDIN_FILENO);
+	if (var->input->out_fd > 0)
+		dup2(var->input->out_fd, STDOUT_FILENO);
 	else
 		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
@@ -85,12 +85,12 @@ int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 
 int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
-	if (var->input->IN_FD > 0)
-		dup2(var->input->IN_FD, STDIN_FILENO);
+	if (var->input->in_fd > 0)
+		dup2(var->input->in_fd, STDIN_FILENO);
 	else
 		dup2(pipefd[i][0], STDIN_FILENO);
-	if (var->input->OUT_FD > 0)
-		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	if (var->input->out_fd > 0)
+		dup2(var->input->out_fd, STDOUT_FILENO);
 	else
 		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
@@ -100,12 +100,12 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 
 int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
-	if (var->input->IN_FD > 0)
-		dup2(var->input->IN_FD, STDIN_FILENO);
+	if (var->input->in_fd > 0)
+		dup2(var->input->in_fd, STDIN_FILENO);
 	else
 		dup2(pipefd[i][0], STDIN_FILENO);
-	if (var->input->OUT_FD > 0)
-		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	if (var->input->out_fd > 0)
+		dup2(var->input->out_fd, STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
 	if (execve(pvar->cmd, var->input->args, NULL) == -1)
 		perror("Execve failed:");
@@ -152,10 +152,10 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 		if (pids[i] == 0)
 		{
 			proceed_pipes(pvar, var, pipefd, i);
-			if (var->input->IN_FD > 0)
-				close(var->input->IN_FD);
-			if (var->input->OUT_FD > 0)
-				close(var->input->OUT_FD);
+			if (var->input->in_fd > 0)
+				close(var->input->in_fd);
+			if (var->input->out_fd > 0)
+				close(var->input->out_fd);
 			break ;
 		}
 	}
@@ -177,12 +177,12 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 		waitpid(0, &status, WUNTRACED);
 	if (WIFEXITED(status))
 	{
-		EXIT_STATUS = WEXITSTATUS(status);
-		if (EXIT_STATUS == 123456789)
-			EXIT_STATUS = 0;
+		g_exit_status = WEXITSTATUS(status);
+		if (g_exit_status == 123456789)
+			g_exit_status = 0;
 	}
 	//free(pids);
 	var->input = start;
 	free_split(pvar->path);
-	return (EXIT_STATUS);
+	return (g_exit_status);
 }

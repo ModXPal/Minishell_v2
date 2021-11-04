@@ -48,14 +48,14 @@ int	execve_error(t_var *var, char *path_final)
 	return (127);
 }
 
-int	 ft_execve(t_var *var, t_builtin *builtin)
+int	ft_execve(t_var *var, t_builtin *builtin)
 {
 	char	*path_final;
 	char	**path_fromenvp;
 	pid_t	pid;
-	int 	status;
-	int	ret;
-	
+	int		status;
+	int		ret;
+
 	path_final = ft_envar_find_content(var->envar, "PATH");
 	path_fromenvp = ft_split(path_final, ':');
 	path_final = get_path(var, path_fromenvp);
@@ -64,15 +64,15 @@ int	 ft_execve(t_var *var, t_builtin *builtin)
 		builtin[ret].func(var);
 	if (ret == -1)
 	{
-		EXIT_STATUS = 123456789;
+		g_exit_status = 123456789;
 	}
 	pid = fork();
 	if (pid == 0)
 	{
-		if (var->input->IN_FD > 0)
-			dup2(var->input->IN_FD, STDIN_FILENO);
-		if (var->input->OUT_FD > 0)
-			dup2(var->input->OUT_FD, STDOUT_FILENO);
+		if (var->input->in_fd > 0)
+			dup2(var->input->in_fd, STDIN_FILENO);
+		if (var->input->out_fd > 0)
+			dup2(var->input->out_fd, STDOUT_FILENO);
 		if (ret >= 0)
 		{
 			builtin[ret].func(var);
@@ -81,24 +81,23 @@ int	 ft_execve(t_var *var, t_builtin *builtin)
 		{
 			free_split(path_fromenvp);
 			execve_error(var, path_final);
-			EXIT_STATUS = 126;
-			exit (EXIT_STATUS);
+			g_exit_status = 126;
+			exit (g_exit_status);
 		}
 	}
 	if (path_final)
 		free(path_final);
 	free_split(path_fromenvp);
-	if (var->input->IN_FD > 0)
-		close(var->input->IN_FD);
-	if (var->input->OUT_FD > 0)
-		close(var->input->OUT_FD);
-	waitpid(0, &status, WUNTRACED);
-	// signal(SIGINT, handle_sigusr2);
+	if (var->input->in_fd > 0)
+		close(var->input->in_fd);
+	if (var->input->out_fd > 0)
+		close(var->input->out_fd);
+	waitpid(0, &status, 0);
 	if (WIFEXITED(status))
 	{
-		EXIT_STATUS = WEXITSTATUS(status);
-		if (EXIT_STATUS == 123456789)
-			EXIT_STATUS = 130;
+		g_exit_status = WEXITSTATUS(status);
+		if (g_exit_status == 123456789)
+			g_exit_status = 130;
 	}
-	return (EXIT_STATUS);
+	return (g_exit_status);
 }

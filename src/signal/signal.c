@@ -12,34 +12,34 @@
 
 #include "minishell.h"
 
-void	signal_sigint_stdin()
+void	signal_sigint_stdin(void)
 {
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		EXIT_STATUS = 130;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	g_exit_status = 130;
 }
 
-void	signal_singint_normal()
+void	signal_singint_normal(void)
 {
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		EXIT_STATUS = 130;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	g_exit_status = 130;
 }
 
 void	handle_sigusr1(int signum)
 {
-	if (signum == SIGINT && EXIT_STATUS != 123456789)
+	if (signum == SIGINT && g_exit_status != 123456789)
 		signal_singint_normal();
-	else if (signum == SIGINT && EXIT_STATUS == 123456789)
+	else if (signum == SIGINT && g_exit_status == 123456789)
 		signal_sigint_stdin();
-	else if (signum == SIGQUIT && EXIT_STATUS == 123456789)
+	else if (signum == SIGQUIT && g_exit_status == 123456789)
 	{
 		write(1, "\b\b  \b\b", 6);
 		write(1, "Quit\n", 5);
-		EXIT_STATUS = 131;
+		g_exit_status = 131;
 	}
 	else if (signum == SIGQUIT)
 		write(1, "\b\b  \b\b", 6);

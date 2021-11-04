@@ -193,15 +193,15 @@ int	open_files(t_input *input, char *file, int redir)
 {
 	if (redir == STDIN)
 	{
-		input->IN_FD = open(file, O_RDONLY);
+		input->in_fd = open(file, O_RDONLY);
 	}
 	else if (redir == STDOUT)
 	{
-		input->OUT_FD = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		input->out_fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	}
 	else if (redir == STDOUT_APPEND)
 	{
-		input->OUT_FD = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
+		input->out_fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
 	}
 	return (0);
 }
@@ -220,9 +220,9 @@ t_input	*get_input(t_var *var, char **split_input)
 	new->cmd = NULL;
 	if (new->args == FAIL)
 		return (0);
-	new->redir_nb = malloc(sizeof(int *) * count_redirection(split_input)); 
-	new->IN_FD = 0;
-	new->OUT_FD = 0;
+	new->redir_nb = malloc(sizeof(int *) * count_redirection(split_input));
+	new->in_fd = 0;
+	new->out_fd = 0;
 	while (++i < count_redirection(split_input))
 		new->redir_nb = malloc(sizeof(int) * count_redirection(split_input));
 	i = -1;
@@ -238,30 +238,34 @@ t_input	*get_input(t_var *var, char **split_input)
 		if (ft_strcmp(split_input[i], "<") == TRUE)
 		{
 			i++;
-			open_files(new, ft_trim(var, split_input[i], get_string_len(split_input[i], var)), STDIN);
+			open_files(new, ft_trim(var, split_input[i],
+					get_string_len(split_input[i], var)), STDIN);
 			continue ;
 		}
 		else if (ft_strcmp(split_input[i], ">") == TRUE)
 		{
 			i++;
-			open_files(new, ft_trim(var, split_input[i], get_string_len(split_input[i], var)), STDOUT);
+			open_files(new, ft_trim(var, split_input[i],
+					get_string_len(split_input[i], var)), STDOUT);
 			continue ;
 		}
 		else if (ft_strcmp(split_input[i], ">>") == TRUE)
 		{
 			i++;
-			open_files(new, ft_trim(var, split_input[i], get_string_len(split_input[i], var)), STDOUT_APPEND);
+			open_files(new, ft_trim(var, split_input[i],
+					get_string_len(split_input[i], var)), STDOUT_APPEND);
 			continue ;
 		}
-		else if (i == 0 || ((new->IN_FD > 0 || new->OUT_FD > 0) && new->cmd == NULL))
+		else if (i == 0 || ((new->in_fd > 0
+				|| new->out_fd > 0) && new->cmd == NULL))
 			new->cmd = content;
 		//printf("content = %s\n", content);
 		new->args[j++] = content;
 	}
 	new->args[j] = NULL;
 	new->next = NULL;
-	//printf("in fd = %d\n", var->IN_FD);
-	//printf("out fd = %d\n", var->OUT_FD);
+	//printf("in fd = %d\n", var->in_fd);
+	//printf("out fd = %d\n", var->out_fd);
 	return (new);
 }
 

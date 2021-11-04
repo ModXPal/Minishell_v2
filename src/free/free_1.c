@@ -15,7 +15,7 @@
 void	free_list(t_var *var)
 {
 	t_list	*tmp;
-	
+
 	if (var->list)
 	{
 		while (var->list)

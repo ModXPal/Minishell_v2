@@ -20,14 +20,14 @@ int	ft_env(t_var *var)
 	if (var->env == FAIL || var->envar == FAIL)
 	{
 		printf("Error\n");
-		EXIT_STATUS = 1;
-		exit (EXIT_STATUS);
+		g_exit_status = 1;
+		exit (g_exit_status);
 	}
 	while (tmp)
 	{
 		printf("%s=%s\n", tmp->name, tmp->content);
 		tmp = tmp->next;
 	}
-	EXIT_STATUS = 0;
-	exit (EXIT_STATUS);
+	g_exit_status = 0;
+	exit (g_exit_status);
 }

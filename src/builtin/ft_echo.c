@@ -12,7 +12,6 @@
 
 #include "builtin.h"
 
-
 int	is_dash_n(char **str)
 {
 	int	i;
@@ -45,11 +44,12 @@ int	ft_echo(t_var *var)
 	ret = is_dash_n(var->input->args);
 	if (ret == TRUE)
 		i++;
-	if (ft_strcmp(var->input->args[1], "$?") == 1 && ft_strlen(var->input->args[1]) == 2)
+	if (ft_strcmp(var->input->args[1], "$?") == 1
+		&& ft_strlen(var->input->args[1]) == 2)
 	{
-		printf("%d\n", EXIT_STATUS);
-		EXIT_STATUS = 0;
-		exit (EXIT_STATUS);
+		printf("%d\n", g_exit_status);
+		g_exit_status = 0;
+		exit (g_exit_status);
 	}
 	while ((var->input->args)[++i])
 	{
@@ -59,6 +59,6 @@ int	ft_echo(t_var *var)
 	}
 	if (ret == FALSE)
 		printf("\n");
-	EXIT_STATUS = 0;
-	exit (EXIT_STATUS);
+	g_exit_status = 0;
+	exit (g_exit_status);
 }

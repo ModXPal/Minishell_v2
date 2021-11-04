@@ -27,8 +27,8 @@ int		ft_export(t_var *var);
 int		ft_unset(t_var *var);
 int		ft_multipipes(t_var *var);
 int		cmd_export_alone(t_var *var);
-char	*export_name_equal_search(char *str, int *i, int *equal, char *name);
-char	*export_content_search(int *i, char *str, char *content);
+char	*export_name_equal_search(t_var *var, char *str, int *i, int *equal);
+char	*export_content_search(t_var *var, int *i, char *str);
 char	*ft_export_new_pwd(t_var *var, char *str);
 void	ft_export_old_pwd(t_var *var, char *str, char *str2);
 int		swap_pwd_old_pwd(t_var *var);
@@ -58,9 +58,13 @@ void	free_envar(t_envar *envar);
 void	free_input(t_var *var);
 void	handle_sigusr1(int signum);
 char	*ft_env_new_pwd_2(t_var *var, t_envar *tmp, char *str2, char *str);
-int		cmd_export_insert(t_var *var, char *name, char *content, int equal);
+int		cmd_export_insert(t_var *var, int equal);
 int		export_name_len(char *str);
 int		is_builtin(char *line, t_builtin *builtin);
 void	handle_sigusr2(int signum);
+int	    exec_export(t_var *var, char *args);
+int     export_env_reassigned_check(t_var *var, int equal);
+int     export_export_reassigned_check(t_var *var, int equal);
+int     export_env_insert(t_var *var);
 
 #endif

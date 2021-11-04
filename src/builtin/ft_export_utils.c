@@ -36,7 +36,7 @@ int	cmd_export_alone(t_var *var)
 	return (0);
 }
 
-char	*export_name_equal_search(char *str, int *i, int *equal, char *name)
+char	*export_name_equal_search(t_var *var, char *str, int *i, int *equal)
 {
 	while (str[(*i)])
 	{
@@ -45,45 +45,43 @@ char	*export_name_equal_search(char *str, int *i, int *equal, char *name)
 			(*equal) = 1;
 			break ;
 		}
-		name[(*i)] = str[(*i)];
+		var->name[(*i)] = str[(*i)];
 		(*i)++;
 	}
-	name[(*i)] = 0;
-	return (name);
+	var->name[(*i)] = 0;
+	return (var->name);
 }
 
-char	*export_content_search(int *i, char *str, char *content)
+char	*export_content_search(t_var *var, int *i, char *str)
 {
 	int	j;
 
 	j = 0;
 	while (str[(*i)++])
 	{
-		content[j] = str[(*i)];
+		var->content[j] = str[(*i)];
 		j++;
 	}
-	content[j] = 0;
-	return (content);
+	var->content[j] = 0;
+	return (var->content);
 }
 
-int	cmd_export_insert(t_var *var, char *name, char *content, int equal)
+int	cmd_export_insert(t_var *var, int equal)
 {
 	t_envar	*new;
 	t_envar	*tmp2;
 	int		pos;
 
 	tmp2 = var->export;
-	// if (tmp->next != FALSE)
-	// 	str = tmp->next->content;
 	if (equal == 0)
 	{
-		new = ft_envar_new(name, 0);
+		new = ft_envar_new(var->name, 0);
 		pos = ft_envarsize(tmp2);
 		envar_insert(&var->export, new, pos);
 	}
 	else
 	{
-		new = ft_envar_new(name, content);
+		new = ft_envar_new(var->name, var->content);
 		pos = ft_envarsize(tmp2);
 		envar_insert(&var->export, new, pos);
 	}
