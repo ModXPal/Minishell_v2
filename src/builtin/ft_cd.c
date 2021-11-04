@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:32 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/29 17:20:30 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/04 11:09:15 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ int	cd_application(t_var *var)
 int	ft_cd(t_var *var)
 {
 	if (check_cdpath_exists(var) == 0)
-		exit (0);
+		return (0);
 	if (cd_application(var) == 1)
-		exit (1);
-	exit (0);
+		return (1);
+	return (0);
 }
