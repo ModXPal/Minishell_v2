@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/04 13:51:37 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/05 14:57:28 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	cmd_not_found(t_var *var, t_pvar *pvar)
 	write (2, var->input->cmd, ft_strlen(var->input->cmd));
 	write (2, ": command not found\n", 20);
 	free(pvar->cmd);
+	EXIT_STATUS = 127;
 	return (0);
 }
 
@@ -164,6 +165,70 @@ void	proceed_pipes(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	}
 }
 
+int	builtin_first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
+{
+	(void)i;
+	if (var->input->IN_FD > 0)
+		dup2(var->input->IN_FD, STDIN_FILENO);
+	if (var->input->OUT_FD > 0)
+		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	else
+		dup2(pipefd[i + 1][1], STDOUT_FILENO);
+	close_pipes(pvar, pipefd);
+	(pvar->builtin)[pvar->ret].func(var);
+	exit (0);
+}
+
+int	builtin_in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
+{
+	(void)i;
+	if (var->input->IN_FD > 0)
+		dup2(var->input->IN_FD, STDIN_FILENO);
+	else
+		dup2(pipefd[i][0], STDIN_FILENO);
+	if (var->input->OUT_FD > 0)
+		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	else
+		dup2(pipefd[i + 1][1], STDOUT_FILENO);
+	close_pipes(pvar, pipefd);
+	(pvar->builtin)[pvar->ret].func(var);
+	exit (0);
+}
+
+int	builtin_last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
+{
+	(void)i;
+	if (var->input->IN_FD > 0)
+		dup2(var->input->IN_FD, STDIN_FILENO);
+	else
+		dup2(pipefd[i][0], STDIN_FILENO);
+	if (var->input->OUT_FD > 0)
+		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	close_pipes(pvar, pipefd);
+	(pvar->builtin)[pvar->ret].func(var);
+	exit (0);
+}
+
+int	proceed_builtin_pipes(t_pvar *pvar, t_var *var, int **pipefd, int i)
+{
+	if (i == 0)
+	{
+		builtin_first_cmd(pvar, var, pipefd, i);
+		return (0);
+	}
+	else if (i == pvar->cmd_nb - 1)
+	{
+		builtin_last_cmd(pvar, var, pipefd, i);
+		return (0);
+	}
+	else
+	{
+		builtin_in_between_cmd(pvar, var, pipefd, i);
+		return (0);
+	}
+	return (1);
+}
+
 int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 {
 	int	i;
@@ -173,6 +238,7 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 	{
 		if (i > 0)
 			var->input = var->input->next;
+		pvar->ret = is_builtin(var->input->cmd, pvar->builtin);
 		pids[i] = fork();
 		if (pids[i] == -1)
 		{
@@ -181,7 +247,9 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 		}
 		if (pids[i] == 0)
 		{
-			proceed_pipes(pvar, var, pipefd, i);
+			if (pvar->ret >= 0)
+				proceed_builtin_pipes(pvar, var, pipefd, i);
+			else proceed_pipes(pvar, var, pipefd, i);
 			if (var->input->IN_FD > 0)
 				close(var->input->IN_FD);
 			if (var->input->OUT_FD > 0)
@@ -209,9 +277,9 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 	{
 		EXIT_STATUS = WEXITSTATUS(status);
 		if (EXIT_STATUS == 123456789)
-			EXIT_STATUS = 0;
+			EXIT_STATUS = 130;
 	}
-	//free(pids);
+	free(pids);
 	var->input = start;
 	free_split(pvar->path);
 	return (EXIT_STATUS);

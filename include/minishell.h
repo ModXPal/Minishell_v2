@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:47 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/04 12:05:17 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/04 14:35:02 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_pwd(t_var *var);
 int		ft_exit(t_var *var);
 int		count_pipes(t_var *var);
-int		ft_multipipes(t_var *var);
+int		ft_multipipes(t_var *var, t_builtin *builtin);
 int		ft_execve(t_var *var, t_builtin *builtin);
-void		free_envar(t_envar *envar);
+void	free_envar(t_envar *envar);
 
 #endif

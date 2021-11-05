@@ -41,5 +41,5 @@ void	init_var(t_var *var, char **env, int ac)
 	var->d_quote = 0;
 	var->env = env;
 	var->ac = ac;
-	// var->exit_status = 0;
+	var->error = 0;
 }

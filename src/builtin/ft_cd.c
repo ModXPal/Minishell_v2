@@ -100,6 +100,12 @@ int	cd_application(t_var *var)
 
 int	ft_cd(t_var *var)
 {
+	if (cd_too_many_arguments(var) == 1)
+	{
+		cd_error_message_too_many_arguments(var);
+		EXIT_STATUS = 1;
+		return (EXIT_STATUS);
+	}
 	if (check_cdpath_exists(var) == 1)
 	{
 		EXIT_STATUS = 1;

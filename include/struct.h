@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/04 13:59:14 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/04 14:48:26 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,6 @@ typedef struct s_input{
 	struct s_input *next;
 }		t_input;
 
-typedef struct s_pvar{
-	int				cmd_nb;
-	pid_t			*pids;
-	char			*cmd;
-	char			**path;
-}	t_pvar;
-
 typedef struct s_cd{
 	// char			*HOME; // on va surement pas gerer le unset donc a supprimer
 	char			*cdpath;
@@ -71,6 +64,7 @@ typedef struct s_var{
 	int				s_quote;
 	int				d_quote;
 	char			interruption;
+	int				error;
 	t_list			*list;
 	t_input			*input;
 	t_envar			*envar;
@@ -79,9 +73,19 @@ typedef struct s_var{
 	t_cd			*cd;
 }		t_var;
 
+
 typedef struct s_builtin{
 	char	*cmd;
 	int		(*func)(t_var *);
 }		t_builtin;
+
+typedef struct s_pvar{
+	int				cmd_nb;
+	int				ret;
+	pid_t			*pids;
+	char			*cmd;
+	char			**path;
+	t_builtin		*builtin;
+}	t_pvar;
 
 #endif

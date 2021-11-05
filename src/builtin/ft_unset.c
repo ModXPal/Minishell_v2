@@ -16,8 +16,10 @@
 int	unset_export_error_handling(t_var *var, char *content)
 {
 	int		i;
+	int		j;
 
 	i = 1;
+	j = 0;
 	if (var->input->args[1] == 0 || content[0] == 0)
 		return (-1);
 	if (content[0] == 0)
@@ -26,7 +28,7 @@ int	unset_export_error_handling(t_var *var, char *content)
 	{
 		if (var->input->args[i][0] == '=' && content[0] != '=')
 			return (0);
-		else if (!ft_isalnum(content[i]) || ft_isdigit(content[0])
+		else if (!ft_isalnum(content[j]) || ft_isdigit(content[0])
 			|| content[0] == 0)
 		{
 			unset_error_export_message(var, content);
@@ -40,10 +42,11 @@ int	unset_export_error_handling(t_var *var, char *content)
 int	unset_error_export_message(t_var *var, char *content)
 {
 	(void) content;
+	var->error = 1;
 	write (2, "minishell: ", 12);
 	write(2, var->input->cmd, ft_strlen(var->input->cmd));
 	write (2, ": `", 3);
-	write(2, var->input->args[1], ft_strlen(var->input->args[1]));
+	write(2, content, ft_strlen(content));
 	ft_putendl_fd("': not a valid identifier", 2);
 	return (1);
 }
@@ -104,16 +107,20 @@ int	ft_unset(t_var *var)
 	cmd_exist = 0;
 	tmp_list = var->list;
 	tmp = var->envar;
+	var->error = 0;
 	if (var->input->args[i])
 		i++;
 	while (var->input->args[i])
 	{
 		cmd_exist = 0;
-		unset_search_and_remove(var, &cmd_exist, var->input->args[i]);
-		// if (cmd_exist == 0)
-		// 	unset_error_export_message(var, var->input->args[i]);
+		if (var->input->args[i][0] == 0)
+			unset_error_export_message(var, var->input->args[i]);
+		else 
+			unset_search_and_remove(var, &cmd_exist, var->input->args[i]);
 		i++;
 	}
 	EXIT_STATUS = 0;
+	if (var->error == 1)
+		EXIT_STATUS = 1;
 	return (EXIT_STATUS);
 }

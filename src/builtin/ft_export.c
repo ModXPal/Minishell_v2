@@ -96,31 +96,37 @@ void	export_execution(t_var *var, char *args)
 		if (export_export_reassigned_check(var, name, content, equal) != -1)
 			cmd_export_insert(var, name, content, equal);
 	}
-	if (name)
-	{
-		free (name);
-	}
-	if (content && equal == 1)
-	{
-		free (content);
-	}
+	// if (name)
+	// {
+	// 	free (name);
+	// }
+	// if (content && equal == 1)
+	// {
+	// 	free (content);
+	// }
 }
 
 int	ft_export(t_var *var)
 {
 	int		j;
 
+	var->error = 0;
+	j = 1;
 	if (cmd_export_alone(var) == 1)
 	{
 		var->exit_status = 0;
-		exit (var->exit_status);
+		return (EXIT_STATUS);
 	}
-	j = 1;
 	while (var->input->args[j])
 	{
-		export_execution(var, var->input->args[j]);
+		if (var->input->args[j][0] == 0)
+			unset_error_export_message(var, var->input->args[j]);
+		else 
+			export_execution(var, var->input->args[j]);
 		j++;
 	}
 	EXIT_STATUS = 0;
+	if (var->error == 1)
+		EXIT_STATUS = 1;
 	return (EXIT_STATUS); // bien penser a free ici
 }
