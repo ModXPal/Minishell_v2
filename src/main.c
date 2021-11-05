@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/04 13:51:18 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/04 14:55:20 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 		else if (count_pipes(var) > 1)
 		{
 			EXIT_STATUS = 123456789;
-			ft_multipipes(var);
+			ft_multipipes(var, builtin);
 		}
 		else
 		{

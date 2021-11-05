@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:01:54 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/04 11:37:21 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/05 14:54:03 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ int	init_pid(t_pvar *pvar)
 	return (1);
 }
 
-void	init_pvar(t_pvar *pvar, t_var *var)
+void	init_pvar(t_pvar *pvar, t_var *var, t_builtin *builtin)
 {
 	pvar->cmd_nb = count_pipes(var);
+	pvar->builtin = builtin;
 	init_pid(pvar);
 	pvar->path = get_binaries_path(var);
 	add_slash(pvar);
@@ -64,13 +65,13 @@ void	free_pipe(t_pvar *pvar, int **pipefd)
 	free (pipefd);
 }
 
-int	ft_multipipes(t_var *var)
+int	ft_multipipes(t_var *var, t_builtin *builtin)
 {
 	int		**pipefd;
 	t_pvar	pvar[1];
 
 	pipefd = NULL;
-	init_pvar(pvar, var);
+	init_pvar(pvar, var, builtin);
 	init_pipefd(pvar, &pipefd);
 	exec(pvar, var, pipefd, pvar->pids);
 	free_pipe(pvar, pipefd);
