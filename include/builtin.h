@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/02 17:13:20 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/04 14:38:57 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		ft_unset(t_var *var);
 int		ft_cd(t_var *var);
 int		ft_export(t_var *var);
 int		ft_unset(t_var *var);
-int		ft_multipipes(t_var *var);
+int		ft_multipipes(t_var *var, t_builtin *builtin);
 int		cmd_export_alone(t_var *var);
 char	*export_name_equal_search(char *str, int *i, int *equal, char *name);
 char	*export_content_search(int *i, char *str, char *content);

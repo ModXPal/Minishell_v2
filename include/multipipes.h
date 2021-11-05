@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 22:07:09 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/27 17:45:05 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/04 14:31:13 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ t_input	*get_input(t_var *var, char **split_input);
 t_input	*ft_inptlast(t_input *input);
 void	input_add_back(t_input **ainpt, t_input *new);
 int		get_arguments(t_var *var);
+int		is_builtin(char *line, t_builtin *builtin);
 
 #endif
