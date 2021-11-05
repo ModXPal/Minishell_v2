@@ -12,20 +12,19 @@
 
 #include "builtin.h"
 
-// int	get_home_unset_cd(t_var *var) // surement a supprimer car on ne gere pas le unset HOME
-// {
-// 	var->cd->HOME = ft_envar_find_content(var->envar, "HOME");
-// 	return (0);
-// }
-
 int	cd_content_equal_zero(t_var	*var)
 {
-	int		dir;
+	int		dir = 0;
 	char	*str;
 	t_envar	*tmp2;
 
 	tmp2 = var->envar;
 	str = ft_envar_find_content(tmp2, "HOME");
+	dir = chdir(str);
+	if (dir < 0)
+		return(0);
+	if (str[0] == 0)
+		return (0);
 	if (cd_str_and_path_not_set(var) == 0)
 		return (1);
 	dir = chdir(str);

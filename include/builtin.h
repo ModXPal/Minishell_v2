@@ -16,7 +16,7 @@
 # include "struct.h"
 # include "../libft/libft.h"
 
-int		is_dash_n(char **str);
+int		is_dash_n(char *str);
 int		ft_echo(t_var *var);
 int		ft_env(t_var *var);
 int		ft_exit(t_var *var);
@@ -62,5 +62,7 @@ int		cmd_export_insert(t_var *var, char *name, char *content, int equal);
 int		export_name_len(char *str);
 int		is_builtin(char *line, t_builtin *builtin);
 void	handle_sigusr2(int signum);
+int		cd_too_many_arguments(t_var *var);
+void	cd_error_message_too_many_arguments(t_var *var);
 
 #endif

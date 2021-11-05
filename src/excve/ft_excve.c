@@ -26,6 +26,10 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 		builtin[ret].func(var);
 		return (0);
 	}
+	if (ret == -1)
+	{
+		EXIT_STATUS = 123456789;
+	}
 	pvar->path = get_binaries_path(var);
 	add_slash(pvar);
 	if (get_cmds(pvar, var) == FAIL)
@@ -47,8 +51,11 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 		}
 		if (execve(pvar->cmd, var->input->args, NULL) == -1)
 		{
-			EXIT_STATUS = 126;
-			exit (EXIT_STATUS);
+			write(2, "minishell: ", 11);
+			write(2, var->input->args[0], ft_strlen(var->input->args[0]));
+			ft_putendl_fd(": No such file or directory", 2);
+			EXIT_STATUS = 127;
+			return (EXIT_STATUS);
 		}
 	}
 	if (var->input->IN_FD > 0)

@@ -24,7 +24,7 @@ int	cd_cdpath_application(t_var *var)
 	if (dir < 0)
 		return (1);
 	str = ft_env_new_pwd(var, "PWD");
-	printf("%s\n", var->cd->cdpath);
+	printf("%s\n", getcwd(0, 150));
 	ft_env_old_pwd(var, "OLDPWD", str);
 	str = ft_export_new_pwd(var, "PWD");
 	ft_export_old_pwd(var, "OLDPWD", str);
@@ -59,4 +59,26 @@ char	*ft_env_new_pwd_2(t_var *var, t_envar *tmp, char *str2, char *str)
 			tmp->content = str2;
 	}
 	return (str);
+}
+
+int		cd_too_many_arguments(t_var *var)
+{
+	int i; 
+
+	i = 0;
+	while (var->input->args[i])
+		i++;
+	if (i > 2)
+		return (1);
+	else
+		return (0);
+}
+
+void	cd_error_message_too_many_arguments(t_var *var)
+{
+	write (2, "minishell: ", 11);
+	write(2, var->input->cmd, ft_strlen(var->input->cmd));
+	write (2, ": ", 2);
+	write(2, var->input->args[1], ft_strlen(var->input->args[1]));
+	write (2, ": too many arguments\n", 21);
 }

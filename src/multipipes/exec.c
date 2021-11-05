@@ -57,6 +57,7 @@ int	cmd_not_found(t_var *var, t_pvar *pvar)
 	write (2, var->input->cmd, ft_strlen(var->input->cmd));
 	write (2, ": command not found\n", 20);
 	free(pvar->cmd);
+	EXIT_STATUS = 127;
 	return (0);
 }
 
@@ -209,7 +210,7 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 	{
 		EXIT_STATUS = WEXITSTATUS(status);
 		if (EXIT_STATUS == 123456789)
-			EXIT_STATUS = 0;
+			EXIT_STATUS = 130;
 	}
 	//free(pids);
 	var->input = start;

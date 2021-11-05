@@ -71,6 +71,7 @@ typedef struct s_var{
 	int				s_quote;
 	int				d_quote;
 	char			interruption;
+	int				error;
 	t_list			*list;
 	t_input			*input;
 	t_envar			*envar;
