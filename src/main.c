@@ -30,7 +30,7 @@ int	is_builtin(char *line, t_builtin *builtin)
 	return (-1);
 }
 
-_Noreturn int	exec_minishell(t_var *var, t_builtin *builtin)
+int	exec_minishell(t_var *var, t_builtin *builtin)
 {
 	while (1)
 	{
@@ -58,15 +58,14 @@ _Noreturn int	exec_minishell(t_var *var, t_builtin *builtin)
 			EXIT_STATUS = 123456789;
 			ft_multipipes(var, builtin);
 		}
-		else
+	    else
 		{
-			ft_execve(var, builtin);
-		}
+		    ft_execve(var, builtin);
+	    }
 		free_input(var);
 		free(var->cmd);
 	}
-	printf("exit\n");
-	return (0);
+    return (0);
 }
 
 int	main(int ac, char **av, char **env)
