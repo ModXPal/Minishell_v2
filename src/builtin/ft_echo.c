@@ -47,6 +47,7 @@ int	ft_echo(t_var *var)
 	if (var->input->args[1] == 0)
 	{
 		EXIT_STATUS = 0;
+		printf("\n");
 		return (EXIT_STATUS);
 	}
 	if (ft_strcmp(var->input->args[1], "$?") == 1 && ft_strlen(var->input->args[1]) == 2)
