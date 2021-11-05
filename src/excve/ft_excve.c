@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/04 15:05:01 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/05 16:21:30 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	if (ret >= 0)
 	{
 		builtin[ret].func(var);
+		if (var->input->IN_FD > 0)
+			close(var->input->IN_FD);
+		if (var->input->OUT_FD > 0)
+			close(var->input->OUT_FD);
 		return (0);
 	}
 	if (ret == -1)
@@ -36,8 +40,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 		return (-1);
 	pid = fork();
 	if (pid == 0 && ret < 0)
-	{
-		if (var->input->IN_FD > 0)
+	{	if (var->input->IN_FD > 0)
 			dup2(var->input->IN_FD, STDIN_FILENO);
 		if (var->input->OUT_FD > 0)
 			dup2(var->input->OUT_FD, STDOUT_FILENO);
@@ -58,11 +61,11 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 			return (EXIT_STATUS);
 		}
 	}
+	waitpid(0, &status, WUNTRACED);
 	if (var->input->IN_FD > 0)
 		close(var->input->IN_FD);
 	if (var->input->OUT_FD > 0)
 		close(var->input->OUT_FD);
-	waitpid(0, &status, WUNTRACED);
 	free_split(pvar->path);
 	if (WIFEXITED(status))
 	{
