@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:08:16 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/29 15:18:43 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/06 17:02:35 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,6 @@ int	swap_pwd_old_pwd(t_var *var)
 	str = getcwd(0, 150);
 	dir = chdir(var->input->args[1]);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
-	{
-		if (str)
-			free(str);
 		return (1);
-	}
-	if (str)
-		free(str);
 	return (0);
 }

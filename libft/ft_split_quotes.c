@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:51:17 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/31 10:55:26 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/06 17:54:32 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static int	is_charset(char c, char charset)
 static unsigned int	ft_ult_strlen(char const *str, char charset)
 {
 	unsigned int	i;
-	int		s_quote;
-	int		d_quote;
+	int				s_quote;
+	int				d_quote;
 
 	i = 0;
 	s_quote = 0;
@@ -46,7 +46,7 @@ static unsigned int	ft_ult_strlen(char const *str, char charset)
 			else
 				s_quote = FALSE;
 		}
-		while (str[i] == '>' && d_quote == FALSE && s_quote == FALSE) 
+		while (str[i] == '>' && d_quote == FALSE && s_quote == FALSE)
 		{
 			if (str[i + 1] == '<')
 				return (i + 2);
@@ -54,7 +54,7 @@ static unsigned int	ft_ult_strlen(char const *str, char charset)
 			if (str[i] != '>')
 				return (i);
 		}
-		while (str[i] == '<' && d_quote == FALSE && s_quote == FALSE) 
+		while (str[i] == '<' && d_quote == FALSE && s_quote == FALSE)
 		{
 			if (str[i + 1] == '>')
 				return (i + 2);
@@ -71,8 +71,8 @@ static unsigned int	ft_count_words(char const *str, char charset)
 {
 	unsigned int	words_count;
 	unsigned int	is_word;
-	int		s_quote;
-	int		d_quote;
+	int				s_quote;
+	int				d_quote;
 
 	words_count = 0;
 	is_word = 1;
@@ -80,13 +80,13 @@ static unsigned int	ft_count_words(char const *str, char charset)
 	d_quote = 0;
 	while (str && *str)
 	{
-		if (*str == '<' && d_quote == FALSE && s_quote == FALSE)  
+		if (*str == '<' && d_quote == FALSE && s_quote == FALSE)
 		{
 			while (*str == '<' && *str)
 				str++;
 			words_count++;
 		}
-		else if (*str == '>' && d_quote == FALSE && s_quote == FALSE)  
+		else if (*str == '>' && d_quote == FALSE && s_quote == FALSE)
 		{
 			while (*str == '>' && *str)
 				str++;
@@ -105,7 +105,6 @@ static unsigned int	ft_count_words(char const *str, char charset)
 				d_quote = TRUE;
 			else
 				d_quote = FALSE;
-		
 		}
 		if (*str == '\'' && d_quote == FALSE)
 		{
@@ -113,7 +112,6 @@ static unsigned int	ft_count_words(char const *str, char charset)
 				s_quote = TRUE;
 			else
 				s_quote = FALSE;
-			
 		}
 		if (*str)
 			str++;
@@ -138,7 +136,7 @@ char	**ft_split_quotes(char const *s, char c)
 	int				j;
 	unsigned int	i;
 	unsigned int	words;
-	int		len;
+	int				len;
 
 	if (!s)
 		return (NULL);

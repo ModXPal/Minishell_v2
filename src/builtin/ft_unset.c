@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:29:54 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/04 13:54:49 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/06 17:30:45 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,22 @@ int	unset_export_error_handling(t_var *var, char *content)
 	{
 		if (var->input->args[i][0] == '=' && content[0] != '=')
 			return (0);
-		else if (!ft_isalnum(content[j]) || ft_isdigit(content[0])
+		else if (ft_isdigit(content[0])
 			|| content[0] == 0)
 		{
 			unset_error_export_message(var, content);
 			return (-1);
 		}
 		i++;
+	}
+	while (content[j])
+	{
+		if (ft_isalnum(content[j]) == 0)
+		{
+			unset_error_export_message(var, content);
+			return (-1);
+		}
+		j++;
 	}
 	return (0);
 }

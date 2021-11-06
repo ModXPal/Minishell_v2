@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:53:53 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/03 13:35:18 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/06 17:52:53 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ int			ft_envarsize(t_envar *envar);
 int			ft_envar_position(t_envar *envar, char *str);
 char		*ft_envar_find_content(t_envar *tmp, char *str);
 int			ft_strcmp(const char *s1, const char *s2);
+int			ft_isalnumqual(int c);
 
 #endif

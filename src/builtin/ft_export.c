@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 15:45:05 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/04 13:56:04 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/06 17:55:05 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	export_execution(t_var *var, char *args)
 	content = 0;
 	j = 0;
 	name = 0;
-	if (unset_export_error_handling(var, args) != -1)
+	if (export_error_handling(var, args) != -1)
 	{
 		name = ((char *)malloc(sizeof(char) * (export_name_len(args) + 1)));
 		name = export_name_equal_search(args, &i, &equal, name);
@@ -96,14 +96,6 @@ void	export_execution(t_var *var, char *args)
 		if (export_export_reassigned_check(var, name, content, equal) != -1)
 			cmd_export_insert(var, name, content, equal);
 	}
-	// if (name)
-	// {
-	// 	free (name);
-	// }
-	// if (content && equal == 1)
-	// {
-	// 	free (content);
-	// }
 }
 
 int	ft_export(t_var *var)

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 15:40:43 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/06 17:49:53 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,17 @@ typedef struct s_list
 }	t_list;
 
 typedef struct s_input{
-	char	*cmd;
-	char	*heredoc;
-	char	**args;
-	char	*delimiter;
-	int	**redir_nb;
-	int			IN_FD;
-	int			OUT_FD;
-	struct s_input *next;
+	char			*cmd;
+	char			*heredoc;
+	char			**args;
+	char			*delimiter;
+	int				**redir_nb;
+	int				IN_FD;
+	int				OUT_FD;
+	struct s_input	*next;
 }		t_input;
 
 typedef struct s_cd{
-	// char			*HOME; // on va surement pas gerer le unset donc a supprimer
 	char			*cdpath;
 	int				exit_cd;
 }	t_cd;
@@ -71,7 +70,6 @@ typedef struct s_var{
 	t_envar			*export;
 	t_cd			*cd;
 }		t_var;
-
 
 typedef struct s_builtin{
 	char	*cmd;
