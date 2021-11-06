@@ -6,13 +6,11 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:08:16 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 17:02:35 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/06 18:30:48 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
-
-extern int EXIT_STATUS;
 
 char	*ft_export_new_pwd(t_var *var, char *str)
 {

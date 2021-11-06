@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 16:04:04 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 17:44:10 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/06 18:31:22 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	export_name_len(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -30,7 +30,7 @@ int	export_name_len(char *str)
 
 int	export_error_no_equal(t_var *var, char *content)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (content[j])
@@ -68,5 +68,43 @@ int	export_error_handling(t_var *var, char *content)
 	}
 	if (export_error_no_equal(var, content) == -1)
 		return (-1);
+	return (0);
+}
+
+int	export_export_reassigned_check(t_var *var, char *name,
+					char *content, int equal)
+{
+	t_envar	*tmp;
+
+	tmp = var->export;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, name) == 1 && equal == 1)
+		{
+			tmp->content = content;
+			return (-1);
+		}
+		else if (ft_strcmp(tmp->name, name) == 1 && equal == 0)
+			return (-1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+int	export_env_reassigned_check(t_var *var, char *name,
+					char *content, int equal)
+{
+	t_envar	*tmp;
+
+	tmp = var->envar;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, name) == 1 && equal == 1)
+		{
+			tmp->content = content;
+			return (-1);
+		}
+		tmp = tmp->next;
+	}
 	return (0);
 }

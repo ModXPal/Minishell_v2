@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 16:29:41 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/05 14:56:46 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/06 18:44:49 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,43 +35,65 @@ int	is_dash_n(char *str)
 	return (0);
 }
 
-int	ft_echo(t_var *var)
+int	echo_execution(t_var *var, int *ret, int *dash_n)
 {
-	int		i;
-	int		ret;
-	int		dash_n;
+	int	i;
 
 	i = 1;
-	ret = 0;
-	dash_n = 0;
-	if (var->input->args[1] == 0)
-	{
-		EXIT_STATUS = 0;
-		printf("\n");
-		return (EXIT_STATUS);
-	}
-	if (ft_strcmp(var->input->args[1], "$?") == 1 && ft_strlen(var->input->args[1]) == 2)
-	{
-		printf("%d\n", EXIT_STATUS);
-		EXIT_STATUS = 0;
-		return (EXIT_STATUS);
-	}
 	while ((var->input->args[i]))
 	{
-		if (is_dash_n(var->input->args[i]) == 1 && ret == 0)
+		if (is_dash_n(var->input->args[i]) == 1 && (*ret) == 0)
 		{
+			(*dash_n) = 1;
 			i++;
-			dash_n = 1;
 		}
 		else
 		{
 			printf("%s", var->input->args[i]);
 			if ((var->input->args)[i + 1])
 				printf(" ");
+			(*ret) = 1;
 			i++;
-			ret = 1;
 		}
 	}
+	return (0);
+}
+
+int	echo_args1_equal_zero(t_var *var)
+{
+	if (var->input->args[1] == 0)
+	{
+		EXIT_STATUS = 0;
+		printf("\n");
+		return (EXIT_STATUS);
+	}
+	return (1);
+}
+
+int	echo_dollar_question(t_var *var)
+{
+	if (ft_strcmp(var->input->args[1], "$?") == 1
+		&& ft_strlen(var->input->args[1]) == 2)
+	{
+		printf("%d\n", EXIT_STATUS);
+		EXIT_STATUS = 0;
+		return (EXIT_STATUS);
+	}
+	return (1);
+}
+
+int	ft_echo(t_var *var)
+{
+	int		ret;
+	int		dash_n;
+
+	ret = 0;
+	dash_n = 0;
+	if (echo_args1_equal_zero(var) == 0)
+		return (EXIT_STATUS);
+	if (echo_dollar_question(var) == 0)
+		return (EXIT_STATUS);
+	echo_execution(var, &ret, &dash_n);
 	if (ret == 1 && dash_n == 0)
 		printf("\n");
 	EXIT_STATUS = 0;

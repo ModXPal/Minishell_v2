@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:37:07 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 15:40:36 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/06 17:57:18 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,6 @@ void	init_var(t_var *var, char **env, int ac)
 	var->env = env;
 	var->ac = ac;
 	var->error = 0;
+	var->export_name = 0;
+	var->export_content = 0;
 }

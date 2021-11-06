@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/04 15:05:01 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/06 19:04:34 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	ft_execve(t_var *var, t_builtin *builtin)
 {
 	pid_t	pid;
-	int 	status;
-	int	ret;
-	int	pipe_fd[2];
+	int		status;
+	int		ret;
+	int		pipe_fd[2];
 	t_pvar	pvar[1];
-	
+
 	ret = is_builtin(var->cmd, builtin);
 	if (ret >= 0)
 	{

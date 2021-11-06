@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/06 17:52:05 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/06 18:28:07 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,12 @@ int		cd_too_many_arguments(t_var *var);
 void	cd_error_message_too_many_arguments(t_var *var);
 int		ft_init_shlvl(t_var *var);
 int		export_error_handling(t_var *var, char *content);
+int		export_name_content(t_var *var, char *args);
+int		export_env_reassigned_check(t_var *var, char *name,
+			char *content, int equal);
+int		export_export_reassigned_check(t_var *var, char *name,
+			char *content, int equal);
+int		export_env_insert(t_var *var, char *name, char *content);
+
 
 #endif

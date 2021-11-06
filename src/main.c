@@ -6,13 +6,13 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/06 15:20:21 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/06 19:09:39 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int EXIT_STATUS;
+int	EXIT_STATUS;
 
 int	is_builtin(char *line, t_builtin *builtin)
 {
@@ -39,17 +39,17 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 	{
 		var->cmd = readline("minishell $> ");
 		if (!var->cmd)
-			break;
+			break ;
 		add_history(var->cmd);
 		if (get_arguments(var) == -1)
 		{
 			free(var->cmd);
-			continue;
+			continue ;
 		}
-		else if (ft_init_shlvl(var))
-		{
-			printf("salut\n");
-		}
+		// else if (ft_init_shlvl(var)) // A PLACER DANS LE PARSING
+		// {
+		// 	printf("salut\n");
+		// }
 		else if (var->input->cmd == NULL)
 		{
 			if (var->input->IN_FD > 0)
@@ -95,10 +95,8 @@ int	main(int ac, char **av, char **env)
 	get_env_var(var, &export);
 	var->envar = envar;
 	var->export = export;
-	// get_home_unset_cd(var); // surement a supprimer car on ne gere pas le unset HOME
 	signal(SIGINT, handle_sigusr1);
 	signal(SIGQUIT, handle_sigusr1);
 	exec_minishell(var, builtin);
-	//get_home_unset_cd(var);
 	return (0);
 }
