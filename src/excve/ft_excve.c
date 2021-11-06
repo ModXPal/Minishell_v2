@@ -53,7 +53,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 		{
 			write(2, "minishell: ", 11);
 			write(2, var->input->args[0], ft_strlen(var->input->args[0]));
-			ft_putendl_fd(": No such file or directory", 2);
+			ft_putendl_fd(": cmd not found", 2);
 			EXIT_STATUS = 127;
 			return (EXIT_STATUS);
 		}

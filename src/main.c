@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/04 14:55:20 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/06 15:20:21 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 			free(var->cmd);
 			continue;
 		}
+		else if (ft_init_shlvl(var))
+		{
+			printf("salut\n");
+		}
 		else if (var->input->cmd == NULL)
 		{
 			if (var->input->IN_FD > 0)
@@ -58,7 +62,6 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 		}
 		else if (count_pipes(var) > 1)
 		{
-			EXIT_STATUS = 123456789;
 			ft_multipipes(var, builtin);
 		}
 		else

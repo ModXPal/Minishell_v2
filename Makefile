@@ -23,9 +23,9 @@ SRC_FILES	=	src/main.c \
 			src/parsing/get_len.c \
 			src/parsing/get_envar.c \
 			src/parsing/error.c \
+			src/parsing/init_shlvl.c \
 			src/free/free_1.c \
 			src/signal/signal.c \
-
 
 LIBFT_PATH	=	libft/
 

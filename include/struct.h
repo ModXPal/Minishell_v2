@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/04 14:48:26 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/06 15:40:43 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_var{
 	t_input			*input;
 	t_envar			*envar;
 	t_envar			*export;
-	//t_pipes		*pipes;
 	t_cd			*cd;
 }		t_var;
 
