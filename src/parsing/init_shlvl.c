@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:43:45 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 15:52:37 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/06 15:56:15 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int ft_env_shlvl(t_var *var)
     tmp = var->envar;
     str = 0;
     i = 0;
-    if (ft_strcmp(var->input->args[0], "./minishell") == 1)
+    if (ft_strcmp(var->input->args[0], "$PWD/minishell") == 1 || ft_strcmp(var->input->args[0], "$PWD/minishell") == 1)
     {
         str = ft_envar_find_content(tmp, "SHLVL");
         tmp = var->envar;
