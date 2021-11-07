@@ -18,11 +18,7 @@ char	*get_var_name(char **env, int i)
 	char	*name;
 
 	j = 0;
-    if (env == NULL)
-    {
-        return ("PWD");
-    }
-	while (env[i][j] != '=')
+	while(env[i][j] != '=')
 		j++;
 	name = (char *)malloc(sizeof(char) * (j + 1));
 	name[j] = '\0';
@@ -40,10 +36,6 @@ char	*get_var_content(char **env, int i)
 
 	j = 0;
 	k = 0;
-    if (env == NULL)
-    {
-        return (getcwd(0,150));
-    }
 	var_len = ft_strlen(env[i]);
 	while (env[i][j - 1] != '=')
 		j++;
@@ -60,12 +52,6 @@ void	get_env_var(t_var *var, t_envar **envar)
 	t_envar	*tmp;
 
 	i = -1;
-    if (var->env == NULL)
-    {
-        tmp = ft_envar_new(get_var_name(var->env, i),
-                get_var_content(var->env, i));
-        ft_envaradd_back(envar, tmp);
-    }
 	while (var->env[++i])
 	{
 		tmp = ft_envar_new(get_var_name(var->env, i),
