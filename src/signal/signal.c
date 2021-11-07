@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:34:28 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/07 15:44:39 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/07 15:55:09 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ void	handle_sigusr1(int signum)
 		write(1, "Quit\n", 5);
 		EXIT_STATUS = 131;
 	}
-		else if (signum == SIGQUIT)
+		else if (signum == SIGQUIT || signum == SIGTSTP)
 		write(1, "\b\b  \b\b", 6);
 }

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/07 13:58:43 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/07 15:55:04 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	main(int ac, char **av, char **env)
 	var->export = export;
 	signal(SIGINT, handle_sigusr1);
 	signal(SIGQUIT, handle_sigusr1);
+	signal(SIGTSTP, handle_sigusr1);
 	exec_minishell(var, builtin);
 	return (0);
 }
