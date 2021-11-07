@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:34:28 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/07 15:55:09 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/07 16:06:50 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ void	signal_singint_stdin_multipipe(void)
 
 void	multipipes_signal_handling(int status)
 {
+	printf("WIFEXITED(status) = %d \n", WIFEXITED(status));
 	if (WIFEXITED(status) == 0)
 	{
+		printf("STATUS = %d \n", status);
 		EXIT_STATUS = WIFEXITED(status);
 		if (status == 13)
 			EXIT_STATUS = 127;
