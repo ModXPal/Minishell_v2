@@ -226,7 +226,6 @@ int	proceed_builtin_pipes(t_pvar *pvar, t_var *var, int **pipefd, int i)
 		builtin_in_between_cmd(pvar, var, pipefd, i);
 		return (0);
 	}
-	return (1);
 }
 
 int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)

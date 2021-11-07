@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:51:17 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/06 17:54:32 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/05 20:03:26 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,24 @@ static unsigned int	ft_ult_strlen(char const *str, char charset)
 	d_quote = 0;
 	while (str[i] && !is_charset(str[i], charset))
 	{
-		//if (i != 0 && (str[i] == '<' || str[i] == '>'))
-		//	break ;
+		if (str[i] == '>' && d_quote == FALSE && s_quote == FALSE && i == 0)
+		{
+			if (str[i + 1] == '<')
+				return (i + 2);
+			else
+				return (i + 1);
+		}
+		else if (str[i] == '<' && d_quote == FALSE && s_quote == FALSE && i == 0)
+		{
+			if (str[i + 1] == '>')
+				return (i + 2);
+			else
+				return (i + 1);
+		}
+		else if (str[i] == '<' && d_quote == FALSE && s_quote == FALSE)
+			return (i);
+		else if (str[i] == '>' && d_quote == FALSE && s_quote == FALSE)
+			return (i);
 		if (str[i] == '"' && s_quote == FALSE)
 		{
 			if (d_quote == FALSE)
@@ -45,22 +61,6 @@ static unsigned int	ft_ult_strlen(char const *str, char charset)
 				s_quote = TRUE;
 			else
 				s_quote = FALSE;
-		}
-		while (str[i] == '>' && d_quote == FALSE && s_quote == FALSE)
-		{
-			if (str[i + 1] == '<')
-				return (i + 2);
-			i++;
-			if (str[i] != '>')
-				return (i);
-		}
-		while (str[i] == '<' && d_quote == FALSE && s_quote == FALSE)
-		{
-			if (str[i + 1] == '>')
-				return (i + 2);
-			i++;
-			if (str[i] != '<')
-				return (i);
 		}
 		i++;
 	}
@@ -85,12 +85,14 @@ static unsigned int	ft_count_words(char const *str, char charset)
 			while (*str == '<' && *str)
 				str++;
 			words_count++;
+			is_word = 1;
 		}
 		else if (*str == '>' && d_quote == FALSE && s_quote == FALSE)
 		{
 			while (*str == '>' && *str)
 				str++;
 			words_count++;
+			is_word = 1;
 		}
 		else if (is_charset(*str, charset) && s_quote == FALSE && d_quote == FALSE)
 			is_word = 1;
