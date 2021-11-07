@@ -30,19 +30,19 @@ static unsigned int	ft_ult_strlen(char const *str, char charset)
 	d_quote = 0;
 	while (str[i] && !is_charset(str[i], charset))
 	{
-		if (str[i] == '>' && d_quote == FALSE && s_quote == FALSE && i == 0)
-		{
-			if (str[i + 1] == '>')
-				return (i + 2);
-			else
-				return (i + 1);
-		}
-		else if (str[i] == '<' && d_quote == FALSE && s_quote == FALSE && i == 0)
-		{
-			if (str[i + 1] == '<')
-				return (i + 2);
-			else
-				return (i + 1);
+		if (i == 0) {
+			while (str[i] == '>' && d_quote == FALSE && s_quote == FALSE)
+			{
+				i++;
+				if (str[i] != '>')
+					return (i);
+			}
+			while (str[i] == '<' && d_quote == FALSE && s_quote == FALSE)
+			{
+				i++;
+				if (str[i] != '<')
+					return (i);
+			}
 		}
 		else if (str[i] == '<' && d_quote == FALSE && s_quote == FALSE)
 			return (i);
@@ -82,14 +82,14 @@ static unsigned int	ft_count_words(char const *str, char charset)
 	{
 		if (*str == '<' && d_quote == FALSE && s_quote == FALSE)
 		{
-			while (*str == '<' && *str)
+			while (*(str + 1) == '<' && *(str + 1))
 				str++;
 			words_count++;
 			is_word = 1;
 		}
 		else if (*str == '>' && d_quote == FALSE && s_quote == FALSE)
 		{
-			while (*str == '>' && *str)
+			while (*(str + 1) == '>' && *(str + 1))
 				str++;
 			words_count++;
 			is_word = 1;
