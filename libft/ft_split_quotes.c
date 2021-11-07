@@ -32,14 +32,14 @@ static unsigned int	ft_ult_strlen(char const *str, char charset)
 	{
 		if (str[i] == '>' && d_quote == FALSE && s_quote == FALSE && i == 0)
 		{
-			if (str[i + 1] == '<')
+			if (str[i + 1] == '>')
 				return (i + 2);
 			else
 				return (i + 1);
 		}
 		else if (str[i] == '<' && d_quote == FALSE && s_quote == FALSE && i == 0)
 		{
-			if (str[i + 1] == '>')
+			if (str[i + 1] == '<')
 				return (i + 2);
 			else
 				return (i + 1);
