@@ -16,7 +16,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 {
 	pid_t	pid;
 
-	int 	status;
+	int	status;
 	int	ret;
 	int	saved_stdout;
 	int	saved_stdin;
