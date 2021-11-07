@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/05 14:57:28 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/07 15:47:07 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,18 +267,14 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 	t_input	*start;
 
 	start = var->input;
+	status = 0;
 	if (exec_execution(var, pids, pipefd, pvar) == 1)
 		return (1);
 	close_pipes(pvar, pipefd);
 	i = -1;
 	while (++i < pvar->cmd_nb)
 		waitpid(0, &status, WUNTRACED);
-	if (WIFEXITED(status))
-	{
-		EXIT_STATUS = WEXITSTATUS(status);
-		if (EXIT_STATUS == 123456789)
-			EXIT_STATUS = 130;
-	}
+	multipipes_signal_handling(status);
 	free(pids);
 	var->input = start;
 	free_split(pvar->path);

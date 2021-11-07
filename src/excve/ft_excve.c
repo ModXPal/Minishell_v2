@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 19:04:34 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/07 14:26:13 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	}
 	if (ret == -1)
 	{
-		EXIT_STATUS = 123456789;
+		EXIT_STATUS = 1234567890;
 	}
 	pvar->path = get_binaries_path(var);
 	add_slash(pvar);
@@ -67,7 +67,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	if (WIFEXITED(status))
 	{
 		EXIT_STATUS = WEXITSTATUS(status);
-		if (EXIT_STATUS == 123456789)
+		if (EXIT_STATUS == 1234567890)
 			EXIT_STATUS = 130;
 	}
 	return (EXIT_STATUS);
