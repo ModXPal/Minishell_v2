@@ -28,7 +28,7 @@ char	**get_binaries_path(t_var *var);
 int		exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids);
 int		close_pipes(t_pvar *pvar, int **pipefd);
 int		check_access(t_pvar *pvar, int i);
-int		cmd_not_found(t_var *var, t_pvar *pvar);
+int		cmd_not_found(t_var *var);
 int		get_cmds(t_pvar *pvar, t_var *var);
 int		first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i);
 int		in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i);

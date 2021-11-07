@@ -56,7 +56,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	}
 	pvar->path = get_binaries_path(var);
 	add_slash(pvar);
-	if (get_cmds(pvar, var) == FAIL)
+	if (get_cmds(pvar, var) == 0)
 		return (-1);
 	pid = fork();
 	if (pid == 0 && ret < 0)

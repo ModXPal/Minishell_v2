@@ -51,12 +51,11 @@ int	check_access(t_pvar *pvar, int i)
 	return (-1);
 }
 
-int	cmd_not_found(t_var *var, t_pvar *pvar)
+int	cmd_not_found(t_var *var)
 {
 	write (2, "minishell: ", 11);
 	write (2, var->input->cmd, ft_strlen(var->input->cmd));
 	write (2, ": command not found\n", 20);
-	free(pvar->cmd);
 	EXIT_STATUS = 127;
 	return (0);
 }
@@ -66,6 +65,7 @@ int	no_such_file(t_var *var)
 	write (2, "minishell: ", 11);
 	write (2, var->input->cmd, ft_strlen(var->input->cmd));
 	write (2, ": no such file or directory\n", 28);
+	EXIT_STATUS = 127;
 	return (0);
 }
 
@@ -74,6 +74,11 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	int		i;
 
 	i = -1;
+	if (var->input->cmd[0] == '\0')
+	{
+		pvar->cmd = var->input->cmd;
+		return (cmd_not_found(var));
+	}
 	if (var->input->cmd[0] == '/')
 	{
 		pvar->cmd = var->input->cmd;
@@ -88,12 +93,14 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	while (pvar->path[++i])
 	{
 		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
-		if (check_access(pvar, i) == SUCCESS)
-			break ;
+		if (check_access(pvar, i) == SUCCESS) {
+			break;
+		}
 		else if (check_access(pvar, i) == FAIL)
 		{
 			free_split(pvar->path);
-			return (cmd_not_found(var, pvar));
+			free(pvar->cmd);
+			return (cmd_not_found(var));
 		}
 		free(pvar->cmd);
 	}
