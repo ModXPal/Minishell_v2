@@ -64,8 +64,11 @@ typedef struct s_var{
 	int				exit_status;
 	int				s_quote;
 	int				d_quote;
+	int 			cmd_nb;
 	char			interruption;
 	int				error;
+	int 			save_stdin;
+	int 			save_stdout;
 	t_list			*list;
 	t_input			*input;
 	t_envar			*envar;

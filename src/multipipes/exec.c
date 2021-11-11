@@ -93,8 +93,9 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	while (pvar->path[++i])
 	{
 		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
-		if (check_access(pvar, i) == SUCCESS) {
-			break;
+		if (check_access(pvar, i) == SUCCESS)
+		{
+			break ;
 		}
 		else if (check_access(pvar, i) == FAIL)
 		{
@@ -245,6 +246,8 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 		if (i > 0)
 			var->input = var->input->next;
 		pvar->ret = is_builtin(var->input->cmd, pvar->builtin);
+		if (pvar->ret == 6)
+			return (0);
 		pids[i] = fork();
 		if (pids[i] == -1)
 		{
@@ -255,7 +258,8 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 		{
 			if (pvar->ret >= 0)
 				proceed_builtin_pipes(pvar, var, pipefd, i);
-			else proceed_pipes(pvar, var, pipefd, i);
+			else
+				proceed_pipes(pvar, var, pipefd, i);
 			if (var->input->IN_FD > 0)
 				close(var->input->IN_FD);
 			if (var->input->OUT_FD > 0)

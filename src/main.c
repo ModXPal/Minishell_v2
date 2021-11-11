@@ -32,9 +32,8 @@ int	is_builtin(char *line, t_builtin *builtin)
 
 int	exec_minishell(t_var *var, t_builtin *builtin)
 {
-	int	ret;
-
-	ret = 0;
+	var->save_stdin = dup(STDIN_FILENO);
+	var->save_stdout = dup(STDOUT_FILENO);
 	while (1)
 	{
 		var->cmd = readline("minishell $> ");
@@ -46,29 +45,40 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 			free(var->cmd);
 			continue ;
 		}
-		// else if (ft_init_shlvl(var)) // A PLACER DANS LE PARSING
-		// {
-		// 	printf("salut\n");
-		// }
-		else if (var->input->cmd == NULL)
+		else if (var->input == NULL)
 		{
-			if (var->input->IN_FD > 0)
-				close(var->input->IN_FD);
-			if (var->input->OUT_FD > 0)
-				close(var->input->OUT_FD);
 			free_input(var);
 			free(var->cmd);
 			continue ;
 		}
-		else if (count_pipes(var) > 1)
+		else if (var->input->cmd == NULL)
+		{
+			if (var->input->IN_FD > 0)
+			{
+				close(var->input->IN_FD);
+				dup2(var->save_stdin, STDIN_FILENO);
+			}
+			if (var->input->OUT_FD > 0)
+			{
+				close(var->input->OUT_FD);
+				dup2(var->save_stdout, STDOUT_FILENO);
+			}
+			free_input(var);
+			free(var->cmd);
+			continue ;
+		}
+		else if (var->cmd_nb > 1)
 		{
 			EXIT_STATUS = 123456789;
+			printf("var->input->cmd = %s", var->input->cmd);
 			ft_multipipes(var, builtin);
 		}
 		else
 		{
 			ft_execve(var, builtin);
 		}
+		dup2(var->save_stdin, STDIN_FILENO);
+		dup2(var->save_stdout, STDOUT_FILENO);
 		free_input(var);
 		free(var->cmd);
 	}

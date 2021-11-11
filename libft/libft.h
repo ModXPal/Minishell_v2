@@ -16,7 +16,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "../include/minishell.h"
-# include "../include/struct.h"
 # include "struct.h"
 
 int			ft_atoi(const char *str);
@@ -54,6 +53,7 @@ void		ft_putstr_fd(char *s, int fd);
 char		*ft_strchr(const char *s, int c);
 char		**ft_split(const char *s, char c);
 char		**ft_split_quotes(const char *s, char c);
+char 		**ft_split_pipes(const char *s, char c);
 char		*ft_strdup(const char *s1);
 char		*ft_strjoin(const char *s1, const char *s2);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
