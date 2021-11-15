@@ -54,6 +54,7 @@ SRCS		=	ft_memset.c\
 			ft_envar_remove.c \
 			ft_envar_find_content.c \
 			ft_strcmp.c \
+			ft_split_pipes.c \
 
 OBJS		= $(SRCS:.c=.o)
 

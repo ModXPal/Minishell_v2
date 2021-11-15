@@ -30,24 +30,6 @@ static unsigned int	ft_ult_strlen(char const *str, char charset)
 	d_quote = 0;
 	while (str[i] && !is_charset(str[i], charset))
 	{
-		if (i == 0) {
-			while (str[i] == '>' && d_quote == FALSE && s_quote == FALSE)
-			{
-				i++;
-				if (str[i] != '>')
-					return (i);
-			}
-			while (str[i] == '<' && d_quote == FALSE && s_quote == FALSE)
-			{
-				i++;
-				if (str[i] != '<')
-					return (i);
-			}
-		}
-		else if (str[i] == '<' && d_quote == FALSE && s_quote == FALSE)
-			return (i);
-		else if (str[i] == '>' && d_quote == FALSE && s_quote == FALSE)
-			return (i);
 		if (str[i] == '"' && s_quote == FALSE)
 		{
 			if (d_quote == FALSE)
@@ -80,21 +62,7 @@ static unsigned int	ft_count_words(char const *str, char charset)
 	d_quote = 0;
 	while (str && *str)
 	{
-		if (*str == '<' && d_quote == FALSE && s_quote == FALSE)
-		{
-			while (*(str + 1) == '<' && *(str + 1))
-				str++;
-			words_count++;
-			is_word = 1;
-		}
-		else if (*str == '>' && d_quote == FALSE && s_quote == FALSE)
-		{
-			while (*(str + 1) == '>' && *(str + 1))
-				str++;
-			words_count++;
-			is_word = 1;
-		}
-		else if (is_charset(*str, charset) && s_quote == FALSE && d_quote == FALSE)
+		if (is_charset(*str, charset) && s_quote == FALSE && d_quote == FALSE)
 			is_word = 1;
 		else if (is_word == 1)
 		{
@@ -132,7 +100,7 @@ static char	**ft_free(char **str, unsigned int size)
 	return (0);
 }
 
-char	**ft_split_quotes(char const *s, char c)
+char	**ft_split_pipes(char const *s, char c)
 {
 	char			**tab;
 	int				j;

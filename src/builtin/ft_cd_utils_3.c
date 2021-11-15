@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:41:03 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/29 15:14:43 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/06 18:59:50 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ char	*ft_env_new_pwd_2(t_var *var, t_envar *tmp, char *str2, char *str)
 	return (str);
 }
 
-int		cd_too_many_arguments(t_var *var)
+int	cd_too_many_arguments(t_var *var)
 {
-	int i; 
+	int	i;
 
 	i = 0;
 	while (var->input->args[i])

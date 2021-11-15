@@ -48,7 +48,7 @@ int	init_pid(t_pvar *pvar)
 
 void	init_pvar(t_pvar *pvar, t_var *var, t_builtin *builtin)
 {
-	pvar->cmd_nb = count_pipes(var);
+	pvar->cmd_nb = var->cmd_nb;
 	pvar->builtin = builtin;
 	init_pid(pvar);
 	pvar->path = get_binaries_path(var);

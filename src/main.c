@@ -6,13 +6,13 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/04 14:55:20 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/05 20:02:56 by rcollas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int EXIT_STATUS;
+int	EXIT_STATUS;
 
 int	is_builtin(char *line, t_builtin *builtin)
 {
@@ -32,36 +32,53 @@ int	is_builtin(char *line, t_builtin *builtin)
 
 int	exec_minishell(t_var *var, t_builtin *builtin)
 {
+	var->save_stdin = dup(STDIN_FILENO);
+	var->save_stdout = dup(STDOUT_FILENO);
 	while (1)
 	{
 		var->cmd = readline("minishell $> ");
 		if (!var->cmd)
-			break;
+			break ;
 		add_history(var->cmd);
 		if (get_arguments(var) == -1)
 		{
 			free(var->cmd);
-			continue;
+			continue ;
 		}
-		else if (var->input->cmd == NULL)
+		else if (var->input == NULL)
 		{
-			if (var->input->IN_FD > 0)
-				close(var->input->IN_FD);
-			if (var->input->OUT_FD > 0)
-				close(var->input->OUT_FD);
 			free_input(var);
 			free(var->cmd);
 			continue ;
 		}
-		else if (count_pipes(var) > 1)
+		else if (var->input->cmd == NULL)
+		{
+			if (var->input->IN_FD > 0)
+			{
+				close(var->input->IN_FD);
+				dup2(var->save_stdin, STDIN_FILENO);
+			}
+			if (var->input->OUT_FD > 0)
+			{
+				close(var->input->OUT_FD);
+				dup2(var->save_stdout, STDOUT_FILENO);
+			}
+			free_input(var);
+			free(var->cmd);
+			continue ;
+		}
+		else if (var->cmd_nb > 1)
 		{
 			EXIT_STATUS = 123456789;
+			printf("var->input->cmd = %s", var->input->cmd);
 			ft_multipipes(var, builtin);
 		}
 	    else
 		{
-		    ft_execve(var, builtin);
-	    }
+			ft_execve(var, builtin);
+		}
+		dup2(var->save_stdin, STDIN_FILENO);
+		dup2(var->save_stdout, STDOUT_FILENO);
 		free_input(var);
 		free(var->cmd);
 	}
@@ -88,10 +105,9 @@ int	main(int ac, char **av, char **env)
 	get_env_var(var, &export);
 	var->envar = envar;
 	var->export = export;
-	// get_home_unset_cd(var); // surement a supprimer car on ne gere pas le unset HOME
 	signal(SIGINT, handle_sigusr1);
 	signal(SIGQUIT, handle_sigusr1);
+	signal(SIGTSTP, handle_sigusr1);
 	exec_minishell(var, builtin);
-	//get_home_unset_cd(var);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 16:09:34 by vbachele          #+#    #+#             */
-/*   Updated: 2021/10/29 14:52:09 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/06 19:01:27 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	cd_content_equal_zero(t_var	*var)
 {
-	int		dir = 0;
 	char	*str;
 	t_envar	*tmp2;
+	int		dir;
 
 	tmp2 = var->envar;
 	str = ft_envar_find_content(tmp2, "HOME");
 	dir = chdir(str);
 	if (dir < 0)
-		return(0);
+		return (0);
 	if (str[0] == 0)
 		return (0);
 	if (cd_str_and_path_not_set(var) == 0)

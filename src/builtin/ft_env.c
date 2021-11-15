@@ -6,13 +6,13 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 15:41:31 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/04 13:56:23 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/06 19:00:54 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int env_error_handling(t_var *var)
+int	env_error_handling(t_var *var)
 {
 	if (var->input->args[1] != 0)
 	{
@@ -25,7 +25,6 @@ int env_error_handling(t_var *var)
 	}
 	if (var->env == FAIL || var->envar == FAIL)
 	{
-		printf("Error\n");
 		EXIT_STATUS = 1;
 		return (EXIT_STATUS);
 	}

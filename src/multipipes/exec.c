@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/05 14:57:28 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/07 15:47:07 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,11 @@ int	check_access(t_pvar *pvar, int i)
 	return (-1);
 }
 
-int	cmd_not_found(t_var *var, t_pvar *pvar)
+int	cmd_not_found(t_var *var)
 {
 	write (2, "minishell: ", 11);
 	write (2, var->input->cmd, ft_strlen(var->input->cmd));
 	write (2, ": command not found\n", 20);
-	free(pvar->cmd);
 	EXIT_STATUS = 127;
 	return (0);
 }
@@ -66,6 +65,7 @@ int	no_such_file(t_var *var)
 	write (2, "minishell: ", 11);
 	write (2, var->input->cmd, ft_strlen(var->input->cmd));
 	write (2, ": no such file or directory\n", 28);
+	EXIT_STATUS = 127;
 	return (0);
 }
 
@@ -74,6 +74,11 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	int		i;
 
 	i = -1;
+	if (var->input->cmd[0] == '\0')
+	{
+		pvar->cmd = var->input->cmd;
+		return (cmd_not_found(var));
+	}
 	if (var->input->cmd[0] == '/')
 	{
 		pvar->cmd = var->input->cmd;
@@ -89,11 +94,14 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	{
 		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
 		if (check_access(pvar, i) == SUCCESS)
+		{
 			break ;
+		}
 		else if (check_access(pvar, i) == FAIL)
 		{
 			free_split(pvar->path);
-			return (cmd_not_found(var, pvar));
+			free(pvar->cmd);
+			return (cmd_not_found(var));
 		}
 		free(pvar->cmd);
 	}
@@ -226,7 +234,6 @@ int	proceed_builtin_pipes(t_pvar *pvar, t_var *var, int **pipefd, int i)
 		builtin_in_between_cmd(pvar, var, pipefd, i);
 		return (0);
 	}
-	return (1);
 }
 
 int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
@@ -239,6 +246,8 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 		if (i > 0)
 			var->input = var->input->next;
 		pvar->ret = is_builtin(var->input->cmd, pvar->builtin);
+		if (pvar->ret == 6)
+			return (0);
 		pids[i] = fork();
 		if (pids[i] == -1)
 		{
@@ -249,7 +258,8 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 		{
 			if (pvar->ret >= 0)
 				proceed_builtin_pipes(pvar, var, pipefd, i);
-			else proceed_pipes(pvar, var, pipefd, i);
+			else
+				proceed_pipes(pvar, var, pipefd, i);
 			if (var->input->IN_FD > 0)
 				close(var->input->IN_FD);
 			if (var->input->OUT_FD > 0)
@@ -267,18 +277,14 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 	t_input	*start;
 
 	start = var->input;
+	status = 0;
 	if (exec_execution(var, pids, pipefd, pvar) == 1)
 		return (1);
 	close_pipes(pvar, pipefd);
 	i = -1;
 	while (++i < pvar->cmd_nb)
 		waitpid(0, &status, WUNTRACED);
-	if (WIFEXITED(status))
-	{
-		EXIT_STATUS = WEXITSTATUS(status);
-		if (EXIT_STATUS == 123456789)
-			EXIT_STATUS = 130;
-	}
+	multipipes_signal_handling(status);
 	free(pids);
 	var->input = start;
 	free_split(pvar->path);

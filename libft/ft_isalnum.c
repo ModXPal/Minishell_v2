@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:47:23 by rcollas           #+#    #+#             */
-/*   Updated: 2021/05/24 16:47:25 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/06 17:36:47 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@ static int	ft_isdigit(int c)
 int	ft_isalnum(int c)
 {
 	if (ft_isalpha(c) || ft_isdigit(c))
+		return (1);
+	return (0);
+}
+
+int	ft_isalnumqual(int c)
+{
+	if (ft_isalpha(c) || ft_isdigit(c) || c == '=')
 		return (1);
 	return (0);
 }

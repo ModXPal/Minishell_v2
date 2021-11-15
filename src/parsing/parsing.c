@@ -12,26 +12,6 @@
 
 #include "parsing.h"
 
-int	count_redirection(char	**input)
-{
-	int	i;
-	int	j;
-	int	count;
-
-	i = -1;
-	count = 0;
-	while (input[++i])
-	{
-		j = -1;
-		while (input[i][++j] == '<' || input[i][j] == '>')
-		{
-			if (input[i][j + 1] == 0)
-				count++;
-		}
-	}
-	return (count);
-}
-
 char	*get_valid_envar(t_var *var, char *str, int i)
 {
 	t_envar	*tmp;
@@ -118,22 +98,23 @@ int	count_pipes(t_var *var)
 {
 	int	i;
 	int	pipe_count;
+	int s_quote;
+	int d_quote;
 
 	i = -1;
 	pipe_count = 1;
+	s_quote = 0;
+	d_quote = 0;
 	while (var->cmd[++i])
 	{
-		if (var->cmd[i] == '|')
+		if (var->cmd[i] == '"' && s_quote == FALSE)
+			check_d_quote(&d_quote);
+		if (var->cmd[i] == '\'' && d_quote == FALSE)
+			check_s_quote(&s_quote);
+		if (var->cmd[i] == '|' && s_quote == FALSE && d_quote == FALSE)
 			pipe_count++;
 	}
 	return (pipe_count);
-}
-
-int	is_option(char *str)
-{
-	if (str[0] == '-')
-		return (1);
-	return (0);
 }
 
 int	split_len(char **split)
@@ -198,7 +179,7 @@ int	syntax_check(char **input)
 				return (syntax_error(input, i, j));
 			else if (input[i + 1] == NULL && input[i][j + 1] != '<')
 				return (syntax_error(input, i, j));
-			else if (input[i + 1] && input[i + 1][0] == '>')
+			else if (input[i + 1] && (input[i + 1][0] == '>' || input[i + 1][0] == '<'))
 				return (syntax_error(input, i + 1, 3));
 		}
 		j = -1;
@@ -210,7 +191,7 @@ int	syntax_check(char **input)
 				return (syntax_error(input, i, j));
 			else if (input[i + 1] == NULL && input[i][j + 1] != '>')
 				return (syntax_error(input, i, j));
-			else if (input[i + 1] && input[i + 1][0] == '<')
+			else if (input[i + 1] && (input[i + 1][0] == '<' || input[i + 1][0] == '>'))
 				return (syntax_error(input, i + 1, 3));
 		}
 	}
@@ -280,28 +261,40 @@ int	here_doc(t_input *input, char *delimiter, t_var *var)
 	return (0);
 }
 
-int	open_files(t_input *input, char *file, int redir)
+void	missing_file(char *file)
+{
+	write (2, "minishell: ", 11);
+	write (2, file, ft_strlen(file));
+	write (2, ": No such file or directory\n", 28);
+}
+
+void 	permission_denied(char *file)
+{
+	write (2, "minishell: ", 11);
+	write (2, file, ft_strlen(file));
+	write (2, ": Permission denied\n", 20);
+}
+
+void	open_files(t_input *input, char *file, int redir)
 {
 	if (redir == STDIN)
 	{
 		input->IN_FD = open(file, O_RDONLY);
+		if (input->IN_FD < 0)
+			missing_file(file);
 	}
 	else if (redir == STDOUT)
 	{
 		input->OUT_FD = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		if (input->OUT_FD < 0)
+			permission_denied(file);
 	}
 	else if (redir == STDOUT_APPEND)
 	{
 		input->OUT_FD = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
+		if (input->OUT_FD < 0)
+			permission_denied(file);
 	}
-	/*
-	else if (redir == HERE_DOC)
-	{
-		here_doc(input, file);
-		input->IN_FD = 0;
-	}
-	*/
-	return (0);
 }
 
 int	handle_redir(t_var *var, t_input *input, char **split_input, int *i)
@@ -315,13 +308,14 @@ int	handle_redir(t_var *var, t_input *input, char **split_input, int *i)
 		open_files(input, ft_trim(var, split_input[*i], len), STDIN);
 		if (input->IN_FD > 0)
 			return (0);
+		else
+			return (2);
 	}
 	else if (ft_strcmp(split_input[*i], "<<") == TRUE)
 	{
 		(*i)++;
 		here_doc(input, ft_trim(var, split_input[*i], len), var);
-		//open_files(input, ft_trim(var, split_input[*i], len), HERE_DOC);
-		return (0);
+		return (1);
 	}
 	else if (ft_strcmp(split_input[*i], ">") == TRUE)
 	{
@@ -329,6 +323,8 @@ int	handle_redir(t_var *var, t_input *input, char **split_input, int *i)
 		open_files(input, ft_trim(var, split_input[*i], len), STDOUT);
 		if (input->OUT_FD > 0)
 			return (0);
+		else
+			return (2);
 	}
 	else if (ft_strcmp(split_input[*i], ">>") == TRUE)
 	{
@@ -336,19 +332,23 @@ int	handle_redir(t_var *var, t_input *input, char **split_input, int *i)
 		open_files(input, ft_trim(var, split_input[*i], len), STDOUT_APPEND);
 		if (input->OUT_FD > 0)
 			return (0);
+		else
+			return (2);
 	}
 	return (-1);
 }
 
-void	handle_input(t_var *var, t_input *new, char **split_input)
+int	handle_input(t_var *var, t_input *new, char **split_input)
 {
 	int	i;
 	int	j;
 	int	len;
+	int	ret;
 	char	*content;
 
 	i = -1;
 	j = 0;
+	ret = 0;
 	while (split_input[++i])
 	{
 		var->s_quote = 0;
@@ -357,15 +357,20 @@ void	handle_input(t_var *var, t_input *new, char **split_input)
 		var->s_quote = 0;
 		var->d_quote = 0;
 		content = ft_trim(var, split_input[i], len);
-		if (handle_redir(var, new, split_input, &i) == 0)
-			continue ;
+		ret = handle_redir(var, new, split_input, &i);
+		if (ret == 0 || ret == 1)
+			continue;
+		else if (ret == 2)
+			return (1);
 		else if (i == 0 || ((new->IN_FD > 0 || new->OUT_FD > 0 || new->heredoc) && new->cmd == NULL))
 			new->cmd = content;
-		//printf("content = %s\n", content);
 		new->args[j++] = content;
 	}
 	new->args[j] = NULL;
 	new->next = NULL;
+	if (new->cmd == NULL)
+		return (1);
+	return (0);
 }
 
 int	count_heredoc(char **split_input)
@@ -402,7 +407,8 @@ t_input	*get_input(t_var *var, char **split_input)
 	new->heredoc = 0;
 	i = -1;
 	j = 0;
-	handle_input(var, new, split_input);
+	if (handle_input(var, new, split_input) == 1)
+		return (0);
 		//printf("in fd = %d\n", var->IN_FD);
 	//printf("out fd = %d\n", var->OUT_FD);
 	return (new);
@@ -444,6 +450,7 @@ int	get_arguments(t_var *var)
 	t_input	*new;
 
 	i = -1;
+	var->cmd_nb = count_pipes(var);
 	if (var->cmd[0] == 0)
 		return (-1);
 	if (check_unmatched_quotes(var) == TRUE)
@@ -451,7 +458,7 @@ int	get_arguments(t_var *var)
 		printf("Unmatched quotes\n");
 		return (-1);
 	}
-	split_pipes = ft_split(var->cmd, '|');
+	split_pipes = ft_split_pipes(var->cmd, '|');
 	var->input = NULL;
 	while (split_pipes[++i])
 	{
@@ -459,9 +466,14 @@ int	get_arguments(t_var *var)
 		if (syntax_check(split_input) == -1)
 			return (-1);
 		new = get_input(var, split_input);
-		input_add_back(&var->input, new);
+		if (new != NULL)
+		{
+			input_add_back(&var->input, new);
+		}
+		else
+			var->cmd_nb--;
 		free_split(split_input);
 	}
 	free_split(split_pipes);
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/04 14:48:26 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/06 17:56:56 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,17 @@ typedef struct s_list
 }	t_list;
 
 typedef struct s_input{
-	char	*cmd;
-	char	*heredoc;
-	char	**args;
-	char	*delimiter;
-	int	**redir_nb;
-	int			IN_FD;
-	int			OUT_FD;
-	struct s_input *next;
+	char			*cmd;
+	char			*heredoc;
+	char			**args;
+	char			*delimiter;
+	int				**redir_nb;
+	int				IN_FD;
+	int				OUT_FD;
+	struct s_input	*next;
 }		t_input;
 
 typedef struct s_cd{
-	// char			*HOME; // on va surement pas gerer le unset donc a supprimer
 	char			*cdpath;
 	int				exit_cd;
 }	t_cd;
@@ -59,20 +58,23 @@ typedef struct s_var{
 	char			**env;
 	char			*cmd;
 	char			*variable;
+	char			*export_name;
+	char			*export_content;
 	int				ac;
 	int				exit_status;
 	int				s_quote;
 	int				d_quote;
+	int 			cmd_nb;
 	char			interruption;
 	int				error;
+	int 			save_stdin;
+	int 			save_stdout;
 	t_list			*list;
 	t_input			*input;
 	t_envar			*envar;
 	t_envar			*export;
-	//t_pipes		*pipes;
 	t_cd			*cd;
 }		t_var;
-
 
 typedef struct s_builtin{
 	char	*cmd;

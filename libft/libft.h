@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:53:53 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/03 13:35:18 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/06 17:52:53 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "../include/minishell.h"
-# include "../include/struct.h"
 # include "struct.h"
 
 int			ft_atoi(const char *str);
@@ -54,6 +53,7 @@ void		ft_putstr_fd(char *s, int fd);
 char		*ft_strchr(const char *s, int c);
 char		**ft_split(const char *s, char c);
 char		**ft_split_quotes(const char *s, char c);
+char 		**ft_split_pipes(const char *s, char c);
 char		*ft_strdup(const char *s1);
 char		*ft_strjoin(const char *s1, const char *s2);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
@@ -75,5 +75,6 @@ int			ft_envarsize(t_envar *envar);
 int			ft_envar_position(t_envar *envar, char *str);
 char		*ft_envar_find_content(t_envar *tmp, char *str);
 int			ft_strcmp(const char *s1, const char *s2);
+int			ft_isalnumqual(int c);
 
 #endif

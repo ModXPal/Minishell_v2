@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_envar_find_content.c                            :+:      :+:    :+:   */
+/*   ft_export_utils_3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/12 14:36:11 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/06 15:41:53 by vbachele         ###   ########.fr       */
+/*   Created: 2021/11/06 18:27:38 by vbachele          #+#    #+#             */
+/*   Updated: 2021/11/06 18:31:03 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "builtin.h"
 
-char	*ft_envar_find_content(t_envar *tmp, char *str)
+int	export_env_insert(t_var *var, char *name, char *content)
 {
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->name, str))
-		{
-			str = tmp->content;
-			return (str);
-		}
-		tmp = tmp->next;
-	}
-	return (NULL);
+	int		size;
+	t_envar	*tmp;
+	t_envar	*tmp2;
+
+	tmp = var->envar;
+	tmp2 = var->envar;
+	size = 0;
+	tmp = ft_envar_new(name, content);
+	size = ft_envarsize(tmp2);
+	if (envar_insert(&var->envar, tmp, size) == 1)
+		return (0);
+	return (0);
 }
