@@ -19,160 +19,178 @@ static int	is_charset(char c, char charset)
 	return (0);
 }
 
-static unsigned int	ft_ult_strlen(char const *str, char charset)
+int	ft_free(char **str, int size)
 {
-	unsigned int	i;
-	int				s_quote;
-	int				d_quote;
+    int	i;
 
-	i = 0;
-	s_quote = 0;
-	d_quote = 0;
-	while (str[i] && !is_charset(str[i], charset))
-	{
-		if (i == 0) {
-			while (str[i] == '>' && d_quote == FALSE && s_quote == FALSE)
-			{
-				i++;
-				if (str[i] != '>')
-					return (i);
-			}
-			while (str[i] == '<' && d_quote == FALSE && s_quote == FALSE)
-			{
-				i++;
-				if (str[i] != '<')
-					return (i);
-			}
-		}
-		else if (str[i] == '<' && d_quote == FALSE && s_quote == FALSE)
-			return (i);
-		else if (str[i] == '>' && d_quote == FALSE && s_quote == FALSE)
-			return (i);
-		if (str[i] == '"' && s_quote == FALSE)
-		{
-			if (d_quote == FALSE)
-				d_quote = TRUE;
-			else
-				d_quote = FALSE;
-		}
-		if (str[i] == '\'' && d_quote == FALSE)
-		{
-			if (s_quote == FALSE)
-				s_quote = TRUE;
-			else
-				s_quote = FALSE;
-		}
-		i++;
-	}
-	return (i);
+    i = 0;
+    while (i > size)
+        free(str[i++]);
+    free(str);
+    return (1);
 }
 
-static unsigned int	ft_count_words(char const *str, char charset)
+void checkQuotes(const char *str, size_t i, _Bool *simple_quote, _Bool *double_quote)
 {
-	unsigned int	words_count;
-	unsigned int	is_word;
-	int				s_quote;
-	int				d_quote;
-
-	words_count = 0;
-	is_word = 1;
-	s_quote = 0;
-	d_quote = 0;
-	while (str && *str)
-	{
-		if (*str == '<' && d_quote == FALSE && s_quote == FALSE)
-		{
-			while (*(str + 1) == '<' && *(str + 1))
-				str++;
-			words_count++;
-			is_word = 1;
-		}
-		else if (*str == '>' && d_quote == FALSE && s_quote == FALSE)
-		{
-			while (*(str + 1) == '>' && *(str + 1))
-				str++;
-			words_count++;
-			is_word = 1;
-		}
-		else if (is_charset(*str, charset) && s_quote == FALSE && d_quote == FALSE)
-			is_word = 1;
-		else if (is_word == 1)
-		{
-			words_count++;
-			is_word = 0;
-		}
-		if (*str == '"' && s_quote == FALSE)
-		{
-			if (d_quote == FALSE)
-				d_quote = TRUE;
-			else
-				d_quote = FALSE;
-		}
-		if (*str == '\'' && d_quote == FALSE)
-		{
-			if (s_quote == FALSE)
-				s_quote = TRUE;
-			else
-				s_quote = FALSE;
-		}
-		if (*str)
-			str++;
-	}
-	return (words_count);
+    if (str[i] == '"' && *simple_quote == FALSE)
+    {
+        if (*double_quote == FALSE)
+            *double_quote = TRUE;
+        else
+            *double_quote = FALSE;
+    }
+    else if (str[i] == '\'' && *double_quote == FALSE)
+    {
+        if (*simple_quote == FALSE)
+            *simple_quote = TRUE;
+        else
+            *simple_quote = FALSE;
+    }
 }
 
-static char	**ft_free(char **str, unsigned int size)
+int check_redir(const char *str, size_t *i, _Bool *simple_quote, _Bool *double_quote)
 {
-	unsigned int	i;
-
-	i = 0;
-	while (i > size)
-		free(str[i++]);
-	free(str);
+	if (*i == 0 && *simple_quote == FALSE && *double_quote == FALSE)
+	{
+		while (str[*i] == '>')
+		{
+			(*i)++;
+			if (str[(*i)] != '>')
+				return (1);
+		}
+		while (str[*i] == '<')
+		{
+			(*i)++;
+			if (str[(*i)] != '<')
+				return (1);
+		}
+	}
+	else if ((str[*i] == '>' || str[*i] == '<') && *simple_quote == FALSE && *double_quote == FALSE)
+		return (1);
 	return (0);
 }
 
-char	**ft_split_quotes(char const *s, char c)
+size_t ft_ult_strlen(const char *str, char c)
 {
-	char			**tab;
-	int				j;
-	unsigned int	i;
-	unsigned int	words;
-	int				len;
+	size_t len;
+	_Bool simple_quote;
+	_Bool double_quote;
 
-	if (!s)
-		return (NULL);
+	len = -1;
+	simple_quote = FALSE;
+	double_quote = FALSE;
+	while (str[++len])
+	{
+		if (check_redir(str, &len, &simple_quote, &double_quote) == 1)
+			return (len);
+		checkQuotes(str, len, &simple_quote, &double_quote);
+		if (is_charset(str[len], c) && simple_quote == FALSE && double_quote == FALSE)
+			return (len);
+	}
+	return (len);
+}
+
+int checkRedir(const char *str, size_t *i, _Bool *is_word, int *count_words)
+{
+	if (is_charset(str[*i], '>'))
+	{
+		while (is_charset(str[*i], '>'))
+			(*i)++;
+		*is_word = TRUE;
+		(*count_words)++;
+		return (1);
+	}
+	else if (is_charset(str[*i], '<'))
+	{
+		while (is_charset(str[*i], '<'))
+			(*i)++;
+		*is_word = TRUE;
+		(*count_words)++;
+		return (1);
+	}
+	return (0);
+}
+
+int count_charset(const char *str, char c, _Bool *simple_quote, _Bool *double_quote)
+{
+    _Bool is_word;
+    int count_words;
+    size_t i;
+
+    is_word = TRUE;
+    count_words = 0;
+    i = -1;
+    while (str[++i])
+    {
+        checkQuotes(str, i, simple_quote, double_quote);
+		if (*simple_quote == FALSE && *double_quote == FALSE)
+		{
+			if (checkRedir(str, &i, &is_word, &count_words) == 1)
+				continue;
+		}
+        if (is_charset(str[i], c) && *double_quote == FALSE && *simple_quote == FALSE)
+            is_word = TRUE;
+        else if (is_word == TRUE)
+        {
+            count_words++;
+            is_word = FALSE;
+        }
+    }
+    return (count_words);
+}
+
+int count_words(const char *str, char c)
+{
+    int total_words;
+	_Bool simple_quote;
+	_Bool double_quote;
+
+	simple_quote = FALSE;
+	double_quote = FALSE;
+	total_words = 0;
+    total_words += count_charset(str, c, &simple_quote, &double_quote);
+	printf("total words = %d\n", total_words);
+    return (total_words);
+}
+
+int do_split(const char *s, char c, char **tab)
+{
+	int words;
+	int i;
+	int j;
+	int len;
+
 	i = -1;
-	tab = (char **)malloc(sizeof(*tab) * ((words = ft_count_words(s, c)) + 1));
-	if (!tab)
-		return (NULL);
+	words = count_words(s, c);
 	while (++i < words)
 	{
+		j = 0;
 		while (*s && is_charset(*s, c))
 			s++;
 		len = ft_ult_strlen(s, c);
-		tab[i] = (char *)malloc(sizeof(**tab) * (len + 1));
+		printf("len = %d\n", len);
+		tab[i] = (char *)malloc(sizeof(char) * (len + 1));
 		if (!tab[i])
 			return (ft_free(tab, i));
-		j = 0;
-		while (*s && j < len)
-		{
-			if (*s == '"')
-			{
-				tab[i][j++] = *s++;
-				while (*s != '"')
-					tab[i][j++] = *s++;
-			}
-			if (*s == '\'')
-			{
-				tab[i][j++] = *s++;
-				while (*s != '\'')
-					tab[i][j++] = *s++;
-			}
+		while (j < len)
 			tab[i][j++] = *s++;
-		}
 		tab[i][j] = 0;
+		printf("tab = %s\n", tab[i]);
 	}
 	tab[i] = 0;
-	return (tab);
+	return (0);
+}
+
+char    **ft_split_quotes(const char *s, char c)
+{
+    char **tab;
+
+    if (!s)
+		return (NULL);
+    tab = (char **)malloc(sizeof(char *) * (count_words(s, c) + 1));
+    if (!tab)
+		return (NULL);
+	if (do_split(s, c, tab) == 1)
+		return (NULL);
+    return (tab);
 }
