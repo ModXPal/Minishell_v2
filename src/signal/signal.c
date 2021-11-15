@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:34:28 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/07 16:06:50 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/15 14:32:29 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	signal_sigint_stdin(void)
 {
 	printf("\n");
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	EXIT_STATUS = 130;
 }
 
@@ -24,7 +24,7 @@ void	signal_singint_normal(void)
 {
 	printf("\n");
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_redisplay();
 	EXIT_STATUS = 130;
 }
@@ -33,7 +33,7 @@ void	signal_singint_stdin_multipipe(void)
 {
 	printf("\n");
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	EXIT_STATUS = 0;
 }
 

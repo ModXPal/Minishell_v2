@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 16:04:04 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 18:31:22 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/15 15:11:01 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	export_error_no_equal(t_var *var, char *content)
 			unset_error_export_message(var, content);
 			return (-1);
 		}
+		else if (ft_isalnumqual(content[j]) == 2)
+			break ;
 		j++;
 	}
 	return (0);

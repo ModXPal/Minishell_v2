@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:32 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/05 15:17:30 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/15 15:49:11 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	check_cdpath_exists(t_var *var)
 	tmp = var->list;
 	var->cd->cdpath = 0;
 	var->cd->cdpath = ft_envar_find_content(var->envar, "CDPATH");
-	if (var->cd->cdpath == 0)
+	if (var->cd->cdpath == 0 || var->input->args[1] == 0)
 		return (2);
 	if (var->input->args[1])
 	{
