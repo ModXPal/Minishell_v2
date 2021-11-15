@@ -19,77 +19,61 @@ static int	is_charset(char c, char charset)
 	return (0);
 }
 
-static unsigned int	ft_ult_strlen(char const *str, char charset)
+void check_Quotes(const char *str, size_t i, _Bool *simple_quote, _Bool *double_quote)
 {
-	unsigned int	i;
-	int				s_quote;
-	int				d_quote;
-
-	i = 0;
-	s_quote = 0;
-	d_quote = 0;
-	while (str[i] && !is_charset(str[i], charset))
+	if (str[i] == '"' && *simple_quote == FALSE)
 	{
-		if (str[i] == '"' && s_quote == FALSE)
-		{
-			if (d_quote == FALSE)
-				d_quote = TRUE;
-			else
-				d_quote = FALSE;
-		}
-		if (str[i] == '\'' && d_quote == FALSE)
-		{
-			if (s_quote == FALSE)
-				s_quote = TRUE;
-			else
-				s_quote = FALSE;
-		}
-		i++;
+		if (*double_quote == FALSE)
+			*double_quote = TRUE;
+		else
+			*double_quote = FALSE;
 	}
-	return (i);
+	else if (str[i] == '\'' && *double_quote == FALSE)
+	{
+		if (*simple_quote == FALSE)
+			*simple_quote = TRUE;
+		else
+			*simple_quote = FALSE;
+	}
 }
 
-static unsigned int	ft_count_words(char const *str, char charset)
+int count_charset_pipe(const char *str, char c, _Bool *simple_quote, _Bool *double_quote)
 {
-	unsigned int	words_count;
-	unsigned int	is_word;
-	int				s_quote;
-	int				d_quote;
+	_Bool is_word;
+	int count_words;
+	size_t	i;
 
-	words_count = 0;
-	is_word = 1;
-	s_quote = 0;
-	d_quote = 0;
-	while (str && *str)
+	is_word = TRUE;
+	count_words = 0;
+	i = -1;
+	while (str[++i])
 	{
-		if (is_charset(*str, charset) && s_quote == FALSE && d_quote == FALSE)
-			is_word = 1;
-		else if (is_word == 1)
+		check_Quotes(str, i, simple_quote, double_quote);
+		if (is_charset(str[i], c) && *double_quote == FALSE && *simple_quote == FALSE)
+			is_word = TRUE;
+		else if (is_word == TRUE)
 		{
-			words_count++;
-			is_word = 0;
+			count_words++;
+			is_word	= FALSE;
 		}
-		if (*str == '"' && s_quote == FALSE)
-		{
-			if (d_quote == FALSE)
-				d_quote = TRUE;
-			else
-				d_quote = FALSE;
-		}
-		if (*str == '\'' && d_quote == FALSE)
-		{
-			if (s_quote == FALSE)
-				s_quote = TRUE;
-			else
-				s_quote = FALSE;
-		}
-		if (*str)
-			str++;
 	}
-	return (words_count);
+	return (count_words);
 }
 
-static char	**ft_free(char **str, unsigned int size)
+int	ft_count_words(char const *str, char c)
+{
+	int total_words;
+	_Bool simple_quote;
+	_Bool double_quote;
+
+	simple_quote = FALSE;
+	double_quote = FALSE;
+	total_words = 0;
+	total_words += count_charset_pipe(str, c, &simple_quote, &double_quote);
+	return (total_words);
+}
+
+int	ft_free_tab(char **str, unsigned int size)
 {
 	unsigned int	i;
 
@@ -97,50 +81,63 @@ static char	**ft_free(char **str, unsigned int size)
 	while (i > size)
 		free(str[i++]);
 	free(str);
+	return (1);
+}
+
+size_t ft_pipe_strlen(const char *str, char c)
+{
+	size_t	len;
+	_Bool	simple_quote;
+	_Bool	double_quote;
+
+	len = -1;
+	simple_quote = FALSE;
+	double_quote = FALSE;
+	while (str[++len])
+	{
+		check_Quotes(str, len, &simple_quote, &double_quote);
+		if (is_charset(str[len], c) && simple_quote == FALSE && double_quote == FALSE)
+			return (len);
+	}
+	return (len);
+}
+
+int do_pipe_split(const char *s, char c, char **tab)
+{
+	int words;
+	int i;
+	int j;
+	int len;
+
+	i = -1;
+	words = ft_count_words(s, c);
+	while (++i < words)
+	{
+		j = 0;
+		while (*s && is_charset(*s, c))
+			s++;
+		len = ft_pipe_strlen(s, c);
+		tab[i] = (char *)malloc(sizeof(char) * (len + 1));
+		if (!tab[i])
+			return (ft_free_tab(tab, i));
+		while (j < len)
+			tab[i][j++] = *s++;
+		tab[i][j] = 0;
+	}
+	tab[i] = 0;
 	return (0);
 }
 
 char	**ft_split_pipes(char const *s, char c)
 {
-	char			**tab;
-	int				j;
-	unsigned int	i;
-	unsigned int	words;
-	int				len;
+	char **tab;
 
 	if (!s)
 		return (NULL);
-	i = -1;
-	tab = (char **)malloc(sizeof(*tab) * ((words = ft_count_words(s, c)) + 1));
+	tab = (char **)malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
 	if (!tab)
 		return (NULL);
-	while (++i < words)
-	{
-		while (*s && is_charset(*s, c))
-			s++;
-		len = ft_ult_strlen(s, c);
-		tab[i] = (char *)malloc(sizeof(**tab) * (len + 1));
-		if (!tab[i])
-			return (ft_free(tab, i));
-		j = 0;
-		while (*s && j < len)
-		{
-			if (*s == '"')
-			{
-				tab[i][j++] = *s++;
-				while (*s != '"')
-					tab[i][j++] = *s++;
-			}
-			if (*s == '\'')
-			{
-				tab[i][j++] = *s++;
-				while (*s != '\'')
-					tab[i][j++] = *s++;
-			}
-			tab[i][j++] = *s++;
-		}
-		tab[i][j] = 0;
-	}
-	tab[i] = 0;
+	if (do_pipe_split(s, c, tab) == 1)
+		return (NULL);
 	return (tab);
 }
