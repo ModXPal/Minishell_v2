@@ -36,8 +36,6 @@ typedef struct s_input{
 	char			*cmd;
 	char			*heredoc;
 	char			**args;
-	char			*delimiter;
-	int				**redir_nb;
 	int				IN_FD;
 	int				OUT_FD;
 	struct s_input	*next;

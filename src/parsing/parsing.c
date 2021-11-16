@@ -120,11 +120,27 @@ int	count_pipes(t_var *var)
 int	split_len(char **split)
 {
 	int	i;
+	int j;
 
 	i = 0;
+	j = 0;
 	while (split[i])
-		i++;
-	return (i);
+	{
+		if (ft_strcmp(split[i], ">") == 1)
+			i += 2;
+		else if (ft_strcmp(split[i], ">>") == 1)
+			i += 2;
+		else if (ft_strcmp(split[i], "<") == 1)
+			i += 2;
+		else if (ft_strcmp(split[i], "<<") == 1)
+			i += 2;
+		else
+		{
+			i++;
+			j++;
+		}
+	}
+	return (j);
 }
 
 int	syntax_error(char **input, int i, int j)
@@ -379,22 +395,24 @@ int	count_heredoc(char **split_input)
 	int	i;
 
 	count = 0;
-	i = -1;
-	while (split_input[++i])
+	i = 0;
+	while (split_input[i])
 	{
 		if (ft_strcmp(split_input[i], "<<") == TRUE)
-			count++;
+		{
+			i += 2;
+			count += 2;
+		}
+		else
+			i++;
 	}
 	return (count);
 }
 
 t_input	*get_input(t_var *var, char **split_input)
 {
-	int		i;
-	int		j;
 	t_input	*new;
 
-	i = -1;
 	new = malloc(sizeof(t_input));
 	if (new == 0)
 		return (0);
@@ -406,8 +424,6 @@ t_input	*get_input(t_var *var, char **split_input)
 	new->IN_FD = 0;
 	new->OUT_FD = 0;
 	new->heredoc = 0;
-	i = -1;
-	j = 0;
 	if (handle_input(var, new, split_input) == 1)
 		return (0);
 	return (new);

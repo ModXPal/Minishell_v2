@@ -37,6 +37,8 @@ int	dup_heredoc(t_var *var, int pipe_fd[2])
 			close(pipe_fd[1]);
 			return (1);
 		}
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
 	}
 	return (0);
 }
