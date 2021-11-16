@@ -16,6 +16,7 @@ SRC_FILES	=	src/main.c \
 			src/builtin/ft_cd_utils_2.c \
 			src/builtin/ft_cd_utils_3.c \
 			src/excve/ft_excve.c \
+			src/excve/dup.c \
 			src/multipipes/exec.c \
 			src/multipipes/get_path.c \
 			src/multipipes/multipipes.c \
