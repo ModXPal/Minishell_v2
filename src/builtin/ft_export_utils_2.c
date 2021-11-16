@@ -35,7 +35,9 @@ int	export_error_no_equal(t_var *var, char *content)
 	j = 0;
 	while (content[j])
 	{
-		if (ft_isalnumqual(content[j]) == 0)
+		if (content[j] == '=')
+			break ;
+		else if (ft_isalnumqual(content[j]) == 0)
 		{
 			unset_error_export_message(var, content);
 			return (-1);
