@@ -98,8 +98,8 @@ int	count_pipes(t_var *var)
 {
 	int	i;
 	int	pipe_count;
-	int s_quote;
-	int d_quote;
+	int	s_quote;
+	int	d_quote;
 
 	i = -1;
 	pipe_count = 1;
@@ -179,7 +179,8 @@ int	syntax_check(char **input)
 				return (syntax_error(input, i, j));
 			else if (input[i + 1] == NULL && input[i][j + 1] != '<')
 				return (syntax_error(input, i, j));
-			else if (input[i + 1] && (input[i + 1][0] == '>' || input[i + 1][0] == '<'))
+			else if (input[i + 1]
+				&& (input[i + 1][0] == '>' || input[i + 1][0] == '<'))
 				return (syntax_error(input, i + 1, 3));
 		}
 		j = -1;
@@ -191,7 +192,8 @@ int	syntax_check(char **input)
 				return (syntax_error(input, i, j));
 			else if (input[i + 1] == NULL && input[i][j + 1] != '>')
 				return (syntax_error(input, i, j));
-			else if (input[i + 1] && (input[i + 1][0] == '<' || input[i + 1][0] == '>'))
+			else if (input[i + 1]
+				&& (input[i + 1][0] == '<' || input[i + 1][0] == '>'))
 				return (syntax_error(input, i + 1, 3));
 		}
 	}
@@ -200,7 +202,7 @@ int	syntax_check(char **input)
 
 char	*delete_last_line(char *str)
 {
-	int	i;
+	int		i;
 	char	*final_str;
 	char	*tmp;
 
@@ -222,16 +224,14 @@ char	*delete_last_line(char *str)
 
 int	here_doc(t_input *input, char *delimiter, t_var *var)
 {
-	char    *line;
+	char	*line;
 	char	*tmp;
 	char	buff[2];
 	int		ret;
 	int		i;
-	int		j;
 
-	line = ft_strdup("");
-	j = 0;
 	i = 0;
+	line = ft_strdup("");
 	input->IN_FD = 0;
 	while (ft_strcmp(&line[ft_strlen(line) - i], delimiter) == 0)
 	{
@@ -268,7 +268,7 @@ void	missing_file(char *file)
 	write (2, ": No such file or directory\n", 28);
 }
 
-void 	permission_denied(char *file)
+void	permission_denied(char *file)
 {
 	write (2, "minishell: ", 11);
 	write (2, file, ft_strlen(file));
@@ -340,15 +340,14 @@ int	handle_redir(t_var *var, t_input *input, char **split_input, int *i)
 
 int	handle_input(t_var *var, t_input *new, char **split_input)
 {
-	int	i;
-	int	j;
-	int	len;
-	int	ret;
+	int		i;
+	int		j;
+	int		len;
+	int		ret;
 	char	*content;
 
 	i = -1;
 	j = 0;
-	ret = 0;
 	while (split_input[++i])
 	{
 		var->s_quote = 0;
@@ -359,10 +358,11 @@ int	handle_input(t_var *var, t_input *new, char **split_input)
 		content = ft_trim(var, split_input[i], len);
 		ret = handle_redir(var, new, split_input, &i);
 		if (ret == 0 || ret == 1)
-			continue;
+			continue ;
 		else if (ret == 2)
 			return (1);
-		else if (i == 0 || ((new->IN_FD > 0 || new->OUT_FD > 0 || new->heredoc) && new->cmd == NULL))
+		else if (i == 0 || ((new->IN_FD > 0 || new->OUT_FD > 0
+					|| new->heredoc) && new->cmd == NULL))
 			new->cmd = content;
 		new->args[j++] = content;
 	}
@@ -398,7 +398,8 @@ t_input	*get_input(t_var *var, char **split_input)
 	new = malloc(sizeof(t_input));
 	if (new == 0)
 		return (0);
-	new->args = (char **)malloc(sizeof(char *) * (split_len(split_input) + count_heredoc(split_input) + 1));
+	new->args = (char **)malloc(sizeof(char *)
+			* (split_len(split_input) + count_heredoc(split_input) + 1));
 	if (new->args == FAIL)
 		return (0);
 	new->cmd = NULL;
@@ -409,8 +410,6 @@ t_input	*get_input(t_var *var, char **split_input)
 	j = 0;
 	if (handle_input(var, new, split_input) == 1)
 		return (0);
-		//printf("in fd = %d\n", var->IN_FD);
-	//printf("out fd = %d\n", var->OUT_FD);
 	return (new);
 }
 
@@ -442,7 +441,7 @@ void	input_add_back(t_input **ainpt, t_input *new)
 		*ainpt = new;
 }
 
-int pipe_error(void)
+int	pipe_error(void)
 {
 	write (2, "minishell: syntax error near unexpected token `", 47);
 	write (2, "|", 1);
@@ -450,10 +449,10 @@ int pipe_error(void)
 	return (-1);
 }
 
-int check_pipes(t_var *var)
+int	check_pipes(t_var *var)
 {
-	int i;
-	_Bool non_empty;
+	int		i;
+	_Bool	non_empty;
 
 	i = -1;
 	non_empty = FALSE;

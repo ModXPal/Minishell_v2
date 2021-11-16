@@ -72,6 +72,9 @@ int		export_env_reassigned_check(t_var *var, char *name,
 int		export_export_reassigned_check(t_var *var, char *name,
 			char *content, int equal);
 int		export_env_insert(t_var *var, char *name, char *content);
+int		ft_dup(t_var *var, int pipe_fd[2]);
+int		dup_heredoc(t_var *var, int pipe_fd[2]);
+int		dup_fd(t_var *var);
 
 
 #endif

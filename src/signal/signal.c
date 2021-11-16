@@ -57,19 +57,21 @@ void	multipipes_signal_handling(int status)
 
 void	handle_sigusr1(int signum)
 {
-	if (signum == SIGINT && EXIT_STATUS != 1234567890 && EXIT_STATUS != 123456789)
+	if (signum == SIGINT && EXIT_STATUS
+		!= 1234567890 && EXIT_STATUS != 123456789)
 		signal_singint_normal();
-	else if (signum == SIGINT && isatty(0) != 0 && EXIT_STATUS != 123456789)
+	else if (signum == SIGINT
+		&& isatty(0) != 0 && EXIT_STATUS != 123456789)
 		signal_sigint_stdin();
 	else if (signum == SIGINT && isatty(0) != 0)
 		signal_singint_stdin_multipipe();
-	else if ((signum == SIGQUIT && EXIT_STATUS == 123456789) 
-		|| (signum == SIGQUIT && EXIT_STATUS== 1234567890))
+	else if ((signum == SIGQUIT && EXIT_STATUS == 123456789)
+		|| (signum == SIGQUIT && EXIT_STATUS == 1234567890))
 	{
 		write(1, "\b\b  \b\b", 6);
 		write(1, "Quit\n", 5);
 		EXIT_STATUS = 131;
 	}
-		else if (signum == SIGQUIT || signum == SIGTSTP)
+	else if (signum == SIGQUIT || signum == SIGTSTP)
 		write(1, "\b\b  \b\b", 6);
 }
