@@ -26,7 +26,8 @@ int	ft_pwd(t_var *var)
 	if (test == NULL)
 	{
 		EXIT_STATUS = 1;
-		perror("pwd: error retrieving current directory: getcwd: cannot access parent directories");
+		perror("pwd: error retrieving current directory: "
+			   "getcwd: cannot access parent directories");
 		return (EXIT_STATUS);
 	}
 	if (str && ft_strlen(str) == 2 && ft_strncmp(str, "//", 2) == 0)

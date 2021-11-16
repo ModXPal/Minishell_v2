@@ -12,16 +12,47 @@
 
 #include "builtin.h"
 
-int	ft_execve(t_var *var, t_builtin *builtin)
+int exec(t_var *var, t_pvar *pvar)
 {
 	pid_t	pid;
+	int		status;
+	int		pipe_fd[2];
 
-	int	status;
-	int	ret;
-	int	saved_stdout;
-	int	saved_stdin;
-	int	pipe_fd[2];
+	pid = fork();
+	if (pid == 0)
+	{
+		if (var->input->IN_FD > 0)
+			dup2(var->input->IN_FD, STDIN_FILENO);
+		if (var->input->OUT_FD > 0)
+			dup2(var->input->OUT_FD, STDOUT_FILENO);
+		if (var->input->heredoc)
+		{
+			pipe(pipe_fd);
+			write (pipe_fd[1], var->input->heredoc,
+				   ft_strlen(var->input->heredoc));
+			dup2(pipe_fd[0], STDIN_FILENO);
+			close(pipe_fd[0]);
+			close(pipe_fd[1]);
+		}
+		if (execve(pvar->cmd, var->input->args, NULL) == -1)
+		{
+			write(2, var->input->args[0],
+				  ft_strlen(var->input->args[0]));
+			EXIT_STATUS = 127;
+			return (EXIT_STATUS);
+		}
+	}
+	waitpid(0, &status, WUNTRACED);
+	close_fd(var);
+	free_split(pvar->path);
+}
+
+int	ft_execve(t_var *var, t_builtin *builtin)
+{
 	t_pvar	pvar[1];
+	int		ret;
+	int		saved_stdout;
+	int		saved_stdin;
 
 	ret = is_builtin(var->cmd, builtin);
 	if (ret >= 0)
@@ -42,10 +73,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 			close(pipe_fd[1]);
 		}
 		builtin[ret].func(var);
-		if (var->input->IN_FD > 0)
-			close(var->input->IN_FD);
-		if (var->input->OUT_FD > 0)
-			close(var->input->OUT_FD);
+		close_fd(var);
 		dup2(saved_stdout, STDOUT_FILENO);
 		dup2(saved_stdin, STDIN_FILENO);
 		return (0);
@@ -58,35 +86,8 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	add_slash(pvar);
 	if (get_cmds(pvar, var) == 0)
 		return (-1);
-	pid = fork();
-	if (pid == 0 && ret < 0)
-	{	if (var->input->IN_FD > 0)
-			dup2(var->input->IN_FD, STDIN_FILENO);
-		if (var->input->OUT_FD > 0)
-			dup2(var->input->OUT_FD, STDOUT_FILENO);
-		if (var->input->heredoc)
-		{
-			pipe(pipe_fd);
-			write (pipe_fd[1], var->input->heredoc,
-				   ft_strlen(var->input->heredoc));
-			dup2(pipe_fd[0], STDIN_FILENO);
-			close(pipe_fd[0]);
-			close(pipe_fd[1]);
-		}
-		if (execve(pvar->cmd, var->input->args, NULL) == -1)
-		{
-			write(2, var->input->args[0],
-				 ft_strlen(var->input->args[0]));
-			EXIT_STATUS = 127;
-			return (EXIT_STATUS);
-		}
-	}
-	waitpid(0, &status, WUNTRACED);
-	if (var->input->IN_FD > 0)
-		close(var->input->IN_FD);
-	if (var->input->OUT_FD > 0)
-		close(var->input->OUT_FD);
-	free_split(pvar->path);
+	if (ret < 0)
+		exec(var, pvar);
 	if (WIFEXITED(status))
 	{
 		EXIT_STATUS = WEXITSTATUS(status);

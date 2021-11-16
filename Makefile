@@ -19,6 +19,10 @@ SRC_FILES	=	src/main.c \
 			src/multipipes/exec.c \
 			src/multipipes/get_path.c \
 			src/multipipes/multipipes.c \
+			src/multipipes/close.c \
+			src/multipipes/error.c \
+			src/multipipes/exec_builtin.c \
+			src/multipipes/exec_execve.c \
 			src/parsing/init.c \
 			src/parsing/parsing.c \
 			src/parsing/parsing_utils.c \

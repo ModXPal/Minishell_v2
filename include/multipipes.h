@@ -45,5 +45,11 @@ void	input_add_back(t_input **ainpt, t_input *new);
 int		get_arguments(t_var *var);
 int		is_builtin(char *line, t_builtin *builtin);
 void	multipipes_signal_handling(int status);
+int		proceed_builtin_pipes(t_pvar *pvar, t_var *var, int **pipefd, int i);
+void	proceed_pipes(t_pvar *pvar, t_var *var, int **pipefd, int i);
+void	close_fd(t_var *var);
+int		close_pipes(t_pvar *pvar, int **pipefd);
+int		cmd_not_found(t_var *var);
+int		no_such_file(t_var *var);
 
 #endif
