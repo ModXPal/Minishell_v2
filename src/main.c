@@ -70,7 +70,6 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 		else if (var->cmd_nb > 1)
 		{
 			EXIT_STATUS = 123456789;
-			printf("var->input->cmd = %s", var->input->cmd);
 			ft_multipipes(var, builtin);
 		}
 	    else

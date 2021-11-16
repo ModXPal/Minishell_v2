@@ -53,7 +53,7 @@ void		ft_putstr_fd(char *s, int fd);
 char		*ft_strchr(const char *s, int c);
 char		**ft_split(const char *s, char c);
 char		**ft_split_quotes(const char *s, char c);
-char 		**ft_split_pipes(const char *s, char c);
+char		**ft_split_pipes(const char *s, char c);
 char		*ft_strdup(const char *s1);
 char		*ft_strjoin(const char *s1, const char *s2);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
@@ -76,5 +76,15 @@ int			ft_envar_position(t_envar *envar, char *str);
 char		*ft_envar_find_content(t_envar *tmp, char *str);
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_isalnumqual(int c);
+int			count_redir(const char *str, size_t *i,
+				_Bool *is_word, int *count_words);
+size_t		count_charset(const char *str, char c,
+				_Bool *s_quote, _Bool *d_quote);
+int			check_redir(const char *str, size_t *i,
+				_Bool *s_quote, _Bool *d_quote);
+int			ft_free_tab(char **str, size_t size);
+int			is_sep(char c, char charset);
+void		check_split_quotes(const char *str, size_t i,
+				_Bool *s_quote, _Bool *d_quote);
 
 #endif

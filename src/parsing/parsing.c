@@ -442,6 +442,35 @@ void	input_add_back(t_input **ainpt, t_input *new)
 		*ainpt = new;
 }
 
+int pipe_error(void)
+{
+	write (2, "minishell: syntax error near unexpected token `", 47);
+	write (2, "|", 1);
+	write (2, "'\n", 2);
+	return (-1);
+}
+
+int check_pipes(t_var *var)
+{
+	int i;
+	_Bool non_empty;
+
+	i = -1;
+	non_empty = FALSE;
+	while (var->cmd[++i])
+	{
+		if (var->cmd[i] != ' ' && var->cmd[i] != '|')
+			non_empty = TRUE;
+		else if (non_empty == FALSE && var->cmd[i] == '|')
+			return (pipe_error());
+		else if (var->cmd[i] == '|')
+			non_empty = FALSE;
+	}
+	if (non_empty == FALSE)
+		return (pipe_error());
+	return (0);
+}
+
 int	get_arguments(t_var *var)
 {
 	char	**split_input;
@@ -458,6 +487,8 @@ int	get_arguments(t_var *var)
 		printf("Unmatched quotes\n");
 		return (-1);
 	}
+	if (check_pipes(var) == -1)
+		return (-1);
 	split_pipes = ft_split_pipes(var->cmd, '|');
 	var->input = NULL;
 	while (split_pipes[++i])

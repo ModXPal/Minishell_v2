@@ -26,7 +26,6 @@ SRCS		=	ft_memset.c\
 			ft_strjoin.c\
 			ft_strtrim.c\
 			ft_split.c\
-			ft_split_quotes.c\
 			ft_itoa.c\
 			ft_strmapi.c\
 			ft_putchar_fd.c\
@@ -55,6 +54,8 @@ SRCS		=	ft_memset.c\
 			ft_envar_find_content.c \
 			ft_strcmp.c \
 			ft_split_pipes.c \
+			ft_split_quotes.c\
+			ft_split_quotes_utils.c\
 
 OBJS		= $(SRCS:.c=.o)
 

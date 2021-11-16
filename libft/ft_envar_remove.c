@@ -23,9 +23,7 @@ int	envar_remove(t_envar **envar, int pos)
 	if (pos < 1 || pos > ft_envarsize(*envar))
 		return (0);
 	while (*envar && ++i < pos - 1)
-	{
 		*envar = (*envar)->next;
-	}
 	if (i == 1)
 		*envar = (*envar)->next;
 	else
