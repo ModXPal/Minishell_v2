@@ -12,11 +12,10 @@
 
 #include "builtin.h"
 
-int exec(t_var *var, t_pvar *pvar)
+int ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2])
 {
 	pid_t	pid;
 	int		status;
-	int		pipe_fd[2];
 
 	pid = fork();
 	if (pid == 0)
@@ -43,8 +42,15 @@ int exec(t_var *var, t_pvar *pvar)
 		}
 	}
 	waitpid(0, &status, WUNTRACED);
+	if (WIFEXITED(status))
+	{
+		EXIT_STATUS = WEXITSTATUS(status);
+		if (EXIT_STATUS == 1234567890)
+			EXIT_STATUS = 130;
+	}
 	close_fd(var);
 	free_split(pvar->path);
+	return (1);
 }
 
 int	ft_execve(t_var *var, t_builtin *builtin)
@@ -53,6 +59,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	int		ret;
 	int		saved_stdout;
 	int		saved_stdin;
+	int		pipe_fd[2];
 
 	ret = is_builtin(var->cmd, builtin);
 	if (ret >= 0)
@@ -87,12 +94,6 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	if (get_cmds(pvar, var) == 0)
 		return (-1);
 	if (ret < 0)
-		exec(var, pvar);
-	if (WIFEXITED(status))
-	{
-		EXIT_STATUS = WEXITSTATUS(status);
-		if (EXIT_STATUS == 1234567890)
-			EXIT_STATUS = 130;
-	}
+		ft_exec(var, pvar, pipe_fd);
 	return (EXIT_STATUS);
 }
