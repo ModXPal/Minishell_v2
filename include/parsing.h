@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:31:43 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/06 17:52:30 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/17 14:48:09 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,18 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	init_builtin(t_builtin *builtin);
 void	init_var(t_var *var, char **env, int ac);
 char	*get_valid_envar(t_var *var, char *str, int i);
-int		endofline(char *str);
-int		test_flag(int flag, char *save);
-int		check_error(int fd, char buff[2], char **line);
-int		get_next_line(int fd, char **line, int flag);
 int		get_heredoc_len(char *str, t_var *var);
+int		syntax_error(char **input, int i, int j);
+int		pipe_error(void);
+void	permission_denied(char *file);
+void	missing_file(char *file);
+int		syntax_check(char **input);
+int		check_pipes(t_var *var);
+int		here_doc(t_input *input, char *delimiter, t_var *var);
+int		handle_redir(t_var *var, t_input *input, char **split_input, int *i);
+int		count_heredoc(char **split_input);
+int		split_len(char **split);
+int		count_pipes(t_var *var);
+int		handle_input(t_var *var, t_input *new, char **split_input);
 
 #endif

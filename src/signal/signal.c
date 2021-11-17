@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:34:28 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/17 11:55:44 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/17 14:30:23 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void	handle_sigusr1(int signum)
 	if (signum == SIGINT && EXIT_STATUS != 1234567890
 		&& EXIT_STATUS != 123456789)
 		signal_singint_normal();
-	else if (signum == SIGINT && isatty(0) != 0 && EXIT_STATUS != 123456789)
+	else if (signum == SIGINT
+		&& isatty(0) != 0 && EXIT_STATUS != 123456789)
 		signal_sigint_stdin();
 	else if (signum == SIGINT && isatty(0) != 0)
 		signal_singint_stdin_multipipe();

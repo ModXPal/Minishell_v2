@@ -62,11 +62,11 @@ void	free_input(t_var *var)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (var && var->input)
 	{
-		while ((var->input->args)[i])
-			free((var->input->args)[i++]);
+		while ((var->input->args)[++i])
+			free((var->input->args)[i]);
 		free(var->input);
 	}
 }

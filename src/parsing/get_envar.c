@@ -18,7 +18,7 @@ char	*get_var_name(char **env, int i)
 	char	*name;
 
 	j = 0;
-    while (env[i][j] != '=')
+	while (env[i][j] != '=')
 		j++;
 	name = (char *)malloc(sizeof(char) * (j + 1));
 	name[j] = '\0';
@@ -36,7 +36,7 @@ char	*get_var_content(char **env, int i)
 
 	j = 0;
 	k = 0;
-    var_len = ft_strlen(env[i]);
+	var_len = ft_strlen(env[i]);
 	while (env[i][j - 1] != '=')
 		j++;
 	content = (char *)malloc(sizeof(char) * (var_len - j + 1));

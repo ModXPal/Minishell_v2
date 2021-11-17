@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 16:09:34 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/16 14:24:35 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/17 14:39:36 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	cd_content_equal_zero(t_var	*var)
 	if (cd_str_and_path_not_set(var) == 0)
 		return (1);
 	if (dir < 0)
-		return (0);
+		return (1);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
 		return (1);
 	return (0);

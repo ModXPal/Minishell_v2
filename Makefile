@@ -16,6 +16,7 @@ SRC_FILES	=	src/main.c \
 			src/builtin/ft_cd_utils_2.c \
 			src/builtin/ft_cd_utils_3.c \
 			src/excve/ft_excve.c \
+			src/excve/dup.c \
 			src/multipipes/exec.c \
 			src/multipipes/get_path.c \
 			src/multipipes/multipipes.c \
@@ -29,6 +30,11 @@ SRC_FILES	=	src/main.c \
 			src/parsing/get_len.c \
 			src/parsing/get_envar.c \
 			src/parsing/error.c \
+			src/parsing/syntax_check.c \
+			src/parsing/heredoc.c \
+			src/parsing/redirection.c \
+			src/parsing/input_list.c \
+			src/parsing/count.c \
 			src/free/free_1.c \
 			src/signal/signal.c \
 
