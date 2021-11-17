@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/04 13:47:40 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/17 11:14:48 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -485,6 +485,7 @@ int	get_arguments(t_var *var)
 	if (check_unmatched_quotes(var) == TRUE)
 	{
 		printf("Unmatched quotes\n");
+		EXIT_STATUS = 1;
 		return (-1);
 	}
 	if (check_pipes(var) == -1)

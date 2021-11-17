@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:32 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/16 15:17:29 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/17 11:51:56 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ int	cd_application(t_var *var)
 
 int	ft_cd(t_var *var)
 {
-	int i;
-	
+	int	i;
+
 	i = -1;
 	if (cd_too_many_arguments(var) == 1)
 	{
