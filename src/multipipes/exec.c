@@ -30,8 +30,49 @@ int	check_access(t_pvar *pvar, int i)
 	return (-1);
 }
 
+int	get_prog_path(t_pvar *pvar, t_var *var)
+{
+	char *final_path;
+	int	i;
+	int	j;
+
+	i = -1;
+	j = 0;
+	if (var->input->cmd[0] == '.' && var->input->cmd[1] == '/')
+	{
+		final_path = (char *)ft_calloc(sizeof(char),
+			 (ft_strlen(get_valid_envar(var, "PWD", 0)) +
+			 		ft_strlen(&(var->input->cmd)[1])) + 1);
+		while (get_valid_envar(var, "PWD", 0)[++i])
+			final_path[i] = get_valid_envar(var, "PWD", 0)[i];
+		while (var->input->cmd[++j])
+			final_path[i++] = var->input->cmd[j];
+		pvar->cmd = final_path;
+		return (0);
+	}
+	return (1);
+}
+
+int	executable_error(t_var *var, t_pvar *pvar)
+{
+	if (access(pvar->cmd, X_OK) == -1)
+	{
+		write (2, "minishell: ", 11);
+		perror(&var->cmd[2]);
+		return (0);
+	}
+	return (1);
+}
+
 int	check_input(t_pvar *pvar, t_var *var)
 {
+	if (get_prog_path(pvar, var) == 0)
+	{
+		if (check_access(pvar, -1) == SUCCESS)
+			return (1);
+		else if (check_access(pvar, -1) == FAIL)
+			return (executable_error(var, pvar));
+	}
 	if (var->input->cmd[0] == '\0')
 	{
 		pvar->cmd = var->input->cmd;
