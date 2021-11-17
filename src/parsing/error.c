@@ -12,31 +12,51 @@
 
 #include "parsing.h"
 
-int	check_unmatched_quotes(t_var *var)
+void	missing_file(char *file)
 {
-	int	i;
-	int	d_quote_count;
-	int	s_quote_count;
-	int	d_quote;
-	int	s_quote;
+	write (2, "minishell: ", 11);
+	write (2, file, ft_strlen(file));
+	write (2, ": No such file or directory\n", 28);
+	EXIT_STATUS = 1;
+}
 
-	i = -1;
-	d_quote_count = 0;
-	s_quote_count = 0;
-	d_quote = 0;
-	s_quote = 0;
-	while (var->cmd[++i])
+void	permission_denied(char *file)
+{
+	write (2, "minishell: ", 11);
+	write (2, file, ft_strlen(file));
+	write (2, ": Permission denied\n", 20);
+	EXIT_STATUS = 1;
+}
+
+int	pipe_error(void)
+{
+	write (2, "minishell: syntax error near unexpected token `", 47);
+	write (2, "|", 1);
+	write (2, "'\n", 2);
+	EXIT_STATUS = 2;
+	return (-1);
+}
+
+int	syntax_error(char **input, int i, int j)
+{
+	if (j == 2)
 	{
-		if (var->cmd[i] == '"' && s_quote == FALSE)
-		{
-			check_d_quote(&d_quote);
-			d_quote_count++;
-		}
-		if (var->cmd[i] == '\'' && d_quote == FALSE)
-		{
-			check_s_quote(&s_quote);
-			s_quote_count++;
-		}
+		write (2, "minishell: syntax error near unexpected token `", 47);
+		write (2, &input[i][0], 2);
+		write (2, "'\n", 2);
 	}
-	return (d_quote_count % 2 + s_quote_count % 2);
+	else if (j == 3)
+	{
+		write (2, "minishell: syntax error near unexpected token `", 47);
+		write (2, &input[i][0], ft_strlen(&input[i][0]));
+		write (2, "'\n", 2);
+	}
+	else
+	{
+		write (2, "minishell: syntax error near unexpected token `", 47);
+		write (2, "newline", 7);
+		write (2, "'\n", 2);
+	}
+	EXIT_STATUS = 2;
+	return (-1);
 }

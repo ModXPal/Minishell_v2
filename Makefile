@@ -30,6 +30,11 @@ SRC_FILES	=	src/main.c \
 			src/parsing/get_len.c \
 			src/parsing/get_envar.c \
 			src/parsing/error.c \
+			src/parsing/syntax_check.c \
+			src/parsing/heredoc.c \
+			src/parsing/redirection.c \
+			src/parsing/input_list.c \
+			src/parsing/count.c \
 			src/free/free_1.c \
 			src/signal/signal.c \
 
