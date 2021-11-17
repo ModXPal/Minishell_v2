@@ -77,7 +77,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	if (ret >= 0)
 	{
 		handle_builtin(var, pipe_fd, builtin, ret);
-			return (EXIT_STATUS);
+		return (EXIT_STATUS);
 	}
 	if (ret == -1)
 		EXIT_STATUS = 1234567890;
