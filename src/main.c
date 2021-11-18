@@ -19,6 +19,8 @@ int	is_builtin(char *line, t_builtin *builtin)
 	int	i;
 
 	i = 0;
+	if (line == NULL)
+		return (-1);
 	while (builtin[i].cmd)
 	{
 		if (ft_strcmp(line, builtin[i].cmd) == 1)
@@ -51,6 +53,11 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 			free(var->cmd);
 			continue ;
 		}
+		else if (var->cmd_nb > 1)
+		{
+			EXIT_STATUS = 123456789;
+			ft_multipipes(var, builtin);
+		}
 		else if (var->input->cmd == NULL)
 		{
 			if (var->input->IN_FD > 0)
@@ -66,11 +73,6 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 			free_input(var);
 			free(var->cmd);
 			continue ;
-		}
-		else if (var->cmd_nb > 1)
-		{
-			EXIT_STATUS = 123456789;
-			ft_multipipes(var, builtin);
 		}
 	    else
 		{

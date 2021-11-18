@@ -15,7 +15,12 @@
 void	get_envar_len(int *j, int *i, t_var *var, char *str)
 {
 	*j += ft_strlen(get_valid_envar(var, str, ++(*i)));
-	while (ft_isalnum(str[*i]) == TRUE)
+	if (str[*i] == '?')
+	{
+		(*i)++;
+		return ;
+	}
+	while (ft_isalnum(str[*i]) == TRUE || str[*i] == '_')
 		(*i)++;
 	(*i)--;
 }

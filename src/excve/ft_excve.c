@@ -38,10 +38,8 @@ int	ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2])
 		close_fd(var);
 		if (execve(pvar->cmd, var->input->args, NULL) == -1)
 		{
-			write(2, var->input->args[0],
-				  ft_strlen(var->input->args[0]));
 			EXIT_STATUS = 127;
-			return (EXIT_STATUS);
+			exit (EXIT_STATUS);
 		}
 	}
 	waitpid(0, &status, WUNTRACED);

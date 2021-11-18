@@ -59,6 +59,7 @@ int	executable_error(t_var *var, t_pvar *pvar)
 	{
 		write (2, "minishell: ", 11);
 		perror(&var->cmd[2]);
+		EXIT_STATUS = 127;
 		return (0);
 	}
 	return (1);
@@ -69,7 +70,10 @@ int	check_input(t_pvar *pvar, t_var *var)
 	if (get_prog_path(pvar, var) == 0)
 	{
 		if (check_access(pvar, -1) == SUCCESS)
+		{
+			printf("jlasdjflkjasdldfj\n");
 			return (1);
+		}
 		else if (check_access(pvar, -1) == FAIL)
 			return (executable_error(var, pvar));
 	}
@@ -145,6 +149,7 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 				proceed_builtin_pipes(pvar, var, pipefd, i);
 			else
 				proceed_pipes(pvar, var, pipefd, i);
+			break ;
 		}
 	}
 	return (0);
@@ -161,6 +166,7 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 	if (exec_execution(var, pids, pipefd, pvar) == 1)
 		return (1);
 	close_pipes(pvar, pipefd);
+	close_fd(var);
 	i = -1;
 	while (++i < pvar->cmd_nb)
 		waitpid(0, &status, WUNTRACED);

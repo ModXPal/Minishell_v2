@@ -12,6 +12,32 @@
 
 #include "parsing.h"
 
+char	*trim_expand(char *str)
+{
+	int	len;
+	int i;
+	char *trim;
+
+	i = -1;
+	len = 0;
+	while (str[++i])
+	{
+		while (str[i] == ' ')
+			i++;
+		len++;
+	}
+	trim = ft_calloc(sizeof(char), len + 1);
+	i = -1;
+	len = 0;
+	while (str[++i])
+	{
+		while (str[i] == ' ')
+			i++;
+		trim[len++] = str[i];
+	}
+	return (trim);
+}
+
 char	*get_valid_envar(t_var *var, char *str, int i)
 {
 	t_envar	*tmp;
@@ -19,6 +45,8 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 	int		k;
 
 	tmp = var->envar;
+	if (str[i] == '?')
+		return (ft_itoa(EXIT_STATUS));
 	while (tmp)
 	{
 		j = 0;
@@ -29,8 +57,12 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 				break ;
 			j++;
 			k++;
-			if ((ft_isalnum(str[k]) == 0) || str[k] == 0)
+			if (((ft_isalnum(str[k]) == 0) && str[k] != '_') || str[k] == 0)
+			{
+				if (var->d_quote == FALSE)
+					return (trim_expand(tmp->content));
 				return (tmp->content);
+			}
 		}
 		tmp = tmp->next;
 	}
@@ -52,7 +84,7 @@ char	*ft_trim(t_var *var, char *str, int len)
 		k = 0;
 		if (check_quotes(str, &j, var) == TRUE)
 			continue ;
-		if (str[j] == '$' && var->s_quote == FALSE && ft_isalnum(str[j + 1]))
+		if (str[j] == '$' && var->s_quote == FALSE /*&& ft_isalnum(str[j + 1])*/)
 		{
 			j++;
 			while (get_valid_envar(var, str, j)[k])
@@ -95,12 +127,7 @@ int	create_input_list(t_var *var, char *split_pipes)
 	if (syntax_check(split_input) == -1)
 		return (-1);
 	new = get_input(var, split_input);
-	if (new != NULL)
-	{
-		input_add_back(&var->input, new);
-	}
-	else
-		var->cmd_nb--;
+	input_add_back(&var->input, new);
 	free_split(split_input);
 	return (0);
 }
