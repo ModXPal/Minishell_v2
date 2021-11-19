@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:32 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/05 15:17:30 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/17 14:51:22 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int	check_cdpath_exists(t_var *var)
 			|| (ft_strncmp(var->input->args[1], "..", 2) == 0
 				&& ft_strlen(var->input->args[1]) == 2)
 			|| (ft_strncmp(var->input->args[1], "/", 1) == 0
-				&& ft_strlen(var->input->args[1]) == 1))
+				&& ft_strlen(var->input->args[1]) == 1)
+			|| (access(var->input->args[1], F_OK) == 0))
 		{
 			return (2);
 		}
@@ -100,15 +101,22 @@ int	cd_application(t_var *var)
 
 int	ft_cd(t_var *var)
 {
+	int	i;
+
+	i = -1;
 	if (cd_too_many_arguments(var) == 1)
 	{
 		cd_error_message_too_many_arguments(var);
 		EXIT_STATUS = 1;
 		return (EXIT_STATUS);
 	}
-	if (check_cdpath_exists(var) == 1)
+	i = check_cdpath_exists(var);
+	if (i == 1)
 	{
-		EXIT_STATUS = 1;
+		if (i == 1)
+			EXIT_STATUS = 1;
+		if (i == 0)
+			EXIT_STATUS = 0;
 		return (EXIT_STATUS);
 	}
 	if (cd_application(var) == 1)

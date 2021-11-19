@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:29:54 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 18:59:03 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/16 14:29:55 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	unset_error_export_message(t_var *var, char *content)
 {
-	(void) content;
 	var->error = 1;
 	write (2, "minishell: ", 12);
 	write(2, var->input->cmd, ft_strlen(var->input->cmd));
