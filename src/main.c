@@ -103,6 +103,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	envar = NULL;
 	var->cd->exit_cd = 0;
+	var->trim_expand = NULL;
 	export = NULL;
 	EXIT_STATUS = 0;
 	get_env_var(var, &envar);

@@ -17,7 +17,7 @@ int	check_pipes(t_var *var)
 			non_empty = FALSE;
 	}
 	if (non_empty == FALSE)
-		return (pipe_error());
+		return (-1);
 	return (0);
 }
 

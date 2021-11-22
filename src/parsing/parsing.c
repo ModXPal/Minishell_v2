@@ -32,6 +32,8 @@ char	*trim_expand(char *str)
 			len++;
 	}
 	trim = ft_calloc(sizeof(char), len + 1);
+	//if (trim == NULL)
+	//	return (NULL);
 	i = -1;
 	len = 0;
 	while (str[++i])
@@ -67,7 +69,10 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 			if (((ft_isalnum(str[k]) == 0) && str[k] != '_') || str[k] == 0)
 			{
 				if (var->d_quote == FALSE)
-					return (trim_expand(tmp->content));
+				{
+					var->trim_expand = trim_expand(tmp->content);
+					return (var->trim_expand);
+				}
 				return (tmp->content);
 			}
 		}

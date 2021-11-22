@@ -30,24 +30,25 @@ int	check_access(t_pvar *pvar, int i)
 	return (-1);
 }
 
+int	check_relative_exec(char *str)
+{
+	if (ft_strncmp(str, "./", 2) == 0)
+		return (1);
+	if (ft_strncmp(str, "../", 3) == 0)
+		return (2);
+	return (0);
+}
+
 int	get_prog_path(t_pvar *pvar, t_var *var)
 {
-	char *final_path;
-	int	i;
-	int	j;
-
-	i = -1;
-	j = 0;
-	if (var->input->cmd[0] == '.' && var->input->cmd[1] == '/')
+	if (check_relative_exec(var->input->cmd) == 1)
 	{
-		final_path = (char *)ft_calloc(sizeof(char),
-			 (ft_strlen(get_valid_envar(var, "PWD", 0)) +
-			 		ft_strlen(&(var->input->cmd)[1])) + 1);
-		while (get_valid_envar(var, "PWD", 0)[++i])
-			final_path[i] = get_valid_envar(var, "PWD", 0)[i];
-		while (var->input->cmd[++j])
-			final_path[i++] = var->input->cmd[j];
-		pvar->cmd = final_path;
+		pvar->cmd = &(var->input->cmd[2]);
+		return (0);
+	}
+	else if (check_relative_exec(var->input->cmd) == 2)
+	{
+		pvar->cmd = var->input->cmd;
 		return (0);
 	}
 	return (1);
@@ -108,9 +109,7 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	{
 		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
 		if (check_access(pvar, i) == SUCCESS)
-		{
 			break ;
-		}
 		else if (check_access(pvar, i) == FAIL)
 		{
 			free_split(pvar->path);
