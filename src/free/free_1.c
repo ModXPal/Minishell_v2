@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:10:26 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/22 14:32:05 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/22 14:44:58 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	free_input(t_var *var)
 	i = -1;
 	if (var && var->input)
 	{
-		// while ((var->input->args)[++i])
-		// 	free((var->input->args)[i]);
-		// free(var->input);
+		while ((var->input->args)[++i])
+			free((var->input->args)[i]);
+		free(var->input);
 	}
 }
