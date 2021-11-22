@@ -23,16 +23,23 @@ char	*trim_expand(char *str)
 	while (str[++i])
 	{
 		while (str[i] == ' ')
+		{
 			i++;
-		len++;
+			if (len != 0 && str[i - 1] == 0)
+				len++;
+		}
+		if (str[i])
+			len++;
 	}
 	trim = ft_calloc(sizeof(char), len + 1);
 	i = -1;
 	len = 0;
 	while (str[++i])
 	{
-		while (str[i] == ' ')
+		while (str[i] && str[i] == ' ')
 			i++;
+		if (len != 0 && str[i - 1] == ' ')
+			trim[len++] = ' ';
 		trim[len++] = str[i];
 	}
 	return (trim);
@@ -84,7 +91,7 @@ char	*ft_trim(t_var *var, char *str, int len)
 		k = 0;
 		if (check_quotes(str, &j, var) == TRUE)
 			continue ;
-		if (str[j] == '$' && var->s_quote == FALSE /*&& ft_isalnum(str[j + 1])*/)
+		if (str[j] == '$' && var->s_quote == FALSE)
 		{
 			j++;
 			while (get_valid_envar(var, str, j)[k])

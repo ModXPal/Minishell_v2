@@ -70,10 +70,7 @@ int	check_input(t_pvar *pvar, t_var *var)
 	if (get_prog_path(pvar, var) == 0)
 	{
 		if (check_access(pvar, -1) == SUCCESS)
-		{
-			printf("jlasdjflkjasdldfj\n");
 			return (1);
-		}
 		else if (check_access(pvar, -1) == FAIL)
 			return (executable_error(var, pvar));
 	}
