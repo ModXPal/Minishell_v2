@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:41:03 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 18:59:50 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/22 12:07:15 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	cd_cdpath_application(t_var *var)
 	tmp2 = var->envar;
 	dir = chdir(var->cd->cdpath);
 	if (dir < 0)
+	{
+		errors_chdir_handling(dir, var);
 		return (1);
+	}
 	str = ft_env_new_pwd(var, "PWD");
 	printf("%s\n", getcwd(0, 150));
 	ft_env_old_pwd(var, "OLDPWD", str);

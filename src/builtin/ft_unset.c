@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:29:54 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/19 15:40:45 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/22 13:57:23 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@ int	ft_unset_export(t_var *var, char *str, int *args_exist)
 	pos = 0;
 	tmp = var->export;
 	while (ft_strcmp(tmp->name, str) != 1)
-		tmp = tmp->next;
-	if (tmp != 0)
+	{
+		if (tmp->next)
+			tmp = tmp->next;
+		
+		else if (tmp->next == 0)
+			return (0);
+	}
+	// if (tmp == 0)
+	// 	return (0);
+	if (ft_strcmp(tmp->name, str) == 1)
 	{
 		pos = ft_envar_position(var->export, tmp->name);
 		envar_remove(&var->export, pos);
 		(*args_exist) = 1;
-	}
-		// 	if (ft_strcmp(tmp->name, str) == 1)
-		// {
-		// 	pos = ft_envar_position(var->export, tmp->name);
-		// 	envar_remove(&var->export, pos);
-		// 	(*args_exist) = 1;
-		// }
-		// tmp = tmp->next;
-	// }
+	}	
 	return (0);
 }
 
@@ -59,19 +59,17 @@ int	unset_search_and_remove(t_var *var, int *cmd_exist, char *content)
 	if (unset_export_error_handling(var, content) != -1)
 	{
 		while (ft_strcmp(tmp->name, content) != 1)
-			tmp = tmp->next;
-		if (tmp != 0)
+		{
+			if (tmp->next)
+				tmp = tmp->next;
+			else if (tmp->next == 0)
+				break ;
+		}
+		if (ft_strcmp(tmp->name, content) == 1)
 		{
 			pos = ft_envar_position(var->envar, tmp->name);
 			envar_remove(&var->envar, pos);
 		}
-		// 	if (ft_strcmp(tmp->name, content) == 1)
-		// 	{
-		// 		pos = ft_envar_position(var->envar, tmp->name);
-		// 		envar_remove(&var->envar, pos);
-		// 	}
-		// 	tmp = tmp->next;
-		// }
 	}
 	ft_unset_export(var, content, cmd_exist);
 	return (0);

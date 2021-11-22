@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 18:45:48 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 18:53:57 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/22 13:45:02 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ int	unset_first_letter(t_var *var, char *content, int i)
 
 int	unset_not_alnum(t_var *var, char *content, int j)
 {
+	j++;
 	while (content[j])
 	{
-		if (ft_isalnum(content[j]) == 0)
+		if (ft_isalnumqual(content[j]) == 0)
 		{
 			unset_error_export_message(var, content);
 			return (-1);

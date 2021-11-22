@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:08:16 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/19 15:46:25 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/22 12:02:02 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ char	*ft_export_new_pwd(t_var *var, char *str)
 	}
 	str2 = getcwd(NULL, 0);
 	str = ft_env_new_pwd_2(var, tmp, str2, str);
-	if (str2)
-		free (str2);
+	// if (str2)
+	// 	free (str2);
 	return (str);
 }
 
@@ -69,8 +69,8 @@ char	*ft_env_new_pwd(t_var *var, char *str)
 	}
 	str2 = getcwd(NULL, 0);
 	str = ft_env_new_pwd_2(var, tmp, str2, str);
-	if (str2)
-		free (str2);
+	// if (str2)
+	// 	free (str2);
 	return (str);
 }
 

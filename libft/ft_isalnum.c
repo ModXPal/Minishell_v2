@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:47:23 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/06 17:36:47 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/22 13:19:58 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_isalnum(int c)
 
 int	ft_isalnumqual(int c)
 {
-	if (ft_isalpha(c) || ft_isdigit(c) || c == '=')
+	if (ft_isalpha(c) || ft_isdigit(c) || c == '=' || c == '_')
 		return (1);
 	return (0);
 }
