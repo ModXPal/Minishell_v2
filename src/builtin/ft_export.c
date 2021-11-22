@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 15:45:05 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/22 14:22:17 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/22 15:04:16 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	export_name_content(t_var *var, char *args)
 		var->export_content = ((char *) malloc(sizeof(char) * (j + 1)));
 		var->export_content
 			= export_content_search(&i, args, var->export_content);
-		printf("var->export_content = %s\n", var->export_content);
 		if (!var->export_name)
 			return (0);
 	}
@@ -74,7 +73,6 @@ int	ft_export(t_var *var)
 
 	var->error = 0;
 	j = 1;
-	printf("COUCOU_1\n");
 	if (cmd_export_alone(var) == 1)
 	{
 		var->exit_status = 0;
