@@ -62,7 +62,6 @@ int	handle_input(t_var *var, t_input *new, char **split_input)
 			new->cmd = content;
 		new->args[j++] = content;
 	}
-	new->args[j] = NULL;
 	new->next = NULL;
 	return (0);
 }

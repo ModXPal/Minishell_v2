@@ -58,6 +58,7 @@ typedef struct s_var{
 	char			*variable;
 	char			*export_name;
 	char			*export_content;
+	char 			*trim_expand;
 	int				ac;
 	int				exit_status;
 	int				s_quote;
