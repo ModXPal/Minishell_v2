@@ -14,14 +14,20 @@
 
 int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 {
+	int pipe_heredoc[2];
+
 	if (var->input->IN_FD > 0)
 		dup2(var->input->IN_FD, STDIN_FILENO);
+	else if (var->input->heredoc)
+	{
+		pipe(pipe_heredoc);
+		dup_heredoc(var, pipe_heredoc);
+	}
 	if (var->input->OUT_FD > 0)
 		dup2(var->input->OUT_FD, STDOUT_FILENO);
 	else
 		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
-	close_fd(var);
 	if (execve(pvar->cmd, var->input->args, NULL) == -1)
 		perror("Execve failed:");
 	return (1);
@@ -29,8 +35,15 @@ int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 
 int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
+	int pipe_heredoc[2];
+
 	if (var->input->IN_FD > 0)
 		dup2(var->input->IN_FD, STDIN_FILENO);
+	else if (var->input->heredoc)
+	{
+		pipe(pipe_heredoc);
+		dup_heredoc(var, pipe_heredoc);
+	}
 	else
 		dup2(pipefd[i][0], STDIN_FILENO);
 	if (var->input->OUT_FD > 0)
@@ -38,21 +51,26 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	else
 		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
-	close_fd(var);
 	execve(pvar->cmd, var->input->args, NULL);
 	return (1);
 }
 
 int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
+	int pipe_heredoc[2];
+
 	if (var->input->IN_FD > 0)
 		dup2(var->input->IN_FD, STDIN_FILENO);
+	else if (var->input->heredoc)
+	{
+		pipe(pipe_heredoc);
+		dup_heredoc(var, pipe_heredoc);
+	}
 	else
 		dup2(pipefd[i][0], STDIN_FILENO);
 	if (var->input->OUT_FD > 0)
 		dup2(var->input->OUT_FD, STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
-	close_fd(var);
 	if (execve(pvar->cmd, var->input->args, NULL) == -1)
 		perror("Execve failed:");
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/17 15:24:07 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/22 10:31:40 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	is_builtin(char *line, t_builtin *builtin)
 	int	i;
 
 	i = 0;
+	if (line == NULL)
+		return (-1);
 	while (builtin[i].cmd)
 	{
 		if (ft_strcmp(line, builtin[i].cmd) == 1)

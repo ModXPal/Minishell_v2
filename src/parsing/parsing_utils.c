@@ -14,6 +14,11 @@
 
 void	skip_alnum(char *str, int *j)
 {
+	if (str[*j] == '?')
+	{
+		(*j)++;
+		return ;
+	}
 	while (ft_isalnum(str[*j]) == TRUE)
 		(*j)++;
 }
@@ -22,7 +27,7 @@ int	is_valid_dollar(char *str, int i)
 {
 	if (str[i] == '$')
 	{
-		if (ft_isalnum(str[i + 1]))
+		if (ft_isalpha(str[i + 1]) || str[i + 1] == '_')
 			return (1);
 	}
 	return (0);

@@ -56,7 +56,7 @@ int	handle_input(t_var *var, t_input *new, char **split_input)
 		if (ret == 0 || ret == 1)
 			continue ;
 		else if (ret == 2)
-			return (1);
+			return (2);
 		else if (i == 0 || ((new->IN_FD > 0 || new->OUT_FD > 0
 					 || new->heredoc) && new->cmd == NULL))
 			new->cmd = content;
@@ -64,7 +64,5 @@ int	handle_input(t_var *var, t_input *new, char **split_input)
 	}
 	new->args[j] = NULL;
 	new->next = NULL;
-	if (new->cmd == NULL)
-		return (1);
 	return (0);
 }

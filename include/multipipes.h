@@ -51,5 +51,6 @@ void	close_fd(t_var *var);
 int		close_pipes(t_pvar *pvar, int **pipefd);
 int		cmd_not_found(t_var *var);
 int		no_such_file(t_var *var);
+int		dup_heredoc(t_var *var, int pipe_fd[2]);
 
 #endif

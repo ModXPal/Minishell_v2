@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 11:39:06 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 19:02:49 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/19 15:26:02 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ int	ft_pwd(t_var *var)
 
 	tmp = var->envar;
 	str = NULL;
-	test = NULL;
 	str = ft_envar_find_content(tmp, "PWD");
-	test = getcwd(0, 150);
+	test = getcwd(NULL, 0);
 	if (test == NULL)
 	{
 		EXIT_STATUS = 1;
@@ -30,13 +29,14 @@ int	ft_pwd(t_var *var)
 			   "getcwd: cannot access parent directories");
 		return (EXIT_STATUS);
 	}
-	if (str && ft_strlen(str) == 2 && ft_strncmp(str, "//", 2) == 0)
+	if (test && ft_strlen(test) == 2 && ft_strncmp(test, "//", 2) == 0)
 		printf("//\n");
 	else
 	{
 		printf("%s\n", test);
-		free(test);
 	}
+	if (test != 0)
+		free (test);
 	EXIT_STATUS = 0;
 	return (EXIT_STATUS);
 }
