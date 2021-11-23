@@ -29,9 +29,13 @@ void	add_slash(t_pvar *pvar)
 char	**get_binaries_path(t_var *var)
 {
 	char	*path;
+	char 	**split_path;
 
 	path = get_valid_envar(var, "PATH", 0);
 	if (path == NULL)
 		return (NULL);
-	return (ft_split(path, ':'));
+	split_path = ft_split(path, ':');
+	if (path)
+		free (path);
+	return (split_path);
 }

@@ -61,7 +61,7 @@ int	executable_error(t_var *var, t_pvar *pvar)
 		write (2, "minishell: ", 11);
 		perror(&var->cmd[2]);
 		EXIT_STATUS = 127;
-		free(pvar->cmd);
+		free_split(pvar->path);
 		return (0);
 	}
 	return (1);

@@ -31,9 +31,10 @@ char	*trim_expand(char *str)
 		if (str[i])
 			len++;
 	}
+	printf("len = %d\n", len + 1);
 	trim = ft_calloc(sizeof(char), len + 1);
-	//if (trim == NULL)
-	//	return (NULL);
+	if (trim == NULL)
+		return (NULL);
 	i = -1;
 	len = 0;
 	while (str[++i])
@@ -55,10 +56,7 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 
 	tmp = var->envar;
 	if (str[i] == '?')
-	{
-		var->exit_code = ft_itoa(EXIT_STATUS);
-		return (var->exit_code);
-	}
+		return (ft_itoa(EXIT_STATUS));
 	while (tmp)
 	{
 		j = 0;
@@ -72,11 +70,8 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 			if (((ft_isalnum(str[k]) == 0) && str[k] != '_') || str[k] == 0)
 			{
 				if (var->d_quote == FALSE)
-				{
-					var->trim_expand = trim_expand(tmp->content);
-					return (var->trim_expand);
-				}
-				return (tmp->content);
+					return (trim_expand(tmp->content));
+				return (ft_strdup(tmp->content));
 			}
 		}
 		tmp = tmp->next;
@@ -90,6 +85,7 @@ char	*ft_trim(t_var *var, char *str, int len)
 	int		i;
 	int		j;
 	int		k;
+	char 	*envar;
 
 	trim_str = (char *)malloc(sizeof(char) * (len + 1));
 	j = 0;
@@ -102,11 +98,24 @@ char	*ft_trim(t_var *var, char *str, int len)
 		if (str[j] == '$' && var->s_quote == FALSE)
 		{
 			j++;
-			while (get_valid_envar(var, str, j)[k])
-				trim_str[i++] = get_valid_envar(var, str, j)[k++];
+			envar = get_valid_envar(var, str, j);
+			while (envar[k])
+				trim_str[i++] = envar[k++];
+			if (envar)
+			{
+				free(envar);
+				envar = NULL;
+			}
 			skip_alnum(str, &j);
 			continue ;
 		}
+		/*
+		if (var->exit_code)
+		{
+			free(var->exit_code);
+			var->exit_code = NULL;
+		}
+		 */
 		trim_str[i++] = str[j++];
 	}
 	trim_str[i] = 0;
