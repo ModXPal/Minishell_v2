@@ -170,5 +170,6 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 	free(pids);
 	var->input = start;
 	free_split(pvar->path);
+	free(pvar->cmd);
 	return (EXIT_STATUS);
 }
