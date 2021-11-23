@@ -38,13 +38,16 @@ char	*ft_export_new_pwd(t_var *var, char *str)
 void	ft_export_old_pwd(t_var *var, char *str, char *str2)
 {
 	t_envar	*tmp;
+	char 	*to_free;
 
 	tmp = var->export;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->name, str))
 		{
+			to_free = tmp->content;
 			tmp->content = str2;
+			free(to_free);
 			break ;
 		}
 		tmp = tmp->next;
@@ -69,14 +72,13 @@ char	*ft_env_new_pwd(t_var *var, char *str)
 	}
 	str2 = getcwd(NULL, 0);
 	str = ft_env_new_pwd_2(var, tmp, str2, str);
-	// if (str2)
-	// 	free (str2);
 	return (str);
 }
 
 void	ft_env_old_pwd(t_var *var, char *str, char *str2)
 {
 	t_envar	*tmp;
+	char 	*to_free;
 
 	(void) str;
 	tmp = var->envar;
@@ -84,7 +86,9 @@ void	ft_env_old_pwd(t_var *var, char *str, char *str2)
 	{
 		if (ft_strcmp(tmp->name, "OLDPWD"))
 		{
+			to_free = tmp->content;
 			tmp->content = str2;
+			free(to_free);
 			break ;
 		}
 		tmp = tmp->next;

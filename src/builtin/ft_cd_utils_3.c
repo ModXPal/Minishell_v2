@@ -36,12 +36,12 @@ int	cd_cdpath_application(t_var *var)
 	return (0);
 }
 
-int	swap_pwd_old_pwd_and_errors(t_var *var, char *str, int dir)
+int	swap_pwd_old_pwd_and_errors(t_var *var, char *current_path, int dir)
 {
-	str = ft_env_new_pwd(var, str);
-	ft_env_old_pwd(var, "OLDPWD", str);
-	str = ft_export_new_pwd(var, str);
-	ft_export_old_pwd(var, "OLDPWD", str);
+	current_path = ft_env_new_pwd(var, current_path); // = PWD
+	ft_env_old_pwd(var, "OLDPWD", current_path);
+	current_path = ft_export_new_pwd(var, current_path);
+	ft_export_old_pwd(var, "OLDPWD", current_path);
 	if (errors_chdir_handling(dir, var) == 1)
 		return (1);
 	return (0);
@@ -55,8 +55,10 @@ char	*ft_env_new_pwd_2(t_var *var, t_envar *tmp, char *str2, char *str)
 			&& (ft_strncmp(var->input->args[1], "//", 2) == 0))
 			tmp->content = "//";
 		else
+		{
 			if (tmp)
 				tmp->content = str2;
+		}
 	}
 	else
 	{

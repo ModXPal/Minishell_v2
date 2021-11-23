@@ -62,6 +62,7 @@ typedef struct s_var{
 	char			*export_name;
 	char			*export_content;
 	char 			*trim_expand;
+	char			*exit_code;
 	int				ac;
 	int				exit_status;
 	int				s_quote;
