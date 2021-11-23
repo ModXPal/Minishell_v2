@@ -8,9 +8,9 @@ char	*delete_last_line(char *str)
 	if (str == NULL)
 		return (NULL);
 	i = ft_strlen(str) - 2;
-	while (str[i - 1] != '\n')
+	while (i >= 1 && str[i - 1] != '\n')
 		i--;
-	final_str = malloc(sizeof(char) * i);
+	final_str = malloc(sizeof(char) * (i + 1));
 	if (final_str == 0)
 		return (NULL);
 	final_str[i] = 0;
@@ -53,9 +53,14 @@ void	get_next_line(char **line, int *i)
 {
 	char	buff[2];
 	int		ret;
+	char	*tmp;
 
 	if (*i != 0)
+	{
+		tmp = *line;
 		*line = ft_strjoin(*line, "\n");
+		free (tmp);
+	}
 	*i = 0;
 	ret = 1;
 	buff[0] = 0;
@@ -65,7 +70,11 @@ void	get_next_line(char **line, int *i)
 		ret = read(STDIN_FILENO, buff, 1);
 		buff[1] = 0;
 		if (buff[0] != '\n')
+		{
+			tmp = *line;
 			*line = ft_strjoin(*line, buff);
+			free (tmp);
+		}
 		(*i)++;
 	}
 	(*i)--;
@@ -89,5 +98,6 @@ int	here_doc(t_input *input, char *delimiter, t_var *var)
 	if (input->heredoc)
 		free(input->heredoc);
 	input->heredoc = trim_heredoc(line, get_heredoc_len(line, var), var);
+	free (delimiter);
 	return (0);
 }

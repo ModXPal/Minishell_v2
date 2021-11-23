@@ -37,6 +37,8 @@ void	init_input(t_var *var, char *split, char **content)
 	len = get_string_len(split, var);
 	var->s_quote = 0;
 	var->d_quote = 0;
+	//if (*content)
+	//	free (*content);
 	*content = ft_trim(var, split, len);
 }
 
@@ -49,6 +51,7 @@ int	handle_input(t_var *var, t_input *new, char **split_input)
 
 	i = -1;
 	j = 0;
+	content = NULL;
 	while (split_input[++i])
 	{
 		init_input(var, split_input[i], &content);
