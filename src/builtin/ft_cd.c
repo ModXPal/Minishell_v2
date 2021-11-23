@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:32 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/23 10:54:02 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/23 15:26:32 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,13 @@ int	check_cdpath_exists(t_var *var)
 	if (var->input->args[1] != 0 && var->cd->cdpath != 0)
 		var->cd->cdpath = ft_strjoin(var->cd->cdpath, var->input->args[1]);
 	if (cd_cdpath_application(var) == 1)
+	{	
+		// if (var->cd->cdpath)	
+		// 	free (var->cd->cdpath);
 		return (1);
+	}
+		// if (var->cd->cdpath)	
+		// 	free (var->cd->cdpath);
 	return (0);
 }
 
@@ -80,11 +86,11 @@ int	cd_application(t_var *var)
 		if (cd_content_equal_zero(var) == 1)
 			return (1);
 	}
-	else if (cd_dash_tild(var) == 0)
-	{
-		if (cd_content_equal_tild_dash(var) == 1)
-			return (1);
-	}
+	// else if (cd_dash_tild(var) == 0)
+	// {
+	// 	if (cd_content_equal_tild_dash(var) == 1)
+	// 		return (1);
+	// }
 	else if (ft_strlen(var->input->args[1]) == 1
 		&& var->input->args[1][0] == '-')
 	{

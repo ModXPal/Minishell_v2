@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 16:09:34 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/23 14:45:02 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/23 15:26:07 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ int	cd_content_equal_tild_dash(t_var *var)
 		return (1);
 	dir = chdir(str);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
+	{
 		return (1);
+	}
 	return (0);
 }
 

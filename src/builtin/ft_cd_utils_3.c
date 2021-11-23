@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:41:03 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/23 10:52:52 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/23 15:21:04 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	cd_cdpath_application(t_var *var)
 	int		dir;
 	char	*str;
 	t_envar	*tmp2;
+	char	*to_free;
 
 	str = NULL;
 	tmp2 = var->envar;
-	printf("var->cd->cdpath = %s\n", var->cd->cdpath);
 	dir = chdir(var->cd->cdpath);
 	if (dir < 0)
 	{
@@ -29,16 +29,19 @@ int	cd_cdpath_application(t_var *var)
 	}
 	var->cd->cdpath_exist = 1;
 	str = ft_env_new_pwd(var, "PWD");
-	printf("%s\n", getcwd(0, 150));
+	to_free = getcwd(NULL, 0);
+	printf("%s\n", to_free);
 	ft_env_old_pwd(var, "OLDPWD", str);
 	str = ft_export_new_pwd(var, "PWD");
 	ft_export_old_pwd(var, "OLDPWD", str);
+	if (to_free)
+		free (to_free);
 	return (0);
 }
 
 int	swap_pwd_old_pwd_and_errors(t_var *var, char *current_path, int dir)
 {
-	current_path = ft_env_new_pwd(var, current_path); // = PWD
+	current_path = ft_env_new_pwd(var, current_path);
 	ft_env_old_pwd(var, "OLDPWD", current_path);
 	current_path = ft_export_new_pwd(var, current_path);
 	ft_export_old_pwd(var, "OLDPWD", current_path);

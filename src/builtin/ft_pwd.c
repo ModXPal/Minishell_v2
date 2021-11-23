@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 11:39:06 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/19 15:26:02 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/23 15:27:39 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int	ft_pwd(t_var *var)
 			   "getcwd: cannot access parent directories");
 		return (EXIT_STATUS);
 	}
-	if (test && ft_strlen(test) == 2 && ft_strncmp(test, "//", 2) == 0)
-		printf("//\n");
-	else
-	{
-		printf("%s\n", test);
-	}
+	// if (test && ft_strlen(test) == 2 && ft_strncmp(test, "//", 2) == 0)
+	// 	printf("//\n");
+	// else
+	// {
+	printf("%s\n", test);
+	// }
 	if (test != 0)
 		free (test);
 	EXIT_STATUS = 0;
