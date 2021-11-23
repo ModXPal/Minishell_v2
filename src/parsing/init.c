@@ -35,6 +35,7 @@ void	init_builtin(t_builtin *builtin)
 void	init_var(t_var *var, char **env, int ac)
 {
 	var->variable = NULL;
+	var->exit_code = NULL;
 	var->list = NULL;
 	var->input = NULL;
 	var->s_quote = 0;

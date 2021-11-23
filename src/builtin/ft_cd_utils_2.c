@@ -21,9 +21,13 @@ int	cd_content_equal_zero(t_var	*var)
 	tmp2 = var->envar;
 	dir = 0;
 	str = ft_envar_find_content(tmp2, "HOME");
-	dir = chdir(str);
-	if (dir < 0)
-		return (1);
+	if (str != 0)
+	{
+		dir = chdir(str);
+		if (dir < 0)
+			return (1);
+
+	}
 	if (cd_str_and_path_not_set(var) == 0)
 		return (1);
 	// if (dir < 0)

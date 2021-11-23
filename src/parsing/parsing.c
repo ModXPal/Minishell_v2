@@ -55,7 +55,10 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 
 	tmp = var->envar;
 	if (str[i] == '?')
-		return (ft_itoa(EXIT_STATUS));
+	{
+		var->exit_code = ft_itoa(EXIT_STATUS);
+		return (var->exit_code);
+	}
 	while (tmp)
 	{
 		j = 0;

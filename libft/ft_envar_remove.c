@@ -34,7 +34,13 @@ int	envar_remove(t_envar **envar, int pos)
 		else
 			(*envar)->next = NULL;
 		if (tmp)
+		{
+			if (tmp->content)
+				free(tmp->content);
+			if (tmp->name)
+				free(tmp->name);
 			free(tmp);
+		}
 		*envar = start;
 	}
 	return (1);

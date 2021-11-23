@@ -42,7 +42,7 @@ char	*ft_itoa(int n)
 	charlen = ft_intlen(n);
 	if (n < 0)
 		num *= -1;
-	nb = (char *)malloc(sizeof(*nb) * charlen + 1);
+	nb = (char *)malloc(sizeof(char) * (charlen + 1));
 	if (!nb)
 		return (NULL);
 	if (n == 0)

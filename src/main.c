@@ -76,6 +76,8 @@ int	boucle_exec_minishell(t_var *var, t_builtin *builtin)
 		ft_execve(var, builtin);
 	dup2(var->save_stdin, STDIN_FILENO);
 	dup2(var->save_stdout, STDOUT_FILENO);
+	if (var->exit_code)
+		free(var->exit_code);
 	free_input(var);
 	free(var->cmd);
 	return (0);
