@@ -49,6 +49,7 @@ int	init_pid(t_pvar *pvar)
 void	init_pvar(t_pvar *pvar, t_var *var, t_builtin *builtin)
 {
 	pvar->cmd_nb = var->cmd_nb;
+	pvar->cmd = NULL;
 	pvar->builtin = builtin;
 	init_pid(pvar);
 	pvar->path = get_binaries_path(var);
@@ -60,7 +61,7 @@ void	free_pipe(t_pvar *pvar, int **pipefd)
 	int	i;
 
 	i = -1;
-	while (++i < pvar->cmd_nb)
+	while (++i < pvar->cmd_nb + 1)
 		free(pipefd[i]);
 	free (pipefd);
 }

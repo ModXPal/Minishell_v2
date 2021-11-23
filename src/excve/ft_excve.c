@@ -72,6 +72,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	int		pipe_fd[2];
 
 	ret = is_builtin(var->cmd, builtin);
+	var->pvar = pvar;
 	if (ret >= 0)
 	{
 		handle_builtin(var, pipe_fd, builtin, ret);
@@ -85,5 +86,6 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 		return (-1);
 	if (ret < 0)
 		ft_exec(var, pvar, pipe_fd);
+	free(pvar->cmd);
 	return (EXIT_STATUS);
 }

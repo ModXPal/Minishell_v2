@@ -22,6 +22,7 @@ int	exit_with_digits(t_var *var)
 	free_list(var);
 	free_input(var);
 	free_envar(var->envar);
+	rl_clear_history();
 	EXIT_STATUS = i;
 	exit (EXIT_STATUS);
 }
@@ -37,6 +38,7 @@ int	exit_with_too_many_arguments(t_var *var)
 		free_list(var);
 		free_input(var);
 		free_envar(var->envar);
+		rl_clear_history();
 		EXIT_STATUS = 1;
 		exit (EXIT_STATUS);
 	}
@@ -61,6 +63,7 @@ int	exit_with_errors(t_var *var)
 			free_list(var);
 			free_input(var);
 			free_envar(var->envar);
+			rl_clear_history();
 			EXIT_STATUS = 1;
 			exit (EXIT_STATUS);
 		}
@@ -77,6 +80,7 @@ int	exit_without_cmd(t_var *var)
 		free_list(var);
 		free_input(var);
 		free_envar(var->envar);
+		rl_clear_history();
 		EXIT_STATUS = 0;
 		exit (EXIT_STATUS);
 	}
@@ -95,6 +99,6 @@ int	ft_exit(t_var *var)
 	free_list(var);
 	free_input(var);
 	free_envar(var->envar);
-	clear_history();
+	rl_clear_history();
 	return (0);
 }
