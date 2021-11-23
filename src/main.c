@@ -82,6 +82,7 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 		dup2(var->save_stdout, STDOUT_FILENO);
 		free_input(var);
 		free(var->cmd);
+		//free_all(var);
 	}
     return (0);
 }

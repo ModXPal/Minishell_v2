@@ -61,6 +61,7 @@ int	executable_error(t_var *var, t_pvar *pvar)
 		write (2, "minishell: ", 11);
 		perror(&var->cmd[2]);
 		EXIT_STATUS = 127;
+		free(pvar->cmd);
 		return (0);
 	}
 	return (1);
@@ -145,6 +146,8 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 				proceed_builtin_pipes(pvar, var, pipefd, i);
 			else
 				proceed_pipes(pvar, var, pipefd, i);
+			if (pvar->cmd)
+				free(pvar->cmd);
 			break ;
 		}
 	}
@@ -170,6 +173,7 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 	free(pids);
 	var->input = start;
 	free_split(pvar->path);
-	free(pvar->cmd);
+	if (pvar->cmd)
+		free(pvar->cmd);
 	return (EXIT_STATUS);
 }

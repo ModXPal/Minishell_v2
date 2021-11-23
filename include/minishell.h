@@ -38,5 +38,6 @@ int		count_pipes(t_var *var);
 int		ft_multipipes(t_var *var, t_builtin *builtin);
 int		ft_execve(t_var *var, t_builtin *builtin);
 void	free_envar(t_envar *envar);
+void 	free_all(t_var *var);
 
 #endif

@@ -17,6 +17,8 @@
 
 extern int EXIT_STATUS;
 
+struct t_var;
+
 typedef struct s_echo{
 	struct s_list	*echo_list;
 	char			*echo;
@@ -73,6 +75,7 @@ typedef struct s_var{
 	t_envar			*envar;
 	t_envar			*export;
 	t_cd			*cd;
+	void 			*pvar;
 }		t_var;
 
 typedef struct s_builtin{

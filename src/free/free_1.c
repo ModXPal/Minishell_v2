@@ -34,9 +34,13 @@ void	free_input_list(t_input *input)
 
 	if (input)
 	{
-		tmp = input->next;
-		free(input);
-		input = tmp;
+		while (input)
+		{
+			tmp = input->next;
+			free_split(input->args);
+			free(input);
+			input = tmp;
+		}
 	}
 }
 
@@ -48,8 +52,12 @@ void	free_split(char **split_str)
 	if (split_str)
 	{
 		while (split_str[++i])
+		{
 			free(split_str[i]);
+			split_str[i] = NULL;
+		}
 		free(split_str);
+		split_str = NULL;
 	}
 }
 
@@ -70,24 +78,35 @@ void	free_envar(t_envar *envar)
 	}
 }
 
+void 	free_pvar(t_pvar *pvar)
+{
+	if (pvar->cmd)
+	{
+		free(pvar->cmd);
+		pvar->cmd = NULL;
+	}
+	if (pvar->path)
+		free_split(pvar->path);
+}
+
 void	free_input(t_var *var)
 {
 	int	i;
 
 	i = -1;
 	if (var && var->input)
-	{
-		if (var->input->args)
-		{
-			while ((var->input->args)[++i])
-				free((var->input->args)[i]);
-			free(var->input->args);
-		}
 		free_input_list(var->input);
-	}
 	if (var && var->trim_expand)
 	{
 		free(var->trim_expand);
 		var->trim_expand = NULL;
 	}
+}
+
+void	free_all(t_var *var)
+{
+	free(var->cmd);
+	var->cmd = NULL;
+	free_input(var);
+	free_pvar(var->pvar);
 }
