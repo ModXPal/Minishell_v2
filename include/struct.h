@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/17 15:25:52 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/23 10:51:51 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_input{
 typedef struct s_cd{
 	char			*cdpath;
 	int				exit_cd;
+	int				cdpath_exist;
 }	t_cd;
 
 typedef struct s_envar{

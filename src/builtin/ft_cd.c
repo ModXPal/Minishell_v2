@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:13:32 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/22 12:08:56 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/23 10:54:02 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,11 @@ int	ft_cd(t_var *var)
 		return (EXIT_STATUS);
 	}
 	i = check_cdpath_exists(var);
-	if (i == 1)
+	if (i == 1 || var->cd->cdpath_exist == 1)
 	{
 		if (i == 1)
 			EXIT_STATUS = 1;
-		if (i == 0)
+		if (i == 0 || var->cd->cdpath_exist == 1)
 			EXIT_STATUS = 0;
 		return (EXIT_STATUS);
 	}
