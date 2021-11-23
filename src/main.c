@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/05 20:02:56 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/22 15:03:09 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,55 @@ int	is_builtin(char *line, t_builtin *builtin)
 	return (-1);
 }
 
+int	restore_fd(t_var *var)
+{
+	if (var->input->IN_FD > 0)
+	{
+		close(var->input->IN_FD);
+		dup2(var->save_stdin, STDIN_FILENO);
+	}
+	if (var->input->OUT_FD > 0)
+	{
+		close(var->input->OUT_FD);
+		dup2(var->save_stdout, STDOUT_FILENO);
+	}
+	free_input(var);
+	free(var->cmd);
+	return (0);
+}
+
+int	boucle_exec_minishell(t_var *var, t_builtin *builtin)
+{
+	if (get_arguments(var) == -1)
+	{
+		free(var->cmd);
+		return (0);
+	}
+	else if (var->input == NULL)
+	{
+		free_input(var);
+		free(var->cmd);
+		return (0);
+	}
+	else if (var->input->cmd == NULL)
+	{
+		restore_fd(var);
+		return (0);
+	}
+	else if (var->cmd_nb > 1)
+	{
+		EXIT_STATUS = 123456789;
+		ft_multipipes(var, builtin);
+	}
+	else
+		ft_execve(var, builtin);
+	dup2(var->save_stdin, STDIN_FILENO);
+	dup2(var->save_stdout, STDOUT_FILENO);
+	free_input(var);
+	free(var->cmd);
+	return (0);
+}
+
 int	exec_minishell(t_var *var, t_builtin *builtin)
 {
 	var->save_stdin = dup(STDIN_FILENO);
@@ -42,49 +91,9 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 		if (!var->cmd)
 			break ;
 		add_history(var->cmd);
-		if (get_arguments(var) == -1)
-		{
-			free(var->cmd);
-			continue ;
-		}
-		else if (var->input == NULL)
-		{
-			free_input(var);
-			free(var->cmd);
-			continue ;
-		}
-		else if (var->cmd_nb > 1)
-		{
-			EXIT_STATUS = 123456789;
-			ft_multipipes(var, builtin);
-		}
-		else if (var->input->cmd == NULL)
-		{
-			if (var->input->IN_FD > 0)
-			{
-				close(var->input->IN_FD);
-				dup2(var->save_stdin, STDIN_FILENO);
-			}
-			if (var->input->OUT_FD > 0)
-			{
-				close(var->input->OUT_FD);
-				dup2(var->save_stdout, STDOUT_FILENO);
-			}
-			free_input(var);
-			free(var->cmd);
-			continue ;
-		}
-	    else
-		{
-			ft_execve(var, builtin);
-		}
-		dup2(var->save_stdin, STDIN_FILENO);
-		dup2(var->save_stdout, STDOUT_FILENO);
-		free_input(var);
-		free(var->cmd);
-		//free_all(var);
+		boucle_exec_minishell(var, builtin);
 	}
-    return (0);
+	return (0);
 }
 
 int	main(int ac, char **av, char **env)

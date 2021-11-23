@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 16:09:34 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 19:01:27 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/22 11:42:57 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ int	cd_content_equal_zero(t_var	*var)
 	int		dir;
 
 	tmp2 = var->envar;
+	dir = 0;
 	str = ft_envar_find_content(tmp2, "HOME");
 	dir = chdir(str);
 	if (dir < 0)
-		return (0);
-	if (str[0] == 0)
-		return (0);
+		return (1);
 	if (cd_str_and_path_not_set(var) == 0)
 		return (1);
-	dir = chdir(str);
+	// if (dir < 0)
+	// 	return (1);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
 		return (1);
 	return (0);
@@ -40,7 +40,8 @@ int	cd_content_equal_tild_dash(t_var *var)
 
 	dir = 0;
 	str = 0;
-	if ((str == cd_str_and_path_not_set(var)) == 0)
+	str = cd_str_and_path_not_set(var);
+	if (str[0] == 0)
 		return (1);
 	dir = chdir(str);
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
@@ -60,7 +61,7 @@ int	cd_dash_equal_one(t_var *var)
 	current_path = NULL;
 	str = ft_envar_find_content(tmp2, "OLDPWD");
 	dir = chdir (str);
-	current_path = getcwd(0, 150);
+	current_path = getcwd(NULL, 0);
 	printf("%s\n", current_path);
 	if (current_path)
 		free(current_path);

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:34:28 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/07 16:06:50 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/17 14:30:23 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,30 @@ void	signal_singint_stdin_multipipe(void)
 
 void	multipipes_signal_handling(int status)
 {
+	printf("WIFEXITED(status) %d\n", WIFEXITED(status));
+	printf("status : %d\n", status);
+	printf("EXIT_STATUS : %d\n", EXIT_STATUS);
+	printf("WEXITSTATUS(status) : %d\n", WEXITSTATUS(status));
 	if (WIFEXITED(status) == 0)
 	{
 		EXIT_STATUS = WIFEXITED(status);
 		if (status == 13)
-			EXIT_STATUS = 127;
+			EXIT_STATUS = 0;
 		if (status == 131)
 			EXIT_STATUS = 131;
 	}
 	if (WIFEXITED(status))
 	{
 		EXIT_STATUS = WEXITSTATUS(status);
-		if (EXIT_STATUS == 12346789)
+		if (status == 256)
 			EXIT_STATUS = 0;
 	}
 }
 
 void	handle_sigusr1(int signum)
 {
-	if (signum == SIGINT && EXIT_STATUS
-		!= 1234567890 && EXIT_STATUS != 123456789)
+	if (signum == SIGINT && EXIT_STATUS != 1234567890
+		&& EXIT_STATUS != 123456789)
 		signal_singint_normal();
 	else if (signum == SIGINT
 		&& isatty(0) != 0 && EXIT_STATUS != 123456789)

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 17:56:56 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/17 15:25:52 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <sys/wait.h>
 
-extern int EXIT_STATUS;
+extern int	EXIT_STATUS;
 
 struct t_var;
 
@@ -65,11 +65,11 @@ typedef struct s_var{
 	int				exit_status;
 	int				s_quote;
 	int				d_quote;
-	int 			cmd_nb;
+	int				cmd_nb;
 	char			interruption;
 	int				error;
-	int 			save_stdin;
-	int 			save_stdout;
+	int				save_stdin;
+	int				save_stdout;
 	t_list			*list;
 	t_input			*input;
 	t_envar			*envar;

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/06 18:28:07 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/17 15:27:00 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,5 @@ int		export_env_insert(t_var *var, char *name, char *content);
 int		ft_dup(t_var *var, int pipe_fd[2]);
 int		dup_heredoc(t_var *var, int pipe_fd[2]);
 int		dup_fd(t_var *var);
-
 
 #endif
