@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/24 12:22:02 by                  ###   ########.fr       */
+/*   Updated: 2021/11/24 18:01:16 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	check_access(t_pvar *pvar, int i)
 
 int	check_relative_exec(char *str)
 {
+	if (!str)
+		return (0);
 	if (ft_strncmp(str, "./", 2) == 0)
 		return (1);
 	if (ft_strncmp(str, "../", 3) == 0)
@@ -75,7 +77,7 @@ int	check_input(t_pvar *pvar, t_var *var)
 		else if (check_access(pvar, -1) == FAIL)
 			return (executable_error(var, pvar));
 	}
-	if (var->input->cmd[0] == '\0')
+	if (!var->input->cmd || var->input->cmd[0] == '\0')
 	{
 		pvar->cmd = var->input->cmd;
 		return (cmd_not_found(var));
@@ -86,10 +88,7 @@ int	check_input(t_pvar *pvar, t_var *var)
 		if (check_access(pvar, -1) == SUCCESS)
 			return (1);
 		else if (check_access(pvar, -1) == FAIL)
-		{
-			free_split(pvar->path);
 			return (no_such_file(var));
-		}
 	}
 	return (-1);
 }
@@ -102,10 +101,7 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	i = -1;
 	ret = check_input(pvar, var);
 	if (ret == 1)
-	{
-		//free_split(pvar->path);
 		return (1);
-	}
 	else if (ret == 0)
 	{
 		free_split(pvar->path);

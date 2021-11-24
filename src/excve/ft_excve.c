@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/24 13:47:06 by                  ###   ########.fr       */
+/*   Updated: 2021/11/24 14:58:58 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2])
 	{
 		if (ft_dup(var, pipe_fd) == 1)
 		{
+			printf("dup failed\n");
 			EXIT_STATUS = 1;
 			return (EXIT_STATUS);
 		}

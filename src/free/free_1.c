@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:10:26 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/24 13:40:22 by                  ###   ########.fr       */
+/*   Updated: 2021/11/24 17:42:10 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,16 @@ void	free_input_list(t_input *input)
 {
 	t_input	*tmp;
 
+	tmp = NULL;
 	if (input)
 	{
 		while (input)
 		{
 			tmp = input->next;
-			free_split(input->args);
+			if (input->args)
+				free_split(input->args);
 			free(input);
+			input = NULL;
 			input = tmp;
 		}
 	}

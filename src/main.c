@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/22 15:03:09 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:26:51 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	boucle_exec_minishell(t_var *var, t_builtin *builtin)
 	}
 	else if (var->input->cmd == NULL)
 	{
+		if (var->input->heredoc)
+			free(var->input->heredoc);
 		restore_fd(var);
 		return (0);
 	}
@@ -76,6 +78,8 @@ int	boucle_exec_minishell(t_var *var, t_builtin *builtin)
 		ft_execve(var, builtin);
 	dup2(var->save_stdin, STDIN_FILENO);
 	dup2(var->save_stdout, STDOUT_FILENO);
+	if (var->input->heredoc)
+		free(var->input->heredoc);
 	free_input(var);
 	free(var->cmd);
 	return (0);
@@ -90,8 +94,10 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 		var->cmd = readline("minishell $> ");
 		if (!var->cmd)
 		{
+			free(var->cd);
 			free_list(var);
-			free_input(var);
+			//free_input(var);
+			free (builtin);
 			free_envar(var->envar);
 			free_envar(var->export);
 			rl_clear_history();

@@ -23,6 +23,7 @@ char	*delete_last_line(char *str)
 char	*trim_heredoc(char *str, int len, t_var *var)
 {
 	char	*trim_str;
+	char	*tmp;
 	int		i;
 	int		j;
 	int		k;
@@ -38,8 +39,14 @@ char	*trim_heredoc(char *str, int len, t_var *var)
 		if (str[j] == '$' && ft_isalnum(str[j + 1]))
 		{
 			j++;
-			while (get_valid_envar(var, str, j)[k])
-				trim_str[i++] = get_valid_envar(var, str, j)[k++];
+			tmp = get_valid_envar(var, str, j);
+			while (tmp[k])
+				trim_str[i++] = tmp[k++];
+			if (tmp)
+			{
+				free(tmp);
+				tmp = NULL;
+			}
 			skip_alnum(str, &j);
 			continue ;
 		}

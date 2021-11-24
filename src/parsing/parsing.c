@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/24 11:44:01 by                  ###   ########.fr       */
+/*   Updated: 2021/11/24 17:17:08 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,13 +128,22 @@ t_input	*get_input(t_var *var, char **split_input)
 	new->args = (char **)ft_calloc(sizeof(char *),
 			 (split_len(split_input) + count_heredoc(split_input) + 1));
 	if (new->args == FAIL)
+	{
+		free (new);
 		return (0);
+	}
 	new->cmd = NULL;
 	new->IN_FD = 0;
 	new->OUT_FD = 0;
 	new->heredoc = 0;
-	if (handle_input(var, new, split_input) == 1)
+	if (handle_input(var, new, split_input) == 2)
+	{
+		free (new->args);
+		new->args = NULL;
+		free(new);
+		new = NULL;
 		return (0);
+	}
 	return (new);
 }
 
