@@ -27,6 +27,8 @@ int	is_valid_dollar(char *str, int i)
 {
 	if (str[i] == '$')
 	{
+		if (str[i + 1] == '?')
+			return (1);
 		if (ft_isalpha(str[i + 1]) || str[i + 1] == '_')
 			return (1);
 	}
