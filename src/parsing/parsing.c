@@ -76,7 +76,7 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 		}
 		tmp = tmp->next;
 	}
-	return ("");
+	return (ft_strdup(""));
 }
 
 char	*ft_trim(t_var *var, char *str, int len)

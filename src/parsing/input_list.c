@@ -49,6 +49,7 @@ int	handle_input(t_var *var, t_input *new, char **split_input)
 
 	i = -1;
 	j = 0;
+	content = NULL;
 	while (split_input[++i])
 	{
 		init_input(var, split_input[i], &content);
