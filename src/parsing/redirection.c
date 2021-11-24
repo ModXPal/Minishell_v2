@@ -24,13 +24,17 @@ void	open_files(t_input *input, char *file, int redir)
 
 int	handle_in_redir(t_var *var, t_input *input, char **split_input, int *i)
 {
-	int	len;
+	int		len;
+	char 	*trim;
 
 	len = get_string_len(split_input[(*i) + 1], var);
+	//trim = NULL;
 	if (ft_strcmp(split_input[*i], "<") == TRUE)
 	{
 		(*i)++;
-		open_files(input, ft_trim(var, split_input[*i], len), STDIN);
+		trim = ft_trim(var, split_input[*i], len);
+		open_files(input, trim, STDIN);
+		free (trim);
 		if (input->IN_FD > 0)
 			return (0);
 		else
@@ -39,7 +43,8 @@ int	handle_in_redir(t_var *var, t_input *input, char **split_input, int *i)
 	else if (ft_strcmp(split_input[*i], "<<") == TRUE)
 	{
 		(*i)++;
-		here_doc(input, ft_trim(var, split_input[*i], len), var);
+		trim = ft_trim(var, split_input[*i], len);
+		here_doc(input, trim, var);
 		return (1);
 	}
 	return (-1);
@@ -47,13 +52,17 @@ int	handle_in_redir(t_var *var, t_input *input, char **split_input, int *i)
 
 int	handle_out_redir(t_var *var, t_input *input, char **split_input, int *i)
 {
-	int	len;
+	int		len;
+	char	*trim;
 
 	len = get_string_len(split_input[(*i) + 1], var);
+	//trim = NULL;
 	if (ft_strcmp(split_input[*i], ">") == TRUE)
 	{
 		(*i)++;
-		open_files(input, ft_trim(var, split_input[*i], len), STDOUT);
+		trim = ft_trim(var, split_input[*i], len);
+		open_files(input, trim, STDOUT);
+		free(trim);
 		if (input->OUT_FD > 0)
 			return (0);
 		else
@@ -62,7 +71,9 @@ int	handle_out_redir(t_var *var, t_input *input, char **split_input, int *i)
 	else if (ft_strcmp(split_input[*i], ">>") == TRUE)
 	{
 		(*i)++;
-		open_files(input, ft_trim(var, split_input[*i], len), STDOUT_APPEND);
+		trim = ft_trim(var, split_input[*i], len);
+		open_files(input, trim, STDOUT_APPEND);
+		free(trim);
 		if (input->OUT_FD > 0)
 			return (0);
 		else
