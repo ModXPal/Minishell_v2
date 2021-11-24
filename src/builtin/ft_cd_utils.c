@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:08:16 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/22 12:02:02 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/24 13:31:37 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ char	*ft_export_new_pwd(t_var *var, char *str)
 	}
 	str2 = getcwd(NULL, 0);
 	str = ft_env_new_pwd_2(var, tmp, str2, str);
-	// if (str2)
-	// 	free (str2);
 	return (str);
 }
 
@@ -88,7 +86,9 @@ void	ft_env_old_pwd(t_var *var, char *str, char *str2)
 		{
 			to_free = tmp->content;
 			tmp->content = str2;
-			free(to_free);
+			if (to_free)
+				free(to_free);
+			to_free = NULL;
 			break ;
 		}
 		tmp = tmp->next;
