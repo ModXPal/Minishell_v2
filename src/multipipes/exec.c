@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/16 17:42:00 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/24 12:22:02 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	executable_error(t_var *var, t_pvar *pvar)
 		write (2, "minishell: ", 11);
 		perror(&var->cmd[2]);
 		EXIT_STATUS = 127;
-		free_split(pvar->path);
 		return (0);
 	}
 	return (1);
@@ -103,9 +102,15 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	i = -1;
 	ret = check_input(pvar, var);
 	if (ret == 1)
+	{
+		//free_split(pvar->path);
 		return (1);
+	}
 	else if (ret == 0)
+	{
+		free_split(pvar->path);
 		return (0);
+	}
 	while (pvar->path[++i])
 	{
 		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
@@ -174,6 +179,9 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 	var->input = start;
 	free_split(pvar->path);
 	if (pvar->cmd)
+	{
 		free(pvar->cmd);
+		pvar->cmd = NULL;
+	}
 	return (EXIT_STATUS);
 }

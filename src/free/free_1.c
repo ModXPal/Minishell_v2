@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:10:26 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/22 14:44:58 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/24 13:40:22 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,6 @@ void 	free_pvar(t_pvar *pvar)
 
 void	free_input(t_var *var)
 {
-	int	i;
-
-	i = -1;
 	if (var && var->input)
 		free_input_list(var->input);
 	if (var && var->trim_expand)

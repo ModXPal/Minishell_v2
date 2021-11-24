@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/07 11:50:39 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/24 13:47:06 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,15 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 		EXIT_STATUS = 1234567890;
 	pvar->path = get_binaries_path(var);
 	add_slash(pvar);
+	printf("test bonjour\n");
 	if (get_cmds(pvar, var) == 0)
 		return (-1);
 	if (ret < 0)
 		ft_exec(var, pvar, pipe_fd);
-	free(pvar->cmd);
+	if (pvar->cmd && var->cmd[0] != '/')
+	{
+		free(pvar->cmd);
+		pvar->cmd = NULL;
+	}
 	return (EXIT_STATUS);
 }

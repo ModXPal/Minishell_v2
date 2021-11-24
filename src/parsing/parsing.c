@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/17 11:14:48 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/24 11:44:01 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*trim_expand(char *str)
 		if (str[i])
 			len++;
 	}
-	printf("len = %d\n", len + 1);
+	//printf("len = %d\n", len + 1);
 	trim = ft_calloc(sizeof(char), len + 1);
 	if (trim == NULL)
 		return (NULL);
@@ -76,7 +76,7 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 		}
 		tmp = tmp->next;
 	}
-	return (ft_strdup(""));
+	return (ft_strdup("\0"));
 }
 
 char	*ft_trim(t_var *var, char *str, int len)
@@ -87,7 +87,10 @@ char	*ft_trim(t_var *var, char *str, int len)
 	int		k;
 	char 	*envar;
 
-	trim_str = (char *)malloc(sizeof(char) * (len + 1));
+	trim_str = (char *)ft_calloc(sizeof(char), (len + 1));
+	printf("len = %d\n", len + 1);
+	if (!trim_str)
+		return (NULL);
 	j = 0;
 	i = 0;
 	while (i < len)
@@ -107,18 +110,11 @@ char	*ft_trim(t_var *var, char *str, int len)
 				envar = NULL;
 			}
 			skip_alnum(str, &j);
+			printf("i = %d\n", i);
 			continue ;
 		}
-		/*
-		if (var->exit_code)
-		{
-			free(var->exit_code);
-			var->exit_code = NULL;
-		}
-		 */
 		trim_str[i++] = str[j++];
 	}
-	trim_str[i] = 0;
 	return (trim_str);
 }
 

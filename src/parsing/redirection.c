@@ -20,21 +20,20 @@ void	open_files(t_input *input, char *file, int redir)
 		if (input->OUT_FD < 0)
 			permission_denied(file);
 	}
+	free (file);
 }
 
 int	handle_in_redir(t_var *var, t_input *input, char **split_input, int *i)
 {
 	int		len;
-	char 	*trim;
+	char	*trim;
 
 	len = get_string_len(split_input[(*i) + 1], var);
-	//trim = NULL;
 	if (ft_strcmp(split_input[*i], "<") == TRUE)
 	{
 		(*i)++;
 		trim = ft_trim(var, split_input[*i], len);
 		open_files(input, trim, STDIN);
-		free (trim);
 		if (input->IN_FD > 0)
 			return (0);
 		else
@@ -56,13 +55,11 @@ int	handle_out_redir(t_var *var, t_input *input, char **split_input, int *i)
 	char	*trim;
 
 	len = get_string_len(split_input[(*i) + 1], var);
-	//trim = NULL;
 	if (ft_strcmp(split_input[*i], ">") == TRUE)
 	{
 		(*i)++;
 		trim = ft_trim(var, split_input[*i], len);
 		open_files(input, trim, STDOUT);
-		free(trim);
 		if (input->OUT_FD > 0)
 			return (0);
 		else
@@ -73,7 +70,6 @@ int	handle_out_redir(t_var *var, t_input *input, char **split_input, int *i)
 		(*i)++;
 		trim = ft_trim(var, split_input[*i], len);
 		open_files(input, trim, STDOUT_APPEND);
-		free(trim);
 		if (input->OUT_FD > 0)
 			return (0);
 		else
