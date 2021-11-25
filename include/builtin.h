@@ -6,12 +6,14 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/17 15:27:00 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/25 18:29:16 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
+# define EXPORT 127
+# define ENV 100
 
 # include "struct.h"
 # include "../libft/libft.h"
@@ -58,8 +60,8 @@ void	free_envar(t_envar *envar);
 void	free_input(t_var *var);
 void	handle_sigusr1(int signum);
 char	*ft_env_new_pwd_2(t_var *var, t_envar *tmp, char *str2, char *str);
-int		cmd_export_insert(t_var *var, char *name, char *content, int equal);
-int		export_name_len(char *str);
+int		cmd_export_insert(t_var *var, char *name, char *content);
+int		export_name_len(t_var *var, char *str);
 int		is_builtin(char *line, t_builtin *builtin);
 void	handle_sigusr2(int signum);
 int		cd_too_many_arguments(t_var *var);
@@ -68,12 +70,15 @@ int		ft_init_shlvl(t_var *var);
 int		export_error_handling(t_var *var, char *content);
 int		export_name_content(t_var *var, char *args);
 int		export_env_reassigned_check(t_var *var, char *name,
-			char *content, int equal);
+			char *content);
 int		export_export_reassigned_check(t_var *var, char *name,
-			char *content, int equal);
+			char *content, int export_already_exist);
 int		export_env_insert(t_var *var, char *name, char *content);
 int		ft_dup(t_var *var, int pipe_fd[2]);
 int		dup_heredoc(t_var *var, int pipe_fd[2]);
 int		dup_fd(t_var *var);
+char	*env_name_init(t_var *var, char *args);
+char	*env_content_init(t_var *var, char *args, int j);
+int		name_already_exist(t_var *var, char *args, int i);
 
 #endif

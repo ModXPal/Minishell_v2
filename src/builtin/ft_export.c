@@ -6,58 +6,51 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 15:45:05 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/22 15:04:16 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/25 18:28:47 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	export_assignement(t_var *var, int i, int equal)
+int	export_assignement(t_var *var, int i, int already_exist_export,
+						int already_exist_env)
 {
-	i = export_env_reassigned_check(var, var->export_name,
-			var->export_content, equal);
-	if (equal == 1 && i != -1)
-		export_env_insert(var, var->export_name, var->export_content);
+	(void) already_exist_env;
+	i = 0;
+	i = export_env_reassigned_check(var, var->env_name, var->env_content);
+	if (var->equal_env == 1 && i != -1)
+		export_env_insert(var, var->env_name, var->env_content);
 	if (export_export_reassigned_check(var, var->export_name,
-			var->export_content, equal) != -1)
-		cmd_export_insert(var, var->export_name, var->export_content, equal);
-	return (0);
-}
-
-int	export_name_init(t_var *var, char *args)
-{
-	var->export_content = 0;
-	var->export_name = 0;
-	var->export_name
-		= ((char *)malloc(sizeof(char) * (export_name_len(args) + 1)));
-	if (!var->export_name)
-		return (0);
+			var->export_content, already_exist_export) != -1)
+		cmd_export_insert(var, var->export_name, var->export_content);
 	return (0);
 }
 
 int	export_name_content(t_var *var, char *args)
 {
 	int		i;
-	int		equal;
 	int		j;
+	int		already_exist_export;
+	int		already_exist_env;
 
 	i = 0;
-	equal = 0;
 	j = 0;
-	export_name_init(var, args);
-	var->export_name
-		= export_name_equal_search(args, &i, &equal, var->export_name);
-	if (equal == 1)
-		j = ft_strlen(args) - export_name_len(args);
-	if (j > 0 && equal == 1)
+	var->env_content = 0;
+	var->env_name = 0;
+	already_exist_export = 0;
+	already_exist_env = 0;
+	var->equal_env = 0;
+	j = ft_strlen(args) - export_name_len(var, args);
+	already_exist_export = name_already_exist(var, args, EXPORT);
+	var->export_name = env_name_init(var, args);
+	already_exist_env = name_already_exist(var, args, ENV);
+	var->env_name = env_name_init(var, args);
+	if (j > 0 && var->equal_env == 1)
 	{
-		var->export_content = ((char *) malloc(sizeof(char) * (j + 1)));
-		var->export_content
-			= export_content_search(&i, args, var->export_content);
-		if (!var->export_name)
-			return (0);
+		var->env_content = env_content_init(var, args, j);
+		var->export_content = env_content_init(var, args, j);
 	}
-	export_assignement(var, i, equal);
+	export_assignement(var, i, already_exist_export, already_exist_env);
 	return (0);
 }
 

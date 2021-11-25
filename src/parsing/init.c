@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:37:07 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/23 10:52:10 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:26:37 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,8 @@ void	init_var(t_var *var, char **env, int ac)
 	var->export_name = 0;
 	var->export_content = 0;
 	var->cd->cdpath_exist = 0;
+	var->env_name = 0;
+	var->env_content = 0;
+	var->equal_env = 0;
+	var->reassigned = 0;
 }

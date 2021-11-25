@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/23 10:51:51 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:26:24 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,13 @@ typedef struct s_var{
 	char			*variable;
 	char			*export_name;
 	char			*export_content;
+	char			*env_name;
+	char			*env_content;
 	char 			*trim_expand;
 	char			*exit_code;
+	int				reassigned;
 	int				ac;
+	int				equal_env;
 	int				exit_status;
 	int				s_quote;
 	int				d_quote;
