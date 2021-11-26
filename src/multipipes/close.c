@@ -14,6 +14,8 @@
 
 void	close_fd(t_var *var)
 {
+	if (var->input == NULL)
+		return ;
 	if (var->input->IN_FD > 0)
 		close(var->input->IN_FD);
 	if (var->input->OUT_FD > 0)

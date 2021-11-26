@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 11:57:50 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/16 11:57:51 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/11/25 17:24:28 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,13 @@ int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
 	if (execve(pvar->cmd, var->input->args, NULL) == -1)
-		perror("Execve failed:");
+	{
+		ft_putstr_fd("Execve failed : ", 2);
+		perror(pvar->cmd);
+		free_split(pvar->path);
+		EXIT_STATUS = 127;
+		exit (EXIT_STATUS);
+	}
 	return (1);
 }
 
@@ -51,7 +57,14 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	else
 		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
-	execve(pvar->cmd, var->input->args, NULL);
+	if (execve(pvar->cmd, var->input->args, NULL) == -1)
+	{
+		ft_putstr_fd("Execve failed : ", 2);
+		perror(pvar->cmd);
+		free_split(pvar->path);
+		EXIT_STATUS = 127;
+		exit (EXIT_STATUS);
+	}
 	return (1);
 }
 
@@ -72,7 +85,13 @@ int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 		dup2(var->input->OUT_FD, STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
 	if (execve(pvar->cmd, var->input->args, NULL) == -1)
-		perror("Execve failed:");
+	{
+		ft_putstr_fd("Execve failed : ", 2);
+		perror(pvar->cmd);
+		free_split(pvar->path);
+		EXIT_STATUS = 127;
+		exit (EXIT_STATUS);
+	}
 	return (1);
 }
 

@@ -40,6 +40,7 @@ void	init_var(t_var *var, char **env, int ac)
 	var->input = NULL;
 	var->s_quote = 0;
 	var->d_quote = 0;
+	var->cd->cdpath = NULL;
 	var->env = env;
 	var->ac = ac;
 	var->error = 0;

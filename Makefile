@@ -60,9 +60,9 @@ RM		=	rm -rf
 all:			$(NAME)
 
 $(NAME):		$(SRC_OBJS)
-				@$(LIBFTMAKE)
-				@$(CC) -lreadline $(CFLAGS) $(SRC_OBJS) $(LIBFT_LIB) -o $(NAME)
-				@echo "$(NAME) created"
+					@$(LIBFTMAKE)
+					@$(CC) -lreadline $(CFLAGS) $(SRC_OBJS) $(LIBFT_LIB) -o $(NAME)
+					@echo "$(NAME) created"
 
 clean:
 			@make --no-print-directory -C $(LIBFT_PATH) clean
