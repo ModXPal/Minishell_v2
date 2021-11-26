@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/24 14:58:58 by                  ###   ########.fr       */
+/*   Updated: 2021/11/25 17:24:28 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,15 @@ int	ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2])
 	{
 		if (ft_dup(var, pipe_fd) == 1)
 		{
-			printf("dup failed\n");
 			EXIT_STATUS = 1;
 			return (EXIT_STATUS);
 		}
 		close_fd(var);
 		if (execve(pvar->cmd, var->input->args, NULL) == -1)
 		{
+			ft_putstr_fd("minishell : ", 2);
+			perror(pvar->cmd);
+			free_split(pvar->path);
 			EXIT_STATUS = 127;
 			exit (EXIT_STATUS);
 		}
@@ -83,12 +85,11 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 		EXIT_STATUS = 1234567890;
 	pvar->path = get_binaries_path(var);
 	add_slash(pvar);
-	printf("test bonjour\n");
 	if (get_cmds(pvar, var) == 0)
 		return (-1);
 	if (ret < 0)
 		ft_exec(var, pvar, pipe_fd);
-	if (pvar->cmd && var->cmd[0] != '/')
+	if (pvar->cmd && var->cmd[0] != '/' && var->cmd[0] != '.')
 	{
 		free(pvar->cmd);
 		pvar->cmd = NULL;

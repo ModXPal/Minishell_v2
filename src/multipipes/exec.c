@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/24 18:01:16 by                  ###   ########.fr       */
+/*   Updated: 2021/11/25 17:38:02 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,8 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 	{
 		if (i > 0)
 			var->input = var->input->next;
-		pvar->ret = is_builtin(var->input->cmd, pvar->builtin);
+		if (var->input && var->input->cmd)
+			pvar->ret = is_builtin(var->input->cmd, pvar->builtin);
 		if (pvar->ret == 6)
 			return (0);
 		pids[i] = fork();

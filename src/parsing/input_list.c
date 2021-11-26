@@ -58,12 +58,14 @@ int	handle_input(t_var *var, t_input *new, char **split_input)
 		{
 			free (content);
 			content = NULL;
+			new->next = NULL;
 			continue;
 		}
 		else if (ret == 2)
 		{
 			free (content);
 			content = NULL;
+			new->next = NULL;
 			return (2);
 		}
 		else if (i == 0 || ((new->IN_FD > 0 || new->OUT_FD > 0

@@ -39,11 +39,6 @@ void	signal_singint_stdin_multipipe(void)
 
 void	multipipes_signal_handling(int status)
 {
-	printf("WIFEXITED(status) %d\n", WIFEXITED(status));
-	printf("status : %d\n", status);
-	printf("EXIT_STATUS : %d\n", EXIT_STATUS);
-	printf("WEXITSTATUS(status) : %d\n", WEXITSTATUS(status));
-	if (WIFEXITED(status) == 0)
 	{
 		EXIT_STATUS = WIFEXITED(status);
 		if (status == 13)

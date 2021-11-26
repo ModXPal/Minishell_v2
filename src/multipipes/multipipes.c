@@ -53,6 +53,7 @@ void	init_pvar(t_pvar *pvar, t_var *var, t_builtin *builtin)
 	pvar->builtin = builtin;
 	init_pid(pvar);
 	pvar->path = get_binaries_path(var);
+	pvar->ret = 0;
 	add_slash(pvar);
 }
 

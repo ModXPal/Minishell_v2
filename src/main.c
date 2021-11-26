@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/24 17:26:51 by                  ###   ########.fr       */
+/*   Updated: 2021/11/25 17:43:49 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	restore_fd(t_var *var)
 		close(var->input->OUT_FD);
 		dup2(var->save_stdout, STDOUT_FILENO);
 	}
-	free_input(var);
+	if (var->input)
+		free_input(var);
 	free(var->cmd);
 	return (0);
 }
@@ -62,7 +63,7 @@ int	boucle_exec_minishell(t_var *var, t_builtin *builtin)
 		free(var->cmd);
 		return (0);
 	}
-	else if (var->input->cmd == NULL)
+	else if (var->input->cmd == NULL /*&& var->cmd_nb <= 1*/)
 	{
 		if (var->input->heredoc)
 			free(var->input->heredoc);
@@ -80,8 +81,7 @@ int	boucle_exec_minishell(t_var *var, t_builtin *builtin)
 	dup2(var->save_stdout, STDOUT_FILENO);
 	if (var->input->heredoc)
 		free(var->input->heredoc);
-	free_input(var);
-	free(var->cmd);
+	restore_fd(var);
 	return (0);
 }
 

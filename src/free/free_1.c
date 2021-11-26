@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:10:26 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/24 17:42:10 by                  ###   ########.fr       */
+/*   Updated: 2021/11/25 13:53:06 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,13 @@ void	free_input_list(t_input *input)
 	{
 		while (input)
 		{
-			tmp = input->next;
+			if (input->next)
+				tmp = input->next;
+			else
+				tmp = NULL;
 			if (input->args)
 				free_split(input->args);
-			free(input);
+			free (input);
 			input = NULL;
 			input = tmp;
 		}
@@ -52,7 +55,7 @@ void	free_split(char **split_str)
 	int	i;
 
 	i = -1;
-	if (split_str)
+	if (split_str && *split_str)
 	{
 		while (split_str[++i])
 		{
