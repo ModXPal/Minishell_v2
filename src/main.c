@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/26 11:00:00 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/28 17:30:07 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 			free_envar(var->envar);
 			free_envar(var->export);
 			rl_clear_history();
-			break;
+			break ;
 		}
 		add_history(var->cmd);
 		boucle_exec_minishell(var, builtin);

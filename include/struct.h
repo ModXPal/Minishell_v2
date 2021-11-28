@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/24 17:26:24 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/28 15:39:57 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_var{
 	int				error;
 	int				save_stdin;
 	int				save_stdout;
+	int				pwd_exist;
 	t_list			*list;
 	t_input			*input;
 	t_envar			*envar;
