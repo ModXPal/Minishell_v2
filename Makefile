@@ -7,6 +7,7 @@ SRC_FILES	=	src/main.c \
 			src/builtin/ft_export_utils.c \
 			src/builtin/ft_export_utils_2.c \
 			src/builtin/ft_export_utils_3.c \
+			src/builtin/ft_export_utils_4.c \
 			src/builtin/ft_pwd.c \
 			src/builtin/ft_exit.c \
 			src/builtin/ft_unset.c \
@@ -15,6 +16,7 @@ SRC_FILES	=	src/main.c \
 			src/builtin/ft_cd_utils.c \
 			src/builtin/ft_cd_utils_2.c \
 			src/builtin/ft_cd_utils_3.c \
+			src/builtin/ft_cd_utils_4.c \
 			src/excve/ft_excve.c \
 			src/excve/dup.c \
 			src/multipipes/exec.c \
@@ -36,6 +38,7 @@ SRC_FILES	=	src/main.c \
 			src/parsing/input_list.c \
 			src/parsing/count.c \
 			src/free/free_1.c \
+			src/free/free_2.c \
 			src/signal/signal.c \
 
 LIBFT_PATH	=	libft/

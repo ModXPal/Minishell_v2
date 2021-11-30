@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:01:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/25 18:29:16 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/28 16:59:57 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,8 @@ int		dup_fd(t_var *var);
 char	*env_name_init(t_var *var, char *args);
 char	*env_content_init(t_var *var, char *args, int j);
 int		name_already_exist(t_var *var, char *args, int i);
+void	free_cd_path(t_var *var);
+void	free_input_list(t_input *input);
+int		swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path);
 
 #endif

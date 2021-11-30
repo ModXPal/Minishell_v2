@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:29:54 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/22 13:57:23 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/30 11:20:49 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,9 @@ int	ft_unset_export(t_var *var, char *str, int *args_exist)
 	{
 		if (tmp->next)
 			tmp = tmp->next;
-		
 		else if (tmp->next == 0)
 			return (0);
 	}
-	// if (tmp == 0)
-	// 	return (0);
 	if (ft_strcmp(tmp->name, str) == 1)
 	{
 		pos = ft_envar_position(var->export, tmp->name);

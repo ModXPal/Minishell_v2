@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:10:26 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/26 10:59:25 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/30 11:20:49 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,66 +50,11 @@ void	free_input_list(t_input *input)
 	}
 }
 
-void	free_split(char **split_str)
+void	free_cd_path(t_var *var)
 {
-	int	i;
-
-	i = -1;
-	if (split_str && *split_str)
+	if (var->cd->cdpath)
 	{
-		while (split_str[++i])
-		{
-			free(split_str[i]);
-			split_str[i] = NULL;
-		}
-		free(split_str);
-		split_str = NULL;
+		free(var->cd->cdpath);
+		var->cd->cdpath = 0;
 	}
-}
-
-void	free_envar(t_envar *envar)
-{
-	t_envar	*tmp;
-
-	if (envar)
-	{
-		while (envar)
-		{
-			tmp = envar->next;
-			free(envar->name);
-			free(envar->content);
-			free(envar);
-			envar = tmp;
-		}
-	}
-}
-
-void 	free_pvar(t_pvar *pvar)
-{
-	if (pvar->cmd)
-	{
-		free(pvar->cmd);
-		pvar->cmd = NULL;
-	}
-	if (pvar->path)
-		free_split(pvar->path);
-}
-
-void	free_input(t_var *var)
-{
-	if (var && var->input)
-		free_input_list(var->input);
-	if (var && var->trim_expand)
-	{
-		free(var->trim_expand);
-		var->trim_expand = NULL;
-	}
-}
-
-void	free_all(t_var *var)
-{
-	free(var->cmd);
-	var->cmd = NULL;
-	free_input(var);
-	free_pvar(var->pvar);
 }

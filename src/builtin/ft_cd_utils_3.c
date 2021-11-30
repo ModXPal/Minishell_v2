@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:41:03 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/26 11:32:02 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 11:20:49 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,39 @@ int	swap_pwd_old_pwd_and_errors(t_var *var, char *current_path, int dir)
 	return (0);
 }
 
-char	*ft_env_new_pwd_2(t_var *var, t_envar *tmp, char *str2, char *str)
+int	swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path)
 {
-	
 	if (var->input->args[1] != 0)
 	{
 		if (ft_strlen(var->input->args[1]) == 2
 			&& (ft_strncmp(var->input->args[1], "//", 2) == 0))
 		{
-				tmp->content = str2;
+			if (tmp)
+				tmp->content = current_path;
 		}
 		else
 		{
 			if (tmp)
-				tmp->content = str2;
+				tmp->content = current_path;
 		}
 	}
 	else
 	{
 		if (tmp)
-		{
-			tmp->content = str2;
-		}
+			tmp->content = current_path;
 	}
+	return (0);
+}
+
+char	*ft_env_new_pwd_2(t_var *var, t_envar *tmp, char *str2, char *str)
+{
+	char	*to_free;
+
+	if (tmp)
+		to_free = tmp->content;
+	else
+		to_free = NULL;
+	swap_pwd_with_args(var, tmp, str2);
 	return (str);
 }
 
@@ -87,13 +97,4 @@ int	cd_too_many_arguments(t_var *var)
 		return (1);
 	else
 		return (0);
-}
-
-void	cd_error_message_too_many_arguments(t_var *var)
-{
-	write (2, "minishell: ", 11);
-	write(2, var->input->cmd, ft_strlen(var->input->cmd));
-	write (2, ": ", 2);
-	write(2, var->input->args[1], ft_strlen(var->input->args[1]));
-	write (2, ": too many arguments\n", 21);
 }
