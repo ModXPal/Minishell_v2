@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   struct.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/27 14:42:24 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/30 18:48:10 by                  ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef STRUCT_H
 # define STRUCT_H
 
@@ -79,6 +67,7 @@ typedef struct s_var{
 	int				pwd_exist;
 	t_list			*list;
 	t_input			*input;
+	t_input			*to_free;
 	t_envar			*envar;
 	t_envar			*export;
 	t_cd			*cd;

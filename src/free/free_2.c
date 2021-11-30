@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 16:44:30 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/28 17:31:42 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:50:27 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	free_pvar(t_pvar *pvar)
 	if (pvar->path)
 		free_split(pvar->path);
 }
+
 
 void	free_input(t_var *var)
 {
