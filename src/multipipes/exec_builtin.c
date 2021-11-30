@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 11:57:39 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/30 11:01:32 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 18:46:42 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ int	builtin_first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 	close_pipes(pvar, pipefd);
 	close_fd(var);
 	(pvar->builtin)[pvar->ret].func(var);
+	for (int l = 0; l < var->cmd_nb + 1; l++)
+		free (pipefd[l]);
+	free (pipefd);
+	free (pvar->pids);
 	free_split(pvar->path);
 	free_envar(var->envar);
 	free_envar(var->export);
@@ -30,7 +34,6 @@ int	builtin_first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 	free(pvar->builtin);
 	free_input(var);
 	free(var->cd);
-	free_list(var);
 	rl_clear_history();
 	exit (0);
 }
@@ -48,6 +51,10 @@ int	builtin_in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	close_pipes(pvar, pipefd);
 	close_fd(var);
 	(pvar->builtin)[pvar->ret].func(var);
+	for (int l = 0; l < var->cmd_nb + 1; l++)
+		free (pipefd[l]);
+	free (pipefd);
+	free (pvar->pids);
 	free_split(pvar->path);
 	free_envar(var->envar);
 	free_envar(var->export);
@@ -55,7 +62,6 @@ int	builtin_in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	free(pvar->builtin);
 	free_input(var);
 	free(var->cd);
-	free_list(var);
 	rl_clear_history();
 	exit (0);
 }
@@ -71,6 +77,10 @@ int	builtin_last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	close_pipes(pvar, pipefd);
 	close_fd(var);
 	(pvar->builtin)[pvar->ret].func(var);
+	for (int l = 0; l < var->cmd_nb + 1; l++)
+		free (pipefd[l]);
+	free (pipefd);
+	free (pvar->pids);
 	free_split(pvar->path);
 	free_envar(var->envar);
 	free_envar(var->export);
@@ -78,7 +88,6 @@ int	builtin_last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	free(pvar->builtin);
 	free_input(var);
 	free(var->cd);
-	free_list(var);
 	rl_clear_history();
 	exit (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/30 11:04:23 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 18:46:42 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	check_input(t_pvar *pvar, t_var *var)
 {
 	DIR	*dir;
 
+	//if (var->input->args == NULL)
+	//	return (0);
 	if (get_prog_path(pvar, var) == 0)
 	{
 		dir = opendir(pvar->cmd);
@@ -99,7 +101,7 @@ int	check_input(t_pvar *pvar, t_var *var)
 	}
 	if (!var->input->cmd || var->input->cmd[0] == '\0')
 	{
-		pvar->cmd = ft_strdup(var->input->cmd);
+		pvar->cmd = ft_strdup("");
 		return (cmd_not_found(var));
 	}
 	if (var->input->cmd[0] == '/')
@@ -138,7 +140,7 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 		else if (check_access(pvar, i) == FAIL)
 		{
 			//free_split(pvar->path);
-			free(pvar->cmd);
+			//free(pvar->cmd);
 			return (cmd_not_found(var));
 		}
 		free(pvar->cmd);
@@ -149,20 +151,23 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 {
 	int	i;
+	t_input	*start;
 
 	i = -1;
+	start = var->input;
 	while (++i < pvar->cmd_nb)
 	{
 		dup2(var->save_stdin, STDIN_FILENO);
 		dup2(var->save_stdout, STDOUT_FILENO);
 		if (i > 0)
-			var->input = var->input->next;
-		if (var->input && var->input->cmd)
-			pvar->ret = is_builtin(var->input->cmd, pvar->builtin);
+			start = start->next;
+		if (start && start->cmd)
+			pvar->ret = is_builtin(start->cmd, pvar->builtin);
 		if (pvar->ret == 6)
 			return (0);
 		if (pvar->ret == -1 && get_cmds(pvar, var) == FAIL)
 		{
+			printf("hello fail\n");
 			free (pvar->cmd);
 			pvar->cmd = NULL;
 			continue;

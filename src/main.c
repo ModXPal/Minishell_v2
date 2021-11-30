@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/29 14:23:07 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 18:46:42 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,13 @@ int	boucle_exec_minishell(t_var *var, t_builtin *builtin)
 	dup2(var->save_stdout, STDOUT_FILENO);
 	if (var->input->heredoc)
 		free(var->input->heredoc);
+	/*
 	if (var->cd)
 	{
 		free(var->cd);
 		var->cd = NULL;
 	}
+	*/
 	restore_fd(var);
 	return (0);
 }
@@ -110,7 +112,7 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 			free_envar(var->envar);
 			free_envar(var->export);
 			rl_clear_history();
-			break;
+			break ;
 		}
 		add_history(var->cmd);
 		boucle_exec_minishell(var, builtin);
@@ -128,6 +130,7 @@ int	main(int ac, char **av, char **env)
 	builtin = malloc(sizeof(t_builtin) * 8);
 	var->cd = (t_cd *)malloc(sizeof(t_cd));
 	init_builtin(builtin);
+	var->builtin = builtin;
 	init_var(var, env, ac);
 	(void)av;
 	envar = NULL;
