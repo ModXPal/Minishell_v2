@@ -57,6 +57,7 @@ void	free_pvar(t_pvar *pvar)
 		free_split(pvar->path);
 }
 
+
 void	free_input(t_var *var)
 {
 	if (var && var->input)

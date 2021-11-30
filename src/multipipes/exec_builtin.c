@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 11:57:39 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/30 14:24:24 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 19:16:40 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	builtin_first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 	free_envar(var->export);
 	free(pvar->cmd);
 	free(pvar->builtin);
+	var->input = var->to_free;
 	free_input(var);
 	free(var->cd);
 	rl_clear_history();
@@ -60,6 +61,7 @@ int	builtin_in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	free_envar(var->export);
 	free(pvar->cmd);
 	free(pvar->builtin);
+	var->input = var->to_free;
 	free_input(var);
 	free(var->cd);
 	rl_clear_history();
@@ -86,6 +88,7 @@ int	builtin_last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	free_envar(var->export);
 	free(pvar->cmd);
 	free(pvar->builtin);
+	var->input = var->to_free;
 	free_input(var);
 	free(var->cd);
 	rl_clear_history();
@@ -94,6 +97,8 @@ int	builtin_last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 
 int	proceed_builtin_pipes(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
+	printf("var in fd = %d\n", var->input->IN_FD);
+	printf("var out fd = %d\n", var->input->OUT_FD);
 	if (i == 0)
 	{
 		builtin_first_cmd(pvar, var, pipefd, i);

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 23:16:49 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/30 18:31:47 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 19:09:59 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,18 +151,17 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 {
 	int	i;
-	t_input	*start;
 
 	i = -1;
-	start = var->input;
+	var->to_free = var->input;
 	while (++i < pvar->cmd_nb)
 	{
 		dup2(var->save_stdin, STDIN_FILENO);
 		dup2(var->save_stdout, STDOUT_FILENO);
 		if (i > 0)
-			start = start->next;
-		if (start && start->cmd)
-			pvar->ret = is_builtin(start->cmd, pvar->builtin);
+			var->input = var->input->next;
+		if (var->input && var->input->cmd)
+			pvar->ret = is_builtin(var->input->cmd, pvar->builtin);
 		if (pvar->ret == 6)
 			return (0);
 		if (pvar->ret == -1 && get_cmds(pvar, var) == FAIL)

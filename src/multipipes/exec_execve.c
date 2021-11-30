@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 11:57:50 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/30 15:02:33 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 18:53:13 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,13 @@ int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
-		for (int l = 0; l < var->cmd_nb + 1; l++)
-			free (pipefd[l]);
-		free (pipefd);
-		free (pvar->pids);
 		free_split(pvar->path);
 		free_envar(var->envar);
 		free_envar(var->export);
 		free(pvar->cmd);
 		free(pvar->builtin);
 		free(var->cd);
-		free_input(var);
+		free_list(var);
 		rl_clear_history();
 		EXIT_STATUS = 127;
 		exit (EXIT_STATUS);
@@ -72,17 +68,13 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
-		for (int l = 0; l < var->cmd_nb + 1; l++)
-			free (pipefd[l]);
-		free (pipefd);
-		free (pvar->pids);
 		free_split(pvar->path);
 		free_envar(var->envar);
 		free_envar(var->export);
 		free(pvar->cmd);
 		free(pvar->builtin);
 		free(var->cd);
-		free_input(var);
+		free_list(var);
 		rl_clear_history();
 		EXIT_STATUS = 127;
 		exit (EXIT_STATUS);
@@ -110,17 +102,13 @@ int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
-		for (int l = 0; l < var->cmd_nb + 1; l++)
-			free (pipefd[l]);
-		free (pipefd);
-		free (pvar->pids);
 		free_split(pvar->path);
 		free_envar(var->envar);
 		free_envar(var->export);
 		free(pvar->cmd);
 		free(pvar->builtin);
 		free(var->cd);
-		free_input(var);
+		free_list(var);
 		rl_clear_history();
 		EXIT_STATUS = 127;
 		exit (EXIT_STATUS);
