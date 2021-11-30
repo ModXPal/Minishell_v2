@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:23:03 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/26 11:00:00 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/11/29 14:23:07 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	restore_fd(t_var *var)
 	}
 	if (var->input)
 		free_input(var);
-	free(var->cmd);
+	if (var->cmd)
+		free(var->cmd);
 	return (0);
 }
 
@@ -63,24 +64,32 @@ int	boucle_exec_minishell(t_var *var, t_builtin *builtin)
 		free(var->cmd);
 		return (0);
 	}
-	else if (var->input->cmd == NULL /*&& var->cmd_nb <= 1*/)
+	else if (var->cmd_nb > 1)
+	{
+		printf("is multi\n");
+		EXIT_STATUS = 123456789;
+		ft_multipipes(var, builtin);
+	}
+	/*
+	else if (var->input->cmd == NULL && var->cmd_nb <= 1)
 	{
 		if (var->input->heredoc)
 			free(var->input->heredoc);
 		restore_fd(var);
 		return (0);
 	}
-	else if (var->cmd_nb > 1)
-	{
-		EXIT_STATUS = 123456789;
-		ft_multipipes(var, builtin);
-	}
+	 */
 	else
 		ft_execve(var, builtin);
 	dup2(var->save_stdin, STDIN_FILENO);
 	dup2(var->save_stdout, STDOUT_FILENO);
 	if (var->input->heredoc)
 		free(var->input->heredoc);
+	if (var->cd)
+	{
+		free(var->cd);
+		var->cd = NULL;
+	}
 	restore_fd(var);
 	return (0);
 }
