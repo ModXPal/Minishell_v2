@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 17:48:22 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/29 15:56:32 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 14:21:29 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2], t_builtin *builtin)
 			free(pvar->cmd);
 			free(builtin);
 			free(var->cd);
-			free_list(var);
+			free_input(var);
 			rl_clear_history();
 			EXIT_STATUS = 127;
 			exit (EXIT_STATUS);

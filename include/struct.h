@@ -83,6 +83,7 @@ typedef struct s_var{
 	t_envar			*export;
 	t_cd			*cd;
 	void 			*pvar;
+	void 			*builtin;
 }		t_var;
 
 typedef struct s_builtin{

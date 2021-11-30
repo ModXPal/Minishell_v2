@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/30 10:36:49 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 18:34:42 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,29 +123,39 @@ char	*ft_trim(t_var *var, char *str, int len)
 t_input	*get_input(t_var *var, char **split_input)
 {
 	t_input	*new;
+	int 	args_len;
 
 	new = malloc(sizeof(t_input));
 	if (new == 0)
 		return (0);
+	args_len = split_len(split_input) + 1;
 	new->args = (char **)ft_calloc(sizeof(char *),
-			 (split_len(split_input)/* + count_heredoc(split_input)*/ + 1));
+			 (args_len/* + count_heredoc(split_input)*/));
 	new->cmd = NULL;
 	new->IN_FD = 0;
 	new->OUT_FD = 0;
 	new->heredoc = 0;
+	printf("args len = %d\n", args_len);
+	handle_input(var, new, split_input);
+	/*
 	if (handle_input(var, new, split_input) == 2)
 	{
-		if (split_len(split_input) + count_heredoc(split_input) + 1 == 1)
+	 */
+		if (args_len/*+ count_heredoc(split_input)*/ == 1)
 		{
+			printf("args len in if= %d\n", args_len);
 			free(new->args);
 			new->args = NULL;
+			return (NULL);
 		}
+		/*
 		else
 			free_split (new->args);
 		return (new);
 	}
-	for (int l = 0; new->args[l]; l++)
-		printf("args[%d] = %s\n", l, new->args[l]);
+		 */
+	//for (int l = 0; new->args[l]; l++)
+	//	printf("args[%d] = %s\n", l, new->args[l]);
 	return (new);
 }
 
@@ -161,7 +171,8 @@ int	create_input_list(t_var *var, char *split_pipes)
 		return (-1);
 	}
 	new = get_input(var, split_input);
-	input_add_back(&var->input, new);
+	if (new)
+		input_add_back(&var->input, new);
 	free_split(split_input);
 	return (0);
 }

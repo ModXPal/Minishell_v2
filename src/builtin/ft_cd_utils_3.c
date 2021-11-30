@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:41:03 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/30 11:20:49 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 16:11:03 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	swap_pwd_old_pwd_and_errors(t_var *var, char *current_path, int dir)
 
 int	swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path)
 {
+	char *to_free;
+
 	if (var->input->args[1] != 0)
 	{
 		if (ft_strlen(var->input->args[1]) == 2
@@ -63,13 +65,29 @@ int	swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path)
 		else
 		{
 			if (tmp)
+			{
+				to_free = tmp->content;
 				tmp->content = current_path;
+				free(to_free);
+			}
 		}
 	}
 	else
 	{
 		if (tmp)
+		{
+			to_free = tmp->content;
 			tmp->content = current_path;
+			free(to_free);
+		}
+		else
+		{
+			if (current_path)
+			{
+				free(current_path);
+				current_path = NULL;
+			}
+		}
 	}
 	return (0);
 }
