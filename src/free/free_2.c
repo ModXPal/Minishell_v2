@@ -1,54 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_1.c                                           :+:      :+:    :+:   */
+/*   free_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/27 15:10:26 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/30 18:48:19 by                  ###   ########.fr       */
+/*   Created: 2021/11/28 16:44:30 by vbachele          #+#    #+#             */
+/*   Updated: 2021/11/28 17:31:42 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
-
-void	free_list(t_var *var)
-{
-	t_list	*tmp;
-
-	if (var->list)
-	{
-		while (var->list)
-		{
-			tmp = var->list->next;
-			free(var->list->content);
-			free(var->list);
-			var->list = tmp;
-		}
-	}
-}
-
-void	free_input_list(t_input *input)
-{
-	t_input	*tmp;
-
-	tmp = NULL;
-	if (input)
-	{
-		while (input)
-		{
-			if (input->next)
-				tmp = input->next;
-			else
-				tmp = NULL;
-			if (input->args)
-				free_split(input->args);
-			free (input);
-			input = NULL;
-			input = tmp;
-		}
-	}
-}
 
 void	free_split(char **split_str)
 {
@@ -84,7 +46,7 @@ void	free_envar(t_envar *envar)
 	}
 }
 
-void 	free_pvar(t_pvar *pvar)
+void	free_pvar(t_pvar *pvar)
 {
 	if (pvar->cmd)
 	{
