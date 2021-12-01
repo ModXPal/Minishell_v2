@@ -70,6 +70,7 @@ char	*env_content_init(t_var *var, char *args, int j);
 int		name_already_exist(t_var *var, char *args, int i);
 void	free_cd_path(t_var *var);
 void	free_input_list(t_input *input);
+void	ft_free(void *to_free);
 int		swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/01 12:40:44 by                  ###   ########.fr       */
+/*   Updated: 2021/12/01 14:13:02 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*trim_expand(char *str)
 {
-	int	len;
-	int i;
-	char *trim;
+	int		len;
+	int		i;
+	char	*trim;
 
 	i = -1;
 	len = 0;
@@ -69,7 +69,8 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 				break ;
 			j++;
 			k++;
-			if (tmp->name[j] == 0 && (str[k] == 0 || ((ft_isalnum(str[k]) == 0) && str[k] != '_')))
+			if (tmp->name[j] == 0 && (str[k] == 0
+				|| ((ft_isalnum(str[k]) == 0) && str[k] != '_')))
 			{
 				if (var->d_quote == FALSE)
 					return (trim_expand(tmp->content));
