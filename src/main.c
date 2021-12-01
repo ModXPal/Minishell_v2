@@ -114,6 +114,11 @@ int	main(int ac, char **av, char **env)
 	t_envar		*envar;
 	t_envar		*export;
 
+	if (*env == NULL)
+	{
+		ft_putstr_fd("Basic environment variables are missing\n", 2);
+		exit (1);
+	}
 	builtin = malloc(sizeof(t_builtin) * 8);
 	var->cd = (t_cd *)malloc(sizeof(t_cd));
 	init_builtin(builtin);

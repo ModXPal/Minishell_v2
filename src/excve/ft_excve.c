@@ -24,7 +24,7 @@ int	ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2], t_builtin *builtin)
 			return (EXIT_STATUS);
 		}
 		close_fd(var);
-		if (execve(pvar->cmd, var->input->args, NULL) == -1)
+		if (execve(pvar->cmd, var->input->args, var->env) == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			perror(pvar->cmd);
@@ -50,17 +50,12 @@ int	ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2], t_builtin *builtin)
 
 int	handle_builtin(t_var *var, int pipe_fd[2], t_builtin *builtin, int ret)
 {
-	int		saved_stdout;
-	int		saved_stdin;
-
-	saved_stdout = dup(STDOUT_FILENO);
-	saved_stdin = dup(STDIN_FILENO);
 	if (ft_dup(var, pipe_fd) == 1)
 		return (1);
 	builtin[ret].func(var);
 	close_fd(var);
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stdin, STDIN_FILENO);
+	dup2(var->save_stdout, STDOUT_FILENO);
+	dup2(var->save_stdin, STDIN_FILENO);
 	return (0);
 }
 
