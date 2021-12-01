@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/30 19:50:27 by                  ###   ########.fr       */
+/*   Updated: 2021/12/01 11:54:19 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,12 @@ t_input	*get_input(t_var *var, char **split_input)
 	new->IN_FD = 0;
 	new->OUT_FD = 0;
 	new->heredoc = 0;
-	if (handle_input(var, new, split_input) == 2)
+	handle_input(var, new, split_input);
+	if (new->cmd == NULL)
 	{
-		if (split_len(split_input) + count_heredoc(split_input) + 1 == 1)
+		if (split_len(split_input) /*+ count_heredoc(split_input)*/ + 1 == 1)
 		{
+			printf("free args please\n");
 			free(new->args);
 			new->args = NULL;
 		}

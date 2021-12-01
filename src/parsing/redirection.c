@@ -63,7 +63,7 @@ int	handle_out_redir(t_var *var, t_input *input, char **split_input, int *i)
 		if (input->OUT_FD > 0)
 			return (0);
 		else
-			return (0);
+			return (2);
 	}
 	else if (ft_strcmp(split_input[*i], ">>") == TRUE)
 	{
@@ -73,7 +73,7 @@ int	handle_out_redir(t_var *var, t_input *input, char **split_input, int *i)
 		if (input->OUT_FD > 0)
 			return (0);
 		else
-			return (0);
+			return (2);
 	}
 	return (-1);
 }
