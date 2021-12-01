@@ -56,7 +56,11 @@ int	swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path)
 			{
 				to_free = tmp->content;
 				tmp->content = current_path;
-				free(to_free);
+				// if (to_free && pwd_exist == 1)
+				// {
+				// 	free(to_free);
+				// 	to_free = NULL;
+				// }
 			}
 		}
 	}
