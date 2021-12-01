@@ -61,12 +61,12 @@ int	cd_dash_equal_one(t_var *var)
 	return (0);
 }
 
-int	cd_dash_tild(t_var *var)
-{
-	if ((ft_strncmp(var->input->args[1], "--", 3) == 0
-			&& ft_strlen(var->input->args[1]) == 2))
-	{
-		return (0);
-	}
-	return (1);
-}
+// int	cd_dash_tild(t_var *var)
+// {
+// 	if ((ft_strncmp(var->input->args[1], "--", 3) == 0
+// 			&& ft_strlen(var->input->args[1]) == 2))
+// 	{
+// 		return (0);
+// 	}
+// 	return (1);
+// }

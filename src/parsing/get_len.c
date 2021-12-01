@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:29:33 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/24 11:46:50 by                  ###   ########.fr       */
+/*   Updated: 2021/12/01 12:12:40 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	get_envar_len(int *j, int *i, t_var *var, char *str)
 
 	envar = get_valid_envar(var, str, ++(*i));
 	*j += ft_strlen(envar);
-	printf("len envar = %d\n", ft_strlen(envar));
 	if (envar)
 		free (envar);
 	if (str[*i] == '?')

@@ -48,7 +48,15 @@ int	swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path)
 			&& (ft_strncmp(var->input->args[1], "//", 2) == 0))
 		{
 			if (tmp)
+			{
+				to_free = tmp->content;
 				tmp->content = current_path;
+				// if (to_free)
+				// {
+				// 	free(to_free);
+				// 	to_free = NULL;
+				// }
+			}
 		}
 		else
 		{
@@ -56,7 +64,7 @@ int	swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path)
 			{
 				to_free = tmp->content;
 				tmp->content = current_path;
-				// if (to_free && pwd_exist == 1)
+				// if (to_free)
 				// {
 				// 	free(to_free);
 				// 	to_free = NULL;
@@ -70,7 +78,11 @@ int	swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path)
 		{
 			to_free = tmp->content;
 			tmp->content = current_path;
-			free(to_free);
+			// if (to_free)
+			// {
+			// 	free(to_free);
+			// 	to_free = NULL;
+			// }
 		}
 		else
 		{

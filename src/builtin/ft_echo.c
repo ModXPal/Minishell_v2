@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 16:29:41 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/26 12:53:03 by                  ###   ########.fr       */
+/*   Updated: 2021/12/01 13:52:02 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ int	ft_echo(t_var *var)
 
 	ret = 0;
 	dash_n = 0;
-	for (int l = 0; var->input->args[l]; l++)
-		printf("input args[%d] = %s\n", l, var->input->args[l]);
 	if (echo_args1_equal_zero(var) == 0)
 		return (EXIT_STATUS);
 	if (echo_dollar_question(var) == 0)

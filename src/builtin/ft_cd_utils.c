@@ -104,7 +104,7 @@ int	swap_pwd_old_pwd(t_var *var)
 	if (dir < 0)
 	{
 		errors_chdir_handling(dir, var);
-		if (str && var->pwd_exist)
+		if (str)
 			free (str);
 		return (1);
 	}

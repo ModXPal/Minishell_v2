@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/01 11:54:19 by                  ###   ########.fr       */
+/*   Updated: 2021/12/01 12:13:03 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ char	*ft_trim(t_var *var, char *str, int len)
 	char 	*envar;
 
 	trim_str = (char *)ft_calloc(sizeof(char), (len + 1));
-	printf("len = %d\n", len + 1);
 	if (!trim_str)
 		return (NULL);
 	j = 0;
@@ -104,7 +103,6 @@ char	*ft_trim(t_var *var, char *str, int len)
 			k = 0;
 			j++;
 			envar = get_valid_envar(var, str, j);
-			printf("envar = %s\n", envar);
 			while (envar[k])
 				trim_str[i++] = envar[k++];
 			if (envar)
@@ -138,7 +136,6 @@ t_input	*get_input(t_var *var, char **split_input)
 	{
 		if (split_len(split_input) /*+ count_heredoc(split_input)*/ + 1 == 1)
 		{
-			printf("free args please\n");
 			free(new->args);
 			new->args = NULL;
 		}
@@ -146,8 +143,6 @@ t_input	*get_input(t_var *var, char **split_input)
 			free_split (new->args);
 		return (new);
 	}
-	for (int l = 0; new->args[l]; l++)
-		printf("args[%d] = %s\n", l, new->args[l]);
 	return (new);
 }
 
