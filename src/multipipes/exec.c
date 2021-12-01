@@ -154,7 +154,6 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 			return (0);
 		if (pvar->ret == -1 && get_cmds(pvar, var) == FAIL)
 		{
-			printf("hello fail\n");
 			free (pvar->cmd);
 			pvar->cmd = NULL;
 			continue;

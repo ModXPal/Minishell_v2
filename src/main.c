@@ -54,7 +54,6 @@ int	boucle_exec_minishell(t_var *var, t_builtin *builtin)
 	}
 	else if (var->cmd_nb > 1)
 	{
-		printf("is multi\n");
 		EXIT_STATUS = 123456789;
 		ft_multipipes(var, builtin);
 	}
