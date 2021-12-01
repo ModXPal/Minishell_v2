@@ -148,8 +148,8 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 		dup2(var->save_stdout, STDOUT_FILENO);
 		if (i > 0)
 			var->input = var->input->next;
-		if (var->input && var->input->cmd)
-			pvar->ret = is_builtin(var->input->cmd, pvar->builtin);
+		//if (var->input && var->input->cmd)
+		pvar->ret = is_builtin(var->input->cmd, pvar->builtin);
 		if (pvar->ret == 6)
 			return (0);
 		if (pvar->ret == -1 && get_cmds(pvar, var) == FAIL)
