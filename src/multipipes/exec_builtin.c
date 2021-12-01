@@ -85,8 +85,6 @@ int	builtin_last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 
 int	proceed_builtin_pipes(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
-	printf("var in fd = %d\n", var->input->IN_FD);
-	printf("var out fd = %d\n", var->input->OUT_FD);
 	if (i == 0)
 	{
 		builtin_first_cmd(pvar, var, pipefd, i);

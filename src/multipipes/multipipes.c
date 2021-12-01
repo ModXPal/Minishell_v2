@@ -20,7 +20,6 @@ int	init_pipefd(t_pvar *pvar, int ***pipefd)
 		if (pipe((*pipefd)[i]) == -1)
 			return (0);
 	}
-	printf("pipe[%d] = %d\n", i - 1, (*pipefd)[i - 1][0]);
 	return (1);
 }
 

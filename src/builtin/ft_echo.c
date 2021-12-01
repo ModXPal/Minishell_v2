@@ -89,8 +89,6 @@ int	ft_echo(t_var *var)
 
 	ret = 0;
 	dash_n = 0;
-	for (int l = 0; var->input->args[l]; l++)
-		printf("input args[%d] = %s\n", l, var->input->args[l]);
 	if (echo_args1_equal_zero(var) == 0)
 		return (EXIT_STATUS);
 	if (echo_dollar_question(var) == 0)
