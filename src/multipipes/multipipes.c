@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   multipipes.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/19 23:01:54 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/05 14:54:03 by rcollas          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "multipipes.h"
 
 int	init_pipefd(t_pvar *pvar, int ***pipefd)
@@ -32,6 +20,7 @@ int	init_pipefd(t_pvar *pvar, int ***pipefd)
 		if (pipe((*pipefd)[i]) == -1)
 			return (0);
 	}
+	printf("pipe[%d] = %d\n", i - 1, (*pipefd)[i - 1][0]);
 	return (1);
 }
 

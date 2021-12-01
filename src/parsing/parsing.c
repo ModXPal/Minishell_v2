@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/25 15:25:47 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 19:50:27 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,14 @@ char	*trim_expand(char *str)
 	len = 0;
 	while (str[++i])
 	{
-		while (str[i] == ' ')
+		if (str[i] == ' ')
 		{
-			i++;
-			if (len != 0 && str[i - 1] == 0)
-				len++;
+			while (str[i + 1] == ' ')
+			{
+				i++;
+				if (len != 0 && str[i - 1] == 0)
+					len++;
+			}
 		}
 		if (str[i])
 			len++;
@@ -66,7 +69,7 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 				break ;
 			j++;
 			k++;
-			if (((ft_isalnum(str[k]) == 0) && str[k] != '_') || str[k] == 0)
+			if (str[k] == 0 || ((ft_isalnum(str[k]) == 0) && str[k] != '_'))
 			{
 				if (var->d_quote == FALSE)
 					return (trim_expand(tmp->content));
@@ -87,19 +90,21 @@ char	*ft_trim(t_var *var, char *str, int len)
 	char 	*envar;
 
 	trim_str = (char *)ft_calloc(sizeof(char), (len + 1));
+	printf("len = %d\n", len + 1);
 	if (!trim_str)
 		return (NULL);
 	j = 0;
 	i = 0;
 	while (i < len)
 	{
-		k = 0;
 		if (check_quotes(str, &j, var) == TRUE)
 			continue ;
 		if (str[j] == '$' && var->s_quote == FALSE)
 		{
+			k = 0;
 			j++;
 			envar = get_valid_envar(var, str, j);
+			printf("envar = %s\n", envar);
 			while (envar[k])
 				trim_str[i++] = envar[k++];
 			if (envar)
@@ -123,7 +128,7 @@ t_input	*get_input(t_var *var, char **split_input)
 	if (new == 0)
 		return (0);
 	new->args = (char **)ft_calloc(sizeof(char *),
-			 (split_len(split_input) + count_heredoc(split_input) + 1));
+			 (split_len(split_input)/* + count_heredoc(split_input)*/ + 1));
 	new->cmd = NULL;
 	new->IN_FD = 0;
 	new->OUT_FD = 0;
@@ -139,6 +144,8 @@ t_input	*get_input(t_var *var, char **split_input)
 			free_split (new->args);
 		return (new);
 	}
+	for (int l = 0; new->args[l]; l++)
+		printf("args[%d] = %s\n", l, new->args[l]);
 	return (new);
 }
 
@@ -149,7 +156,10 @@ int	create_input_list(t_var *var, char *split_pipes)
 
 	split_input = ft_split_quotes(split_pipes, ' ');
 	if (syntax_check(split_input) == -1)
+	{
+		free_split (split_input);
 		return (-1);
+	}
 	new = get_input(var, split_input);
 	input_add_back(&var->input, new);
 	free_split(split_input);
@@ -178,7 +188,10 @@ int	get_arguments(t_var *var)
 	while (split_pipes[++i])
 	{
 		if (create_input_list(var, split_pipes[i]) == -1)
+		{
+			free_split(split_pipes);
 			return (-1);
+		}
 	}
 	free_split(split_pipes);
 	return (0);

@@ -1,28 +1,15 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_unset_utils.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/06 18:45:48 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/26 12:52:30 by vbachele         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "builtin.h"
 
 int	unset_first_letter(t_var *var, char *content, int i)
 {
-	if (var->input->args[1] == 0)
+	if (var->input->args[1] == 0 || content[0] == 0)
+		return (-1);
+	if (content[0] == 0)
 		return (-1);
 	while (var->input->args[i])
 	{
-		if (var->input->args[i][0] == '=')
-		{
-			unset_error_export_message(var, content);
+		if (var->input->args[i][0] == '=' && content[0] != '=')
 			return (0);
-		}
 		else if (ft_isdigit(content[0])
 			|| content[0] == 0)
 		{

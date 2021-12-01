@@ -28,6 +28,7 @@
 # include <readline/history.h>
 # include <stdio.h>
 # include <signal.h>
+# include <dirent.h>
 
 int		ft_echo(t_var *var);
 int		ft_env(t_var *var);

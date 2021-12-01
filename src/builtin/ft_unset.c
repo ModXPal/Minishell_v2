@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/04 17:29:54 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/28 17:29:17 by vbachele         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "builtin.h"
 
 int	unset_error_export_message(t_var *var, char *content)
@@ -34,9 +22,12 @@ int	ft_unset_export(t_var *var, char *str, int *args_exist)
 	{
 		if (tmp->next)
 			tmp = tmp->next;
+		
 		else if (tmp->next == 0)
 			return (0);
 	}
+	// if (tmp == 0)
+	// 	return (0);
 	if (ft_strcmp(tmp->name, str) == 1)
 	{
 		pos = ft_envar_position(var->export, tmp->name);

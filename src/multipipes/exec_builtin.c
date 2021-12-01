@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_builtin.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 11:57:39 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/16 11:57:43 by rcollas          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "multipipes.h"
 
 int	builtin_first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
@@ -23,6 +11,19 @@ int	builtin_first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 	close_pipes(pvar, pipefd);
 	close_fd(var);
 	(pvar->builtin)[pvar->ret].func(var);
+	for (int l = 0; l < var->cmd_nb + 1; l++)
+		free (pipefd[l]);
+	free (pipefd);
+	free (pvar->pids);
+	free_split(pvar->path);
+	free_envar(var->envar);
+	free_envar(var->export);
+	free(pvar->cmd);
+	free(pvar->builtin);
+	var->input = var->to_free;
+	free_input(var);
+	free(var->cd);
+	rl_clear_history();
 	exit (0);
 }
 
@@ -39,6 +40,19 @@ int	builtin_in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	close_pipes(pvar, pipefd);
 	close_fd(var);
 	(pvar->builtin)[pvar->ret].func(var);
+	for (int l = 0; l < var->cmd_nb + 1; l++)
+		free (pipefd[l]);
+	free (pipefd);
+	free (pvar->pids);
+	free_split(pvar->path);
+	free_envar(var->envar);
+	free_envar(var->export);
+	free(pvar->cmd);
+	free(pvar->builtin);
+	var->input = var->to_free;
+	free_input(var);
+	free(var->cd);
+	rl_clear_history();
 	exit (0);
 }
 
@@ -53,11 +67,26 @@ int	builtin_last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	close_pipes(pvar, pipefd);
 	close_fd(var);
 	(pvar->builtin)[pvar->ret].func(var);
+	for (int l = 0; l < var->cmd_nb + 1; l++)
+		free (pipefd[l]);
+	free (pipefd);
+	free (pvar->pids);
+	free_split(pvar->path);
+	free_envar(var->envar);
+	free_envar(var->export);
+	free(pvar->cmd);
+	free(pvar->builtin);
+	var->input = var->to_free;
+	free_input(var);
+	free(var->cd);
+	rl_clear_history();
 	exit (0);
 }
 
 int	proceed_builtin_pipes(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
+	printf("var in fd = %d\n", var->input->IN_FD);
+	printf("var out fd = %d\n", var->input->OUT_FD);
 	if (i == 0)
 	{
 		builtin_first_cmd(pvar, var, pipefd, i);

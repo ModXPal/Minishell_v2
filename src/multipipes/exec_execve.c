@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 11:57:50 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/25 17:24:28 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 19:50:27 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,16 @@ int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 	close_pipes(pvar, pipefd);
 	if (execve(pvar->cmd, var->input->args, NULL) == -1)
 	{
-		ft_putstr_fd("Execve failed : ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
 		free_split(pvar->path);
+		free_envar(var->envar);
+		free_envar(var->export);
+		free(pvar->cmd);
+		free(pvar->builtin);
+		free(var->cd);
+		free_list(var);
+		rl_clear_history();
 		EXIT_STATUS = 127;
 		exit (EXIT_STATUS);
 	}
@@ -59,9 +66,16 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	close_pipes(pvar, pipefd);
 	if (execve(pvar->cmd, var->input->args, NULL) == -1)
 	{
-		ft_putstr_fd("Execve failed : ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
 		free_split(pvar->path);
+		free_envar(var->envar);
+		free_envar(var->export);
+		free(pvar->cmd);
+		free(pvar->builtin);
+		free(var->cd);
+		free_list(var);
+		rl_clear_history();
 		EXIT_STATUS = 127;
 		exit (EXIT_STATUS);
 	}
@@ -86,9 +100,16 @@ int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	close_pipes(pvar, pipefd);
 	if (execve(pvar->cmd, var->input->args, NULL) == -1)
 	{
-		ft_putstr_fd("Execve failed : ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
 		free_split(pvar->path);
+		free_envar(var->envar);
+		free_envar(var->export);
+		free(pvar->cmd);
+		free(pvar->builtin);
+		free(var->cd);
+		free_list(var);
+		rl_clear_history();
 		EXIT_STATUS = 127;
 		exit (EXIT_STATUS);
 	}
@@ -99,20 +120,18 @@ void	proceed_pipes(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
 	if (i == 0)
 	{
-		if (get_cmds(pvar, var) == FAIL)
-			exit (1);
 		first_cmd(pvar, var, pipefd, i);
 	}
 	else if (i == pvar->cmd_nb - 1)
 	{
-		if (get_cmds(pvar, var) == FAIL)
-			exit (1);
+		//if (get_cmds(pvar, var) == FAIL)
+		//	exit (1);
 		last_cmd(pvar, var, pipefd, i);
 	}
 	else
 	{
-		if (get_cmds(pvar, var) == FAIL)
-			exit (1);
+		//if (get_cmds(pvar, var) == FAIL)
+		//	exit (1);
 		in_between_cmd(pvar, var, pipefd, i);
 	}
 }

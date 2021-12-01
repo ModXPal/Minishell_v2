@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_cd_utils_3.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/18 15:41:03 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/28 17:02:20 by vbachele         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "builtin.h"
 
 int	cd_cdpath_application(t_var *var)
@@ -52,6 +40,8 @@ int	swap_pwd_old_pwd_and_errors(t_var *var, char *current_path, int dir)
 
 int	swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path)
 {
+	char *to_free;
+
 	if (var->input->args[1] != 0)
 	{
 		if (ft_strlen(var->input->args[1]) == 2
@@ -63,13 +53,29 @@ int	swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path)
 		else
 		{
 			if (tmp)
+			{
+				to_free = tmp->content;
 				tmp->content = current_path;
+				free(to_free);
+			}
 		}
 	}
 	else
 	{
 		if (tmp)
+		{
+			to_free = tmp->content;
 			tmp->content = current_path;
+			free(to_free);
+		}
+		else
+		{
+			if (current_path)
+			{
+				free(current_path);
+				current_path = NULL;
+			}
+		}
 	}
 	return (0);
 }

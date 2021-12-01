@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/05 10:57:38 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/28 16:12:27 by vbachele         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "builtin.h"
 
 int	exit_with_digits(t_var *var)
@@ -19,7 +7,8 @@ int	exit_with_digits(t_var *var)
 	i = 0;
 	i = ft_atoi(var->input->args[1]);
 	ft_putendl_fd("exit", 2);
-	free_list(var);
+	free(var->cd);
+	free(var->builtin);
 	free_input(var);
 	free_envar(var->envar);
 	free_envar(var->export);
@@ -36,7 +25,8 @@ int	exit_with_too_many_arguments(t_var *var)
 		write(2, "minishell: ", 12);
 		write(2, var->input->cmd, ft_strlen(var->input->cmd));
 		ft_putendl_fd(": too many arguments", 2);
-		free_list(var);
+		free(var->builtin);
+		free(var->cd);
 		free_input(var);
 		free_envar(var->envar);
 		free_envar(var->export);
@@ -62,7 +52,8 @@ int	exit_with_errors(t_var *var)
 			write (2, ": ", 2);
 			write(2, var->input->args[1], ft_strlen(var->input->args[1]));
 			ft_putendl_fd(": numeric argument required", 2);
-			free_list(var);
+			free(var->cd);
+			free(var->builtin);
 			free_input(var);
 			free_envar(var->envar);
 			free_envar(var->export);
@@ -80,7 +71,8 @@ int	exit_without_cmd(t_var *var)
 	if (var->input->args[1] == 0)
 	{
 		ft_putendl_fd("exit", 2);
-		free_list(var);
+		free(var->cd);
+		free(var->builtin);
 		free_input(var);
 		free_envar(var->envar);
 		free_envar(var->export);
@@ -100,7 +92,8 @@ int	ft_exit(t_var *var)
 	exit_with_too_many_arguments(var);
 	exit_with_errors(var);
 	exit_with_digits(var);
-	free_list(var);
+	free(var->cd);
+	free(var->builtin);
 	free_input(var);
 	free_envar(var->envar);
 	free_envar(var->export);
