@@ -46,3 +46,9 @@ void	free_cd_path(t_var *var)
 		var->cd->cdpath = 0;
 	}
 }
+
+void	ft_free(void *to_free)
+{
+	free(to_free);
+	to_free = NULL;
+}

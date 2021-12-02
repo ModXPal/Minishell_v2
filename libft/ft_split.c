@@ -50,7 +50,7 @@ static unsigned int	ft_count_words(char const *str, char charset)
 	return (words_count);
 }
 
-static char	**ft_free(char **str, unsigned int size)
+static char	**ft_free_all(char **str, unsigned int size)
 {
 	unsigned int	i;
 
@@ -80,7 +80,7 @@ char	**ft_split(char const *s, char c)
 			s++;
 		tab[i] = (char *)malloc(sizeof(**tab) * ft_ult_strlen(s, c) + 1);
 		if (!tab[i])
-			return (ft_free(tab, i));
+			return (ft_free_all(tab, i));
 		j = 0;
 		while (*s && !is_charset(*s, c))
 			tab[i][j++] = *s++;

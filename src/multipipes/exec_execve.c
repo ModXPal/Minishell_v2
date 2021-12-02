@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 11:57:50 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/30 19:50:27 by                  ###   ########.fr       */
+/*   Updated: 2021/12/01 16:28:56 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 	else
 		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
-	if (execve(pvar->cmd, var->input->args, NULL) == -1)
+	if (execve(pvar->cmd, var->input->args, var->env) == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
@@ -64,7 +64,7 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	else
 		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
-	if (execve(pvar->cmd, var->input->args, NULL) == -1)
+	if (execve(pvar->cmd, var->input->args, var->env) == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
@@ -98,7 +98,7 @@ int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	if (var->input->OUT_FD > 0)
 		dup2(var->input->OUT_FD, STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
-	if (execve(pvar->cmd, var->input->args, NULL) == -1)
+	if (execve(pvar->cmd, var->input->args, var->env) == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);

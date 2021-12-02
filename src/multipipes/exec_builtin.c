@@ -24,6 +24,7 @@ int	builtin_first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 	free_input(var);
 	free(var->cd);
 	rl_clear_history();
+	ft_putstr_fd("le bon test\n", 2);
 	exit (0);
 }
 
@@ -53,6 +54,7 @@ int	builtin_in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	free_input(var);
 	free(var->cd);
 	rl_clear_history();
+	ft_putstr_fd("le bon test\n", 2);
 	exit (0);
 }
 
@@ -80,6 +82,7 @@ int	builtin_last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	free_input(var);
 	free(var->cd);
 	rl_clear_history();
+	ft_putstr_fd("le bon test\n", 2);
 	exit (0);
 }
 

@@ -69,7 +69,7 @@ int	check_redirection_syntax(char **input, int i, char c)
 		else if (input[i + 1] == NULL && input[i][j + 1] != c)
 			return (syntax_error(input, i, j));
 		else if (input[i + 1]
-			 && (input[i + 1][0] == d || input[i + 1][0] == c))
+			&& (input[i + 1][0] == d || input[i + 1][0] == c))
 			return (syntax_error(input, i + 1, 3));
 	}
 	return (0);

@@ -26,7 +26,6 @@ char	*trim_heredoc(char *str, int len, t_var *var)
 	char	*tmp;
 	int		i;
 	int		j;
-	int		k;
 
 	trim_str = ft_calloc(sizeof(char), (len + 1));
 	if (!trim_str)
@@ -35,18 +34,11 @@ char	*trim_heredoc(char *str, int len, t_var *var)
 	j = 0;
 	while (i < len)
 	{
-		k = 0;
 		if (str[j] == '$' && ft_isalnum(str[j + 1]))
 		{
 			j++;
 			tmp = get_valid_envar(var, str, j);
-			while (tmp[k])
-				trim_str[i++] = tmp[k++];
-			if (tmp)
-			{
-				free(tmp);
-				tmp = NULL;
-			}
+			assign_envar(tmp, trim_str, &i);
 			skip_alnum(str, &j);
 			continue ;
 		}

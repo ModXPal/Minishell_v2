@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:05:09 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/02 14:43:45 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/02 14:46:14 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	exit_with_digits(t_var *var)
 	i = 0;
 	i = ft_atoi(var->input->args[1]);
 	ft_putendl_fd("exit", 2);
+	close(var->save_stdin);
+	close(var->save_stdout);
 	free(var->cd);
 	free(var->builtin);
 	free_input(var);
@@ -53,7 +55,7 @@ int	exit_with_errors(t_var *var)
 {
 	int		i;
 	int		j;
-demi
+	
 	j = 0;
 	while (var->input->args[++j])
 	{
@@ -87,6 +89,8 @@ int	exit_without_cmd(t_var *var)
 	if (var->input->args[1] == 0)
 	{
 		ft_putendl_fd("exit", 2);
+		close(var->save_stdin);
+		close(var->save_stdout);
 		free(var->cd);
 		free(var->builtin);
 		free_input(var);
@@ -108,6 +112,8 @@ int	ft_exit(t_var *var)
 	if (exit_with_too_many_arguments(var) == 1)
 		return (1);
 	exit_with_digits(var);
+	close(var->save_stdin);
+	close(var->save_stdout);
 	free(var->cd);
 	free(var->builtin);
 	free_input(var);

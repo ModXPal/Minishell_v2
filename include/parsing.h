@@ -53,6 +53,7 @@ int		syntax_error(char **input, int i, int j);
 int		pipe_error(void);
 void	permission_denied(char *file);
 void	missing_file(char *file);
+void	assign_envar(char *envar, char *trim_str, int *i);
 int		syntax_check(char **input);
 int		check_pipes(t_var *var);
 int		here_doc(t_input *input, char *delimiter, t_var *var);

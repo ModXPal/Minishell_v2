@@ -6,20 +6,21 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/01 14:01:26 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/02 12:41:47 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char	*trim_expand(char *str)
+int	expand_len(char *str)
 {
+	int	i;
 	int	len;
-	int i;
-	char *trim;
 
 	i = -1;
 	len = 0;
+	if (!str)
+		return (0);
 	while (str[++i])
 	{
 		if (str[i] == ' ')
@@ -34,10 +35,20 @@ char	*trim_expand(char *str)
 		if (str[i])
 			len++;
 	}
+	return (len);
+}
+
+char	*trim_expand(char *str)
+{
+	int		len;
+	int		i;
+	char	*trim;
+
+	i = -1;
+	len = expand_len(str);
 	trim = ft_calloc(sizeof(char), len + 1);
 	if (trim == NULL)
 		return (NULL);
-	i = -1;
 	len = 0;
 	while (str[++i])
 	{
@@ -48,6 +59,12 @@ char	*trim_expand(char *str)
 		trim[len++] = str[i];
 	}
 	return (trim);
+}
+
+void	set_var(int *j, int *k, int i)
+{
+	*j = 0;
+	*k = i;
 }
 
 char	*get_valid_envar(t_var *var, char *str, int i)
@@ -61,15 +78,13 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 		return (ft_itoa(EXIT_STATUS));
 	while (tmp)
 	{
-		j = 0;
-		k = i;
-		while (tmp->name[j] && str[k])
+		set_var(&j, &k, i);
+		while (tmp->name[j] && str[k] && ft_charcmp(tmp->name[j], str[k]))
 		{
-			if (ft_charcmp((tmp->name)[j], str[k]) == FAIL)
-				break ;
 			j++;
 			k++;
-			if (tmp->name[j] == 0 && (str[k] == 0 || ((ft_isalnum(str[k]) == 0) && str[k] != '_')))
+			if (tmp->name[j] == 0 && (str[k] == 0
+					|| ((ft_isalnum(str[k]) == 0) && str[k] != '_')))
 			{
 				if (var->d_quote == FALSE)
 					return (trim_expand(tmp->content));
@@ -81,13 +96,26 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 	return (ft_strdup("\0"));
 }
 
+void	assign_envar(char *envar, char *trim_str, int *i)
+{
+	int	k;
+
+	k = 0;
+	while (envar[k])
+		trim_str[(*i)++] = envar[k++];
+	if (envar)
+	{
+		free(envar);
+		envar = NULL;
+	}
+}
+
 char	*ft_trim(t_var *var, char *str, int len)
 {
 	char	*trim_str;
 	int		i;
 	int		j;
-	int		k;
-	char 	*envar;
+	char	*envar;
 
 	trim_str = (char *)ft_calloc(sizeof(char), (len + 1));
 	if (!trim_str)
@@ -100,16 +128,8 @@ char	*ft_trim(t_var *var, char *str, int len)
 			continue ;
 		if (str[j] == '$' && var->s_quote == FALSE)
 		{
-			k = 0;
-			j++;
-			envar = get_valid_envar(var, str, j);
-			while (envar[k])
-				trim_str[i++] = envar[k++];
-			if (envar)
-			{
-				free(envar);
-				envar = NULL;
-			}
+			envar = get_valid_envar(var, str, ++j);
+			assign_envar(envar, trim_str, &i);
 			skip_alnum(str, &j);
 			continue ;
 		}
@@ -126,7 +146,7 @@ t_input	*get_input(t_var *var, char **split_input)
 	if (new == 0)
 		return (0);
 	new->args = (char **)ft_calloc(sizeof(char *),
-			 (split_len(split_input)/* + count_heredoc(split_input)*/ + 1));
+			(split_len(split_input) + 1));
 	new->cmd = NULL;
 	new->IN_FD = 0;
 	new->OUT_FD = 0;
@@ -134,13 +154,11 @@ t_input	*get_input(t_var *var, char **split_input)
 	handle_input(var, new, split_input);
 	if (new->cmd == NULL)
 	{
-		if (split_len(split_input) /*+ count_heredoc(split_input)*/ + 1 == 1)
+		if (split_len(split_input) + 1 == 1)
 		{
 			free(new->args);
 			new->args = NULL;
 		}
-		//else
-		//	free_split (new->args);
 		return (new);
 	}
 	return (new);
@@ -163,13 +181,8 @@ int	create_input_list(t_var *var, char *split_pipes)
 	return (0);
 }
 
-int	get_arguments(t_var *var)
+int	check_syntax(t_var *var)
 {
-	char	**split_pipes;
-	int		i;
-
-	i = -1;
-	var->cmd_nb = count_pipes(var);
 	if (var->cmd[0] == 0)
 		return (-1);
 	if (check_unmatched_quotes(var) == TRUE)
@@ -179,7 +192,22 @@ int	get_arguments(t_var *var)
 		return (-1);
 	}
 	if (check_pipes(var) == -1)
+	{
+		EXIT_STATUS = 1;
 		return (-1);
+	}
+	return (0);
+}
+
+int	get_arguments(t_var *var)
+{
+	char	**split_pipes;
+	int		i;
+
+	i = -1;
+	if (check_syntax(var) == -1)
+		return (-1);
+	var->cmd_nb = count_pipes(var);
 	split_pipes = ft_split_pipes(var->cmd, '|');
 	var->input = NULL;
 	while (split_pipes[++i])
