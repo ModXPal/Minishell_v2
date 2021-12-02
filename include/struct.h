@@ -65,6 +65,7 @@ typedef struct s_var{
 	int				save_stdin;
 	int				save_stdout;
 	int				pwd_exist;
+	int 			expand;
 	t_list			*list;
 	t_input			*input;
 	t_input			*to_free;

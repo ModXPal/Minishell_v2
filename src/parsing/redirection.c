@@ -42,7 +42,8 @@ int	handle_in_redir(t_var *var, t_input *input, char **split_input, int *i)
 	else if (ft_strcmp(split_input[*i], "<<") == TRUE)
 	{
 		(*i)++;
-		trim = ft_trim(var, split_input[*i], len);
+		len = get_delimiter_len(split_input[*i], var);
+		trim = ft_trim_delimiter(var, split_input[*i], len);
 		here_doc(input, trim, var);
 		return (1);
 	}

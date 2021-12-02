@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/02 12:41:47 by                  ###   ########.fr       */
+/*   Updated: 2021/12/02 17:00:15 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,29 @@ char	*ft_trim(t_var *var, char *str, int len)
 			envar = get_valid_envar(var, str, ++j);
 			assign_envar(envar, trim_str, &i);
 			skip_alnum(str, &j);
+			continue ;
+		}
+		trim_str[i++] = str[j++];
+	}
+	return (trim_str);
+}
+
+char	*ft_trim_delimiter(t_var *var, char *str, int len)
+{
+	char	*trim_str;
+	int		i;
+	int		j;
+
+	trim_str = (char *)ft_calloc(sizeof(char), (len + 1));
+	if (!trim_str)
+		return (NULL);
+	j = 0;
+	i = 0;
+	while (i < len)
+	{
+		if (check_quotes(str, &j, var) == TRUE)
+		{
+			var->expand = 0;
 			continue ;
 		}
 		trim_str[i++] = str[j++];

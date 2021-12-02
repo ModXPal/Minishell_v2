@@ -6,7 +6,7 @@
 /*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 11:57:50 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/01 16:28:56 by                  ###   ########.fr       */
+/*   Updated: 2021/12/02 15:28:09 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 {
-	int pipe_heredoc[2];
+	int	pipe_heredoc[2];
 
 	if (var->input->IN_FD > 0)
 		dup2(var->input->IN_FD, STDIN_FILENO);
@@ -32,14 +32,7 @@ int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
-		free_split(pvar->path);
-		free_envar(var->envar);
-		free_envar(var->export);
-		free(pvar->cmd);
-		free(pvar->builtin);
-		free(var->cd);
-		free_list(var);
-		rl_clear_history();
+		free_with_pvar(var, pvar);
 		EXIT_STATUS = 127;
 		exit (EXIT_STATUS);
 	}
@@ -48,7 +41,7 @@ int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 
 int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
-	int pipe_heredoc[2];
+	int	pipe_heredoc[2];
 
 	if (var->input->IN_FD > 0)
 		dup2(var->input->IN_FD, STDIN_FILENO);
@@ -68,14 +61,7 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
-		free_split(pvar->path);
-		free_envar(var->envar);
-		free_envar(var->export);
-		free(pvar->cmd);
-		free(pvar->builtin);
-		free(var->cd);
-		free_list(var);
-		rl_clear_history();
+		free_with_pvar(var, pvar);
 		EXIT_STATUS = 127;
 		exit (EXIT_STATUS);
 	}
@@ -84,7 +70,7 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 
 int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
-	int pipe_heredoc[2];
+	int	pipe_heredoc[2];
 
 	if (var->input->IN_FD > 0)
 		dup2(var->input->IN_FD, STDIN_FILENO);
@@ -102,14 +88,7 @@ int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
-		free_split(pvar->path);
-		free_envar(var->envar);
-		free_envar(var->export);
-		free(pvar->cmd);
-		free(pvar->builtin);
-		free(var->cd);
-		free_list(var);
-		rl_clear_history();
+		free_with_pvar(var, pvar);
 		EXIT_STATUS = 127;
 		exit (EXIT_STATUS);
 	}
@@ -119,19 +98,9 @@ int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 void	proceed_pipes(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
 	if (i == 0)
-	{
 		first_cmd(pvar, var, pipefd, i);
-	}
 	else if (i == pvar->cmd_nb - 1)
-	{
-		//if (get_cmds(pvar, var) == FAIL)
-		//	exit (1);
 		last_cmd(pvar, var, pipefd, i);
-	}
 	else
-	{
-		//if (get_cmds(pvar, var) == FAIL)
-		//	exit (1);
 		in_between_cmd(pvar, var, pipefd, i);
-	}
 }

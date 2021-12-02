@@ -34,7 +34,7 @@ char	*trim_heredoc(char *str, int len, t_var *var)
 	j = 0;
 	while (i < len)
 	{
-		if (str[j] == '$' && ft_isalnum(str[j + 1]))
+		if (str[j] == '$' && ft_isalnum(str[j + 1]) && var->expand)
 		{
 			j++;
 			tmp = get_valid_envar(var, str, j);
@@ -45,7 +45,19 @@ char	*trim_heredoc(char *str, int len, t_var *var)
 		trim_str[i++] = str[j++];
 	}
 	free (str);
+	var->expand = 1;
 	return (trim_str);
+}
+
+void	get_line(char *buff, char *tmp, char **line)
+{
+	buff[1] = 0;
+	if (buff[0] != '\n')
+	{
+		tmp = *line;
+		*line = ft_strjoin(*line, buff);
+		free (tmp);
+	}
 }
 
 void	get_next_line(char **line, int *i)
@@ -67,13 +79,7 @@ void	get_next_line(char **line, int *i)
 	while (ret > 0 && buff[0] != '\n')
 	{
 		ret = read(STDIN_FILENO, buff, 1);
-		buff[1] = 0;
-		if (buff[0] != '\n')
-		{
-			tmp = *line;
-			*line = ft_strjoin(*line, buff);
-			free (tmp);
-		}
+		get_line(buff, tmp, line);
 		(*i)++;
 	}
 	(*i)--;

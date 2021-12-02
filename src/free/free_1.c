@@ -52,3 +52,15 @@ void	ft_free(void *to_free)
 	free(to_free);
 	to_free = NULL;
 }
+
+void	free_with_pvar(t_var *var, t_pvar *pvar)
+{
+	free_split(pvar->path);
+	free_envar(var->envar);
+	free_envar(var->export);
+	free(pvar->cmd);
+	free(pvar->builtin);
+	free(var->cd);
+	free_list(var);
+	rl_clear_history();
+}
