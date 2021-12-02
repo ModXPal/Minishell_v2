@@ -48,6 +48,17 @@ char	*trim_heredoc(char *str, int len, t_var *var)
 	return (trim_str);
 }
 
+void	get_line(char *buff, char *tmp, char **line)
+{
+	buff[1] = 0;
+	if (buff[0] != '\n')
+	{
+		tmp = *line;
+		*line = ft_strjoin(*line, buff);
+		free (tmp);
+	}
+}
+
 void	get_next_line(char **line, int *i)
 {
 	char	buff[2];
@@ -67,13 +78,7 @@ void	get_next_line(char **line, int *i)
 	while (ret > 0 && buff[0] != '\n')
 	{
 		ret = read(STDIN_FILENO, buff, 1);
-		buff[1] = 0;
-		if (buff[0] != '\n')
-		{
-			tmp = *line;
-			*line = ft_strjoin(*line, buff);
-			free (tmp);
-		}
+		get_line(buff, tmp, line);
 		(*i)++;
 	}
 	(*i)--;
