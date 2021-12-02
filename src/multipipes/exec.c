@@ -166,6 +166,7 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 		}
 		if (pids[i] == 0)
 		{
+			printf("hello de trop\n");
 			if (pvar->ret >= 0)
 				proceed_builtin_pipes(pvar, var, pipefd, i);
 			else
