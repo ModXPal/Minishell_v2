@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:05:09 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/02 15:08:48 by                  ###   ########.fr       */
+/*   Updated: 2021/12/02 15:26:32 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,8 @@ int	exit_with_errors(t_var *var)
 		i = -1;
 		while (var->input->args[j][++i])
 		{
-			exit_non_numeric_arguments(var, j, i);
-			// if (!ft_isdigit(var->input->args[j][i]))
-			// {
-			// 	ft_putendl_fd("exit", 2);
-			// 	write (2, "minishell: ", 12);
-			// 	write(2, var->input->cmd, ft_strlen(var->input->cmd));
-			// 	write (2, ": ", 2);
-			// 	write(2, var->input->args[1], ft_strlen(var->input->args[1]));
-			// 	ft_putendl_fd(": numeric argument required", 2);
-			// 	free(var->cd);
-			// 	free(var->builtin);
-			// 	free_input(var);
-			// 	free_envar(var->envar);
-			// 	free_envar(var->export);
-			// 	rl_clear_history();
-			// 	EXIT_STATUS = 1;
-			// 	exit (EXIT_STATUS);
-			// }
+			if (exit_non_numeric_arguments(var, j, i) == 1)
+				return (1);
 		}
 	}
 	return (0);
@@ -104,7 +88,8 @@ int	ft_exit(t_var *var)
 
 	i = 0;
 	exit_without_cmd(var);
-	exit_with_errors(var);
+	if (exit_with_errors(var) == 1)
+		return (1);
 	if (exit_with_too_many_arguments(var) == 1)
 		return (1);
 	exit_with_digits(var);
