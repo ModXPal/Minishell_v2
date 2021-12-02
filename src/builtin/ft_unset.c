@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:50:36 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/02 11:50:52 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/02 17:07:21 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ int	ft_unset_export(t_var *var, char *str, int *args_exist)
 	tmp = var->export;
 	while (ft_strcmp(tmp->name, str) != 1)
 	{
-		if (tmp->next)
+		if (tmp->next && tmp != 0)
 			tmp = tmp->next;
 		else if (tmp->next == 0)
 			return (0);
 	}
+	printf ("tmp->name == %s\n", tmp->name);
 	if (ft_strcmp(tmp->name, str) == 1)
 	{
 		pos = ft_envar_position(var->export, tmp->name);
