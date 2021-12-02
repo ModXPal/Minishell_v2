@@ -10,6 +10,7 @@ SRC_FILES	=	src/main.c \
 			src/builtin/ft_export_utils_4.c \
 			src/builtin/ft_pwd.c \
 			src/builtin/ft_exit.c \
+			src/builtin/ft_exit_2.c \
 			src/builtin/ft_unset.c \
 			src/builtin/ft_unset_utils.c  \
 			src/builtin/ft_cd.c \

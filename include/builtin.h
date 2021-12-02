@@ -75,5 +75,7 @@ int		swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path);
 int		check_if_pwd_exist(t_var *var);
 int		cd_swap_with_no_args(t_var *var, t_envar *tmp, char *current_path);
 int		error_chdir(t_var *var, int dir, char *str);
+int		exit_non_numeric_arguments(t_var *var, int j, int i);
+int		check_if_integers_first(t_var *var);
 
 #endif
