@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_cd_utils_5.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/02 12:05:14 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/02 12:05:15 by vbachele         ###   ########.fr       */
+/*   Created: 2021/12/02 12:01:39 by vbachele          #+#    #+#             */
+/*   Updated: 2021/12/02 12:05:28 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	ft_pwd(t_var *var)
+int	error_chdir(t_var *var, int dir, char *str)
 {
-	t_envar	*tmp;
-	char	*str;
-	char	*test;
-
-	tmp = var->envar;
-	str = NULL;
-	str = ft_envar_find_content(tmp, "PWD");
-	test = getcwd(NULL, 0);
-	if (test == NULL)
+	if (dir < 0)
 	{
-		EXIT_STATUS = 1;
-		perror("pwd: error retrieving current directory: "
-			"getcwd: cannot access parent directories");
-		return (EXIT_STATUS);
+		errors_chdir_handling(dir, var);
+		if (str && var->pwd_exist == 1)
+			free (str);
+		return (1);
 	}
-	printf("%s\n", test);
-	if (test != 0)
-		free (test);
-	EXIT_STATUS = 0;
-	return (EXIT_STATUS);
+	return (0);
 }

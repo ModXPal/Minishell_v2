@@ -39,4 +39,5 @@ void	init_var(t_var *var, char **env, int ac)
 	var->env_content = 0;
 	var->equal_env = 0;
 	var->reassigned = 0;
+	var->pwd_exist = 0;
 }

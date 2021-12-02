@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd_utils_3.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/02 11:51:41 by vbachele          #+#    #+#             */
+/*   Updated: 2021/12/02 12:44:45 by vbachele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 
 int	cd_cdpath_application(t_var *var)
@@ -40,59 +52,24 @@ int	swap_pwd_old_pwd_and_errors(t_var *var, char *current_path, int dir)
 
 int	swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path)
 {
-	char *to_free;
+	char	*to_free;
 
+	to_free = 0;
 	if (var->input->args[1] != 0)
-	{
-		if (ft_strlen(var->input->args[1]) == 2
-			&& (ft_strncmp(var->input->args[1], "//", 2) == 0))
-		{
-			if (tmp)
-			{
-				to_free = tmp->content;
-				tmp->content = current_path;
-				// if (to_free)
-				// {
-				// 	free(to_free);
-				// 	to_free = NULL;
-				// }
-			}
-		}
-		else
-		{
-			if (tmp)
-			{
-				to_free = tmp->content;
-				tmp->content = current_path;
-				// if (to_free)
-				// {
-				// 	free(to_free);
-				// 	to_free = NULL;
-				// }
-			}
-		}
-	}
-	else
 	{
 		if (tmp)
 		{
 			to_free = tmp->content;
 			tmp->content = current_path;
-			// if (to_free)
-			// {
-			// 	free(to_free);
-			// 	to_free = NULL;
-			// }
-		}
-		else
-		{
-			if (current_path)
+			if (to_free && var->pwd_exist == 0)
 			{
-				free(current_path);
-				current_path = NULL;
+				free(to_free);
+				to_free = NULL;
 			}
 		}
 	}
+	else
+		cd_swap_with_no_args(var, tmp, current_path);
 	return (0);
 }
 

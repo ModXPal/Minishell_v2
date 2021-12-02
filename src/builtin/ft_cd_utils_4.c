@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 16:48:37 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/28 17:02:29 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/02 12:31:22 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,48 @@ void	cd_error_message_too_many_arguments(t_var *var)
 	write (2, ": ", 2);
 	write(2, var->input->args[1], ft_strlen(var->input->args[1]));
 	write (2, ": too many arguments\n", 21);
+}
+
+int	check_if_pwd_exist(t_var *var)
+{
+	t_envar	*tmp;
+
+	tmp = var->envar;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, "PWD"))
+		{
+			var->pwd_exist = 1;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+int	cd_swap_with_no_args(t_var *var, t_envar *tmp, char *current_path)
+{
+	char	*to_free;
+
+	(void) var;
+	to_free = 0;
+	if (tmp)
+	{
+		to_free = tmp->content;
+		tmp->content = current_path;
+		if (to_free && var->pwd_exist == 0)
+		{
+			free(to_free);
+			to_free = NULL;
+		}
+	}
+	else
+	{
+		if (current_path)
+		{
+			free(current_path);
+			current_path = NULL;
+		}
+	}
+	return (0);
 }

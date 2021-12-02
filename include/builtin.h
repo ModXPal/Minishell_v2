@@ -71,5 +71,8 @@ int		name_already_exist(t_var *var, char *args, int i);
 void	free_cd_path(t_var *var);
 void	free_input_list(t_input *input);
 int		swap_pwd_with_args(t_var *var, t_envar *tmp, char *current_path);
+int		check_if_pwd_exist(t_var *var);
+int		cd_swap_with_no_args(t_var *var, t_envar *tmp, char *current_path);
+int		error_chdir(t_var *var, int dir, char *str);
 
 #endif

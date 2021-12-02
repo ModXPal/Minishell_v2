@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/02 12:02:50 by vbachele          #+#    #+#             */
+/*   Updated: 2021/12/02 12:43:18 by vbachele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 
 char	*ft_export_new_pwd(t_var *var, char *str)
@@ -16,7 +28,8 @@ char	*ft_export_new_pwd(t_var *var, char *str)
 		}
 		tmp = tmp->next;
 	}
-	str2 = getcwd(NULL, 0);
+	if (var->pwd_exist == 1)
+		str2 = getcwd(NULL, 0);
 	str = ft_env_new_pwd_2(var, tmp, str2, str);
 	return (str);
 }
@@ -61,7 +74,8 @@ char	*ft_env_new_pwd(t_var *var, char *str)
 		}
 		tmp = tmp->next;
 	}
-	str2 = getcwd(NULL, 0);
+	if (var->pwd_exist == 1)
+		str2 = getcwd(NULL, 0);
 	str = ft_env_new_pwd_2(var, tmp, str2, str);
 	return (str);
 }
@@ -73,6 +87,7 @@ void	ft_env_old_pwd(t_var *var, char *str, char *str2)
 
 	(void) str;
 	tmp = var->envar;
+	to_free = 0;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->name, "OLDPWD"))
@@ -99,15 +114,12 @@ int	swap_pwd_old_pwd(t_var *var)
 	tmp2 = var->envar;
 	str = NULL;
 	var->pwd_exist = 0;
+	check_if_pwd_exist(var);
+	// if (var->pwd_exist == 1)
 	str = getcwd(NULL, 0);
 	dir = chdir(var->input->args[1]);
-	if (dir < 0)
-	{
-		errors_chdir_handling(dir, var);
-		if (str)
-			free (str);
+	if (error_chdir(var, dir, str) == 1)
 		return (1);
-	}
 	if (swap_pwd_old_pwd_and_errors(var, str, dir) == 1)
 	{
 		if (str && var->pwd_exist == 1)

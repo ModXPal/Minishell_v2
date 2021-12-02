@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd_utils_2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/02 12:00:14 by vbachele          #+#    #+#             */
+/*   Updated: 2021/12/02 12:26:22 by vbachele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 
 int	cd_content_equal_zero(t_var	*var)
@@ -60,13 +72,3 @@ int	cd_dash_equal_one(t_var *var)
 		return (1);
 	return (0);
 }
-
-// int	cd_dash_tild(t_var *var)
-// {
-// 	if ((ft_strncmp(var->input->args[1], "--", 3) == 0
-// 			&& ft_strlen(var->input->args[1]) == 2))
-// 	{
-// 		return (0);
-// 	}
-// 	return (1);
-// }
