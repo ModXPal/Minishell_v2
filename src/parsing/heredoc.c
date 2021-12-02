@@ -34,7 +34,7 @@ char	*trim_heredoc(char *str, int len, t_var *var)
 	j = 0;
 	while (i < len)
 	{
-		if (str[j] == '$' && ft_isalnum(str[j + 1]))
+		if (str[j] == '$' && ft_isalnum(str[j + 1]) && var->expand)
 		{
 			j++;
 			tmp = get_valid_envar(var, str, j);
@@ -45,6 +45,7 @@ char	*trim_heredoc(char *str, int len, t_var *var)
 		trim_str[i++] = str[j++];
 	}
 	free (str);
+	var->expand = 1;
 	return (trim_str);
 }
 

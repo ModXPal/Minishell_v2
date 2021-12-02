@@ -14,7 +14,11 @@ int	check_pipes(t_var *var)
 		else if (non_empty == FALSE && var->cmd[i] == '|')
 			return (pipe_error());
 		else if (var->cmd[i] == '|')
+		{
+			if (var->cmd[i + 1] == 0)
+				return (pipe_error());
 			non_empty = FALSE;
+		}
 	}
 	if (non_empty == FALSE)
 		return (-1);

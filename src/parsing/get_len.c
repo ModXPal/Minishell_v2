@@ -73,3 +73,24 @@ int	get_heredoc_len(char *str, t_var *var)
 	}
 	return (j);
 }
+
+int	get_delimiter_len(char *str, t_var *var)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	j = 0;
+	if (str == NULL)
+		return (0);
+	while (str[++i])
+	{
+		if (check_quotes(str, &i, var) == TRUE)
+		{
+			i--;
+			continue ;
+		}
+		j++;
+	}
+	return (j);
+}

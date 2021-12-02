@@ -65,7 +65,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	int		ret;
 	int		pipe_fd[2];
 
-	ret = is_builtin(var->cmd, builtin);
+	ret = is_builtin(var->input->cmd, builtin);
 	var->pvar = pvar;
 	pvar->cmd = NULL;
 	if (var->input->cmd == NULL || var->input->cmd[0] == '\0')

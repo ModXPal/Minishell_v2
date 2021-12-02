@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:31:43 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/17 14:48:09 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/02 16:59:14 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 
 char	*get_valid_envar(t_var *var, char *str, int i);
 char	*ft_trim(t_var *var, char *str, int len);
+char	*ft_trim_delimiter(t_var *var, char *str, int len);
 char	*get_var_name(char **env, int i);
 char	*get_var_content(char **env, int i);
 void	check_s_quote(int *s_quote);
@@ -62,5 +63,6 @@ int		count_heredoc(char **split_input);
 int		split_len(char **split);
 int		count_pipes(t_var *var);
 int		handle_input(t_var *var, t_input *new, char **split_input);
+int		get_delimiter_len(char *str, t_var *var);
 
 #endif
