@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:05:21 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/03 16:56:00 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/03 17:17:58 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	ft_cd(t_var *var)
 	int	i;
 
 	i = -1;
+	var->oldpwd_exist = 0;
+	var->pwd_exist = 0;
 	if (cd_too_many_arguments(var) == 1)
 	{
 		cd_error_message_too_many_arguments(var);
