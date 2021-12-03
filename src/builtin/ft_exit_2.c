@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 14:50:01 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/03 11:23:35 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/03 11:28:40 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	exit_non_numeric_arguments(t_var *var, int j, int i)
 	return (0);
 }
 
-int	free_check_if_integers_first(t_var *var)
+void	free_check_if_integers_first(t_var *var)
 {
 	free(var->cd);
 	free(var->builtin);
