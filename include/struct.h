@@ -3,7 +3,7 @@
 
 # include <sys/wait.h>
 
-extern int	EXIT_STATUS;
+extern int	g_exit_status;
 
 //struct t_var;
 

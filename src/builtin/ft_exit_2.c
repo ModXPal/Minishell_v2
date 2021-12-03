@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 14:50:01 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/03 11:30:42 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 11:33:28 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	exit_non_numeric_arguments(t_var *var, int j, int i)
 		write (2, ": ", 2);
 		write(2, var->input->args[1], ft_strlen(var->input->args[1]));
 		ft_putendl_fd(": numeric argument required", 2);
-		EXIT_STATUS = 1;
-		return (EXIT_STATUS);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	return (0);
 }
@@ -56,8 +56,8 @@ int	check_if_integers_first(t_var *var)
 			write(2, var->input->args[1], ft_strlen(var->input->args[1]));
 			ft_putendl_fd(": numeric argument required", 2);
 			free_check_if_integers_first(var);
-			EXIT_STATUS = 1;
-			exit (EXIT_STATUS);
+			g_exit_status = 1;
+			exit (g_exit_status);
 		}
 	}
 	return (0);

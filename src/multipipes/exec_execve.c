@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_execve.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 11:57:50 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/02 15:28:09 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 12:09:13 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
 		free_with_pvar(var, pvar);
-		EXIT_STATUS = 127;
-		exit (EXIT_STATUS);
+		g_exit_status = 127;
+		exit (g_exit_status);
 	}
 	return (1);
 }
@@ -62,8 +62,8 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
 		free_with_pvar(var, pvar);
-		EXIT_STATUS = 127;
-		exit (EXIT_STATUS);
+		g_exit_status = 127;
+		exit (g_exit_status);
 	}
 	return (1);
 }
@@ -89,8 +89,8 @@ int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 		ft_putstr_fd("minishell: ", 2);
 		perror(pvar->cmd);
 		free_with_pvar(var, pvar);
-		EXIT_STATUS = 127;
-		exit (EXIT_STATUS);
+		g_exit_status = 127;
+		exit (g_exit_status);
 	}
 	return (1);
 }

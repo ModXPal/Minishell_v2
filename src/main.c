@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	EXIT_STATUS;
+int	g_exit_status;
 
 int	is_builtin(char *line, t_builtin *builtin)
 {
@@ -54,7 +54,7 @@ int	boucle_exec_minishell(t_var *var, t_builtin *builtin)
 	}
 	else if (var->cmd_nb > 1)
 	{
-		EXIT_STATUS = 123456789;
+		g_exit_status = 123456789;
 		ft_multipipes(var, builtin);
 	}
 	/*
@@ -129,7 +129,7 @@ int	main(int ac, char **av, char **env)
 	var->cd->exit_cd = 0;
 	var->trim_expand = NULL;
 	export = NULL;
-	EXIT_STATUS = 0;
+	g_exit_status = 0;
 	get_env_var(var, &envar);
 	get_env_var(var, &export);
 	var->envar = envar;

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 16:48:37 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/03 11:28:26 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 12:09:24 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ int	if_error_no_pwd_oldpwd(t_var *var)
 			write (2, "minishell: ", 11);
 			write (2, "OLDPWD doesn't exist\n", 21);
 		}
-		EXIT_STATUS = 1;
-		return (EXIT_STATUS);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	return (0);
 }

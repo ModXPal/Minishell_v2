@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:01:39 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/03 11:28:26 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 12:09:24 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	cd_path_deploying(t_var *var)
 	if (i == 1 || var->cd->cdpath_exist == 1)
 	{
 		if (i == 1)
-			EXIT_STATUS = 1;
+			g_exit_status = 1;
 		if (var->cd->cdpath_exist == 1)
-			EXIT_STATUS = 0;
+			g_exit_status = 0;
 		return (1);
 	}
 	return (0);

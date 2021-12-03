@@ -1,12 +1,12 @@
 #include "builtin.h"
 
-void	handle_exit_status(int status)
+void	handle_g_exit_status(int status)
 {
 	if (WIFEXITED(status))
 	{
-		EXIT_STATUS = WEXITSTATUS(status);
-		if (EXIT_STATUS == 1234567890)
-			EXIT_STATUS = 130;
+		g_exit_status = WEXITSTATUS(status);
+		if (g_exit_status == 1234567890)
+			g_exit_status = 130;
 	}
 }
 
@@ -20,8 +20,8 @@ int	ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2], t_builtin *builtin)
 	{
 		if (ft_dup(var, pipe_fd) == 1)
 		{
-			EXIT_STATUS = 1;
-			return (EXIT_STATUS);
+			g_exit_status = 1;
+			return (g_exit_status);
 		}
 		close_fd(var);
 		if (execve(pvar->cmd, var->input->args, var->env) == -1)
@@ -36,12 +36,12 @@ int	ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2], t_builtin *builtin)
 			free(var->cd);
 			free_input(var);
 			rl_clear_history();
-			EXIT_STATUS = 127;
-			exit (EXIT_STATUS);
+			g_exit_status = 127;
+			exit (g_exit_status);
 		}
 	}
 	waitpid(0, &status, WUNTRACED);
-	handle_exit_status(status);
+	handle_g_exit_status(status);
 	close_fd(var);
 	free_split(pvar->path);
 	//free (pvar->cmd);
@@ -75,10 +75,10 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	if (ret >= 0)
 	{
 		handle_builtin(var, pipe_fd, builtin, ret);
-		return (EXIT_STATUS);
+		return (g_exit_status);
 	}
 	if (ret == -1)
-		EXIT_STATUS = 1234567890;
+		g_exit_status = 1234567890;
 	pvar->path = get_binaries_path(var);
 	add_slash(pvar);
 	if (get_cmds(pvar, var) == 0)
@@ -94,5 +94,5 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 		free(pvar->cmd);
 		pvar->cmd = NULL;
 	}
-	return (EXIT_STATUS);
+	return (g_exit_status);
 }

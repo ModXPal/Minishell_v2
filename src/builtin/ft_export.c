@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 15:45:05 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/26 11:32:02 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 12:09:13 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_export(t_var *var)
 	if (cmd_export_alone(var) == 1)
 	{
 		var->exit_status = 0;
-		return (EXIT_STATUS);
+		return (g_exit_status);
 	}
 	while (var->input->args[j])
 	{
@@ -79,8 +79,8 @@ int	ft_export(t_var *var)
 			export_execution(var, var->input->args[j]);
 		j++;
 	}
-	EXIT_STATUS = 0;
+	g_exit_status = 0;
 	if (var->error == 1)
-		EXIT_STATUS = 1;
-	return (EXIT_STATUS);
+		g_exit_status = 1;
+	return (g_exit_status);
 }

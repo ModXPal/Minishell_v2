@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:05:21 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/03 11:28:26 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 12:09:24 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,23 +82,23 @@ int	ft_cd(t_var *var)
 	if (cd_too_many_arguments(var) == 1)
 	{
 		cd_error_message_too_many_arguments(var);
-		EXIT_STATUS = 1;
-		return (EXIT_STATUS);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	i = check_cdpath_exists(var);
 	if (i == 1 || var->cd->cdpath_exist == 1)
 	{
 		if (i == 1)
-			EXIT_STATUS = 1;
+			g_exit_status = 1;
 		if (var->cd->cdpath_exist == 1)
-			EXIT_STATUS = 0;
-		return (EXIT_STATUS);
+			g_exit_status = 0;
+		return (g_exit_status);
 	}
 	if (cd_application(var) == 1)
 	{
-		EXIT_STATUS = 1;
-		return (EXIT_STATUS);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
-	EXIT_STATUS = 0;
-	return (EXIT_STATUS);
+	g_exit_status = 0;
+	return (g_exit_status);
 }
