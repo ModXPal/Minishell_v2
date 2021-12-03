@@ -75,6 +75,7 @@ void	get_next_line(char **line, int *i)
 	*i = 0;
 	ret = 1;
 	buff[0] = 0;
+	g_exit_status = 300;
 	write(STDOUT_FILENO, "> ", 2);
 	while (ret > 0 && buff[0] != '\n')
 	{
