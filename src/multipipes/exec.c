@@ -54,7 +54,7 @@ int	executable_error(t_var *var, t_pvar *pvar)
 	{
 		write (2, "minishell: ", 11);
 		perror(pvar->cmd);
-		EXIT_STATUS = 127;
+		g_exit_status = 127;
 		return (0);
 	}
 	if ((dir = opendir(pvar->cmd)) != NULL)
@@ -63,7 +63,7 @@ int	executable_error(t_var *var, t_pvar *pvar)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(pvar->cmd, 2);
 		ft_putstr_fd(": Is a directory\n", 2);
-		EXIT_STATUS = 127;
+		g_exit_status = 127;
 		return (0);
 	}
 	return (1);
@@ -195,5 +195,5 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 		pvar->cmd = NULL;
 	}
 	pipefd = NULL;
-	return (EXIT_STATUS);
+	return (g_exit_status);
 }

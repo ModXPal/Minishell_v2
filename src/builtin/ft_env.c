@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 15:41:31 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/06 19:00:54 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/03 11:33:39 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ int	env_error_handling(t_var *var)
 		write(2, ": ", 2);
 		write(2, var->input->args[1], ft_strlen(var->input->args[1]));
 		write(2, ": No such file or directory\n", 29);
-		EXIT_STATUS = 1;
-		return (EXIT_STATUS);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	if (var->env == FAIL || var->envar == FAIL)
 	{
-		EXIT_STATUS = 1;
-		return (EXIT_STATUS);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	return (0);
 }
@@ -37,12 +37,12 @@ int	ft_env(t_var *var)
 
 	tmp = var->envar;
 	if (env_error_handling(var) == 1)
-		return (EXIT_STATUS);
+		return (g_exit_status);
 	while (tmp)
 	{
 		printf("%s=%s\n", tmp->name, tmp->content);
 		tmp = tmp->next;
 	}
-	EXIT_STATUS = 0;
-	return (EXIT_STATUS);
+	g_exit_status = 0;
+	return (g_exit_status);
 }

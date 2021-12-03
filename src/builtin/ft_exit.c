@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:05:09 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/02 15:26:32 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 11:33:20 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	exit_with_digits(t_var *var)
 	free_envar(var->envar);
 	free_envar(var->export);
 	rl_clear_history();
-	EXIT_STATUS = i;
-	exit (EXIT_STATUS);
+	g_exit_status = i;
+	exit (g_exit_status);
 }
 
 int	exit_with_too_many_arguments(t_var *var)
@@ -39,8 +39,8 @@ int	exit_with_too_many_arguments(t_var *var)
 		write(2, "minishell: ", 12);
 		write(2, var->input->cmd, ft_strlen(var->input->cmd));
 		ft_putendl_fd(": too many arguments", 2);
-		EXIT_STATUS = 1;
-		return (EXIT_STATUS);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	return (0);
 }
@@ -77,7 +77,7 @@ int	exit_without_cmd(t_var *var)
 		free_envar(var->envar);
 		free_envar(var->export);
 		rl_clear_history();
-		exit (EXIT_STATUS);
+		exit (g_exit_status);
 	}
 	return (0);
 }

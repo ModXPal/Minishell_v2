@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:53:42 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/12 16:37:16 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/12/03 11:32:07 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	missing_file(char *file)
 	write (2, "minishell: ", 11);
 	write (2, file, ft_strlen(file));
 	write (2, ": No such file or directory\n", 28);
-	EXIT_STATUS = 1;
+	g_exit_status = 1;
 }
 
 void	permission_denied(char *file)
@@ -25,7 +25,7 @@ void	permission_denied(char *file)
 	write (2, "minishell: ", 11);
 	write (2, file, ft_strlen(file));
 	write (2, ": Permission denied\n", 20);
-	EXIT_STATUS = 1;
+	g_exit_status = 1;
 }
 
 int	pipe_error(void)
@@ -33,7 +33,7 @@ int	pipe_error(void)
 	write (2, "minishell: syntax error near unexpected token `", 47);
 	write (2, "|", 1);
 	write (2, "'\n", 2);
-	EXIT_STATUS = 2;
+	g_exit_status = 2;
 	return (-1);
 }
 
@@ -57,6 +57,6 @@ int	syntax_error(char **input, int i, int j)
 		write (2, "newline", 7);
 		write (2, "'\n", 2);
 	}
-	EXIT_STATUS = 2;
+	g_exit_status = 2;
 	return (-1);
 }

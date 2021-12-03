@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 16:29:41 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/01 15:40:53 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 11:33:47 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ int	echo_args1_equal_zero(t_var *var)
 {
 	if ((var->input->args)[1] == NULL)
 	{
-		EXIT_STATUS = 0;
+		g_exit_status = 0;
 		printf("\n");
-		return (EXIT_STATUS);
+		return (g_exit_status);
 	}
 	return (1);
 }
@@ -75,9 +75,9 @@ int	echo_dollar_question(t_var *var)
 	if (ft_strcmp(var->input->args[1], "$?") == 1
 		&& ft_strlen(var->input->args[1]) == 2)
 	{
-		printf("%d\n", EXIT_STATUS);
-		EXIT_STATUS = 0;
-		return (EXIT_STATUS);
+		printf("%d\n", g_exit_status);
+		g_exit_status = 0;
+		return (g_exit_status);
 	}
 	return (1);
 }
@@ -90,12 +90,12 @@ int	ft_echo(t_var *var)
 	ret = 0;
 	dash_n = 0;
 	if (echo_args1_equal_zero(var) == 0)
-		return (EXIT_STATUS);
+		return (g_exit_status);
 	if (echo_dollar_question(var) == 0)
-		return (EXIT_STATUS);
+		return (g_exit_status);
 	echo_execution(var, &ret, &dash_n);
 	if (ret == 1 && dash_n == 0)
 		printf("\n");
-	EXIT_STATUS = 0;
-	return (EXIT_STATUS);
+	g_exit_status = 0;
+	return (g_exit_status);
 }

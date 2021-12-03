@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:50:36 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/03 11:27:27 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/03 11:32:50 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ int	ft_unset(t_var *var)
 {
 	var->error = 0;
 	unset_execution(var);
-	EXIT_STATUS = 0;
+	g_exit_status = 0;
 	if (var->error == 1)
-		EXIT_STATUS = 1;
-	return (EXIT_STATUS);
+		g_exit_status = 1;
+	return (g_exit_status);
 }

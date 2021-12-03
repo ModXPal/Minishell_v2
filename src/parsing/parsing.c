@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/02 17:00:15 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 11:36:06 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 
 	tmp = var->envar;
 	if (str[i] == '?')
-		return (ft_itoa(EXIT_STATUS));
+		return (ft_itoa(g_exit_status));
 	while (tmp)
 	{
 		set_var(&j, &k, i);
@@ -211,12 +211,12 @@ int	check_syntax(t_var *var)
 	if (check_unmatched_quotes(var) == TRUE)
 	{
 		printf("Unmatched quotes\n");
-		EXIT_STATUS = 1;
+		g_exit_status = 1;
 		return (-1);
 	}
 	if (check_pipes(var) == -1)
 	{
-		EXIT_STATUS = 1;
+		g_exit_status = 1;
 		return (-1);
 	}
 	return (0);
