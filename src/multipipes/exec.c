@@ -118,7 +118,7 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	{
 		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
 		if (check_access(pvar, i) == SUCCESS)
-			break;
+			return (1);
 		else if (check_access(pvar, i) == FAIL)
 			return (cmd_not_found(var));
 		free(pvar->cmd);

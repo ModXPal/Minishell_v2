@@ -5,7 +5,7 @@
 
 extern int	EXIT_STATUS;
 
-struct t_var;
+//struct t_var;
 
 typedef struct s_echo{
 	struct s_list	*echo_list;

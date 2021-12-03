@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:05:21 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/03 11:16:23 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/03 11:28:26 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,22 +76,24 @@ int	cd_application(t_var *var)
 
 int	ft_cd(t_var *var)
 {
-	var->pwd_exist = 0;
-	var->oldpwd_exist = 0;
+	int	i;
+
+	i = -1;
 	if (cd_too_many_arguments(var) == 1)
 	{
 		cd_error_message_too_many_arguments(var);
 		EXIT_STATUS = 1;
 		return (EXIT_STATUS);
 	}
-	check_if_pwd_exist(var);
-	if (if_error_no_pwd_oldpwd(var) == 1)
+	i = check_cdpath_exists(var);
+	if (i == 1 || var->cd->cdpath_exist == 1)
 	{
-		EXIT_STATUS = 1;
+		if (i == 1)
+			EXIT_STATUS = 1;
+		if (var->cd->cdpath_exist == 1)
+			EXIT_STATUS = 0;
 		return (EXIT_STATUS);
 	}
-	if (cd_path_deploying(var) == 1)
-		return (EXIT_STATUS);
 	if (cd_application(var) == 1)
 	{
 		EXIT_STATUS = 1;
