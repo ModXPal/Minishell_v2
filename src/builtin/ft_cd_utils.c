@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:02:50 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/02 17:44:18 by                  ###   ########.fr       */
+/*   Updated: 2021/12/02 18:08:53 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	swap_pwd_old_pwd(t_var *var)
 	str = NULL;
 	var->pwd_exist = 0;
 	check_if_pwd_exist(var);
-	str = getcwd(NULL, 0);
+	str = getcwd(NULL, 0); //MALLOC
 	dir = chdir(var->input->args[1]);
 	if (error_chdir(var, dir, str) == 1)
 		return (1);

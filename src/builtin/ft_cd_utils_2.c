@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:00:14 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/02 15:08:48 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 11:26:41 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,23 @@ int	cd_content_equal_tild_dash(t_var *var)
 	return (0);
 }
 
+char	*cd_str_and_path_oldpwd_not_set(t_var *var)
+{
+	char	*str;
+	t_envar	*tmp2;
+
+	tmp2 = var->envar;
+	str = NULL;
+	str = ft_envar_find_content(tmp2, "OLDPWD");
+	if (str == 0)
+	{
+		write(2, "minishell: cd:", 14);
+		ft_putendl_fd(" OLDPWD not set", 2);
+		return (0);
+	}
+	return (str);
+}
+
 int	cd_dash_equal_one(t_var *var)
 {
 	int		dir;
@@ -62,7 +79,11 @@ int	cd_dash_equal_one(t_var *var)
 	tmp2 = var->envar;
 	str = NULL;
 	current_path = NULL;
+	str = cd_str_and_path_oldpwd_not_set(var);
+	if (str == 0)
+		return (1);
 	str = ft_envar_find_content(tmp2, "OLDPWD");
+	str = cd_str_and_path_not_set(var);
 	dir = chdir (str);
 	current_path = getcwd(NULL, 0);
 	printf("%s\n", current_path);
