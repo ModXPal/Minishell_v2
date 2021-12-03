@@ -87,6 +87,7 @@ void	ft_env_old_pwd(t_var *var, char *str, char *str2)
 
 	(void) str;
 	tmp = var->envar;
+
 	to_free = 0;
 	while (tmp)
 	{

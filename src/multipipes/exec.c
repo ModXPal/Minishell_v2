@@ -2,6 +2,8 @@
 
 int	check_access(t_pvar *pvar, int i)
 {
+	if (pvar->path[0][0] == '\0')
+		return (0);
 	if (pvar->cmd == 0)
 		return (0);
 	if (i == -1)
@@ -46,8 +48,8 @@ int	get_prog_path(t_pvar *pvar, t_var *var)
 
 int	executable_error(t_var *var, t_pvar *pvar)
 {
-	(void)var;
 	DIR	*dir;
+	(void)var;
 	if (access(pvar->cmd, X_OK) == -1)
 	{
 		write (2, "minishell: ", 11);
@@ -71,8 +73,6 @@ int	check_input(t_pvar *pvar, t_var *var)
 {
 	DIR	*dir;
 
-	//if (var->input->args == NULL)
-	//	return (0);
 	if (get_prog_path(pvar, var) == 0)
 	{
 		dir = opendir(pvar->cmd);
@@ -111,29 +111,19 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	i = -1;
 	ret = check_input(pvar, var);
 	if (ret == 1)
-	{
-		//free (pvar->cmd);
 		return (1);
-	}
 	else if (ret == 0)
-	{
-		//free_split(pvar->path);
 		return (0);
-	}
 	while (pvar->path[++i])
 	{
 		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
 		if (check_access(pvar, i) == SUCCESS)
 			break;
 		else if (check_access(pvar, i) == FAIL)
-		{
-			//free_split(pvar->path);
-			//free(pvar->cmd);
 			return (cmd_not_found(var));
-		}
 		free(pvar->cmd);
 	}
-	return (1);
+	return (no_such_file(var));
 }
 
 int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
@@ -148,7 +138,6 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 		dup2(var->save_stdout, STDOUT_FILENO);
 		if (i > 0)
 			var->input = var->input->next;
-		//if (var->input && var->input->cmd)
 		pvar->ret = is_builtin(var->input->cmd, pvar->builtin);
 		if (pvar->ret == 6)
 			return (0);
@@ -166,7 +155,6 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 		}
 		if (pids[i] == 0)
 		{
-			printf("hello de trop\n");
 			if (pvar->ret >= 0)
 				proceed_builtin_pipes(pvar, var, pipefd, i);
 			else
