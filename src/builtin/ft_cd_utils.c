@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:02:50 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/02 15:08:48 by                  ###   ########.fr       */
+/*   Updated: 2021/12/02 17:44:18 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	ft_env_old_pwd(t_var *var, char *str, char *str2)
 
 	(void) str;
 	tmp = var->envar;
+
 	to_free = 0;
 	while (tmp)
 	{
