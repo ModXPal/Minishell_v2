@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 11:57:24 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/16 11:57:26 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/12/03 15:06:14 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	close_fd(t_var *var)
 {
 	if (var->input == NULL)
 		return ;
-	if (var->input->IN_FD > 0)
-		close(var->input->IN_FD);
-	if (var->input->OUT_FD > 0)
-		close(var->input->OUT_FD);
+	if (var->input->in_fd > 0)
+		close(var->input->in_fd);
+	if (var->input->out_fd > 0)
+		close(var->input->out_fd);
 }
 
 int	close_pipes(t_pvar *pvar, int **pipefd)

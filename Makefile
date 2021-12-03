@@ -20,8 +20,11 @@ SRC_FILES	=	src/main.c \
 			src/builtin/ft_cd_utils_4.c \
 			src/builtin/ft_cd_utils_5.c \
 			src/excve/ft_excve.c \
+			src/excve/ft_excve_utils.c \
 			src/excve/dup.c \
 			src/multipipes/exec.c \
+			src/multipipes/exec_utils.c \
+			src/multipipes/exec_fct_exec_execution.c \
 			src/multipipes/get_path.c \
 			src/multipipes/multipipes.c \
 			src/multipipes/close.c \
@@ -31,6 +34,8 @@ SRC_FILES	=	src/main.c \
 			src/parsing/init.c \
 			src/parsing/parsing.c \
 			src/parsing/parsing_utils.c \
+			src/parsing/parsing_utils_2.c \
+			src/parsing/parsing_utils_3.c \
 			src/parsing/get_len.c \
 			src/parsing/get_envar.c \
 			src/parsing/error.c \
@@ -42,6 +47,7 @@ SRC_FILES	=	src/main.c \
 			src/free/free_1.c \
 			src/free/free_2.c \
 			src/signal/signal.c \
+			src/signal/signal_utils.c \
 
 LIBFT_PATH	=	libft/
 
@@ -55,7 +61,7 @@ LIBFTMAKE	=	$(MAKE) --no-print-directory -C $(LIBFT_PATH)
 
 CC		=	clang
 
-CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH) -g -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH) -g #-fsanitize=address
 
 RM		=	rm -rf
 

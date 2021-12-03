@@ -1,85 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/03 13:41:37 by vbachele          #+#    #+#             */
+/*   Updated: 2021/12/03 14:30:10 by vbachele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "multipipes.h"
 
-int	check_access(t_pvar *pvar, int i)
+int	check_access_check_input(t_pvar *pvar, t_var *var)
 {
-	if (pvar->path[0][0] == '\0')
-		return (0);
-	if (pvar->cmd == 0)
-		return (0);
-	if (i == -1)
-	{
-		if (access(pvar->cmd, X_OK) == 0)
-			return (1);
-		else
-			return (0);
-	}
-	else if (access(pvar->cmd, X_OK) == -1 && pvar->path[i + 1] == 0)
-		return (0);
-	else if (access(pvar->cmd, X_OK) == 0)
-		return (1);
-	return (-1);
-}
-
-int	check_relative_exec(char *str)
-{
-	if (!str)
-		return (0);
-	if (ft_strncmp(str, "./", 2) == 0)
-		return (1);
-	if (ft_strncmp(str, "../", 3) == 0)
-		return (2);
-	return (0);
-}
-
-int	get_prog_path(t_pvar *pvar, t_var *var)
-{
-	if (check_relative_exec(var->input->cmd) == 1)
-	{
-		pvar->cmd = ft_strdup(&(var->input->cmd[2]));
-		return (0);
-	}
-	else if (check_relative_exec(var->input->cmd) == 2)
+	if (var->input->cmd[0] == '/')
 	{
 		pvar->cmd = ft_strdup(var->input->cmd);
-		return (0);
+		if (check_access(pvar, -1) == SUCCESS)
+			return (1);
+		else if (check_access(pvar, -1) == FAIL)
+			return (no_such_file(var));
 	}
-	return (1);
-}
-
-int	executable_error(t_var *var, t_pvar *pvar)
-{
-	DIR	*dir;
-	(void)var;
-	if (access(pvar->cmd, X_OK) == -1)
-	{
-		write (2, "minishell: ", 11);
-		perror(pvar->cmd);
-		g_exit_status = 127;
-		return (0);
-	}
-	if ((dir = opendir(pvar->cmd)) != NULL)
-	{
-		closedir(dir);
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(pvar->cmd, 2);
-		ft_putstr_fd(": Is a directory\n", 2);
-		g_exit_status = 127;
-		return (0);
-	}
-	return (1);
+	return (151);
 }
 
 int	check_input(t_pvar *pvar, t_var *var)
 {
 	DIR	*dir;
+	int	i;
 
+	i = 0;
 	if (get_prog_path(pvar, var) == 0)
 	{
 		dir = opendir(pvar->cmd);
 		if (check_access(pvar, -1) == SUCCESS && dir == NULL)
-		{
 			return (1);
-		}
 		else if (check_access(pvar, -1) == FAIL || dir != NULL)
 		{
 			closedir(dir);
@@ -92,14 +48,9 @@ int	check_input(t_pvar *pvar, t_var *var)
 		pvar->cmd = ft_strdup("");
 		return (cmd_not_found(var));
 	}
-	if (var->input->cmd[0] == '/')
-	{
-		pvar->cmd = ft_strdup(var->input->cmd);
-		if (check_access(pvar, -1) == SUCCESS)
-			return (1);
-		else if (check_access(pvar, -1) == FAIL)
-			return (no_such_file(var));
-	}
+	i = check_access_check_input(pvar, var);
+	if (i != 151)
+		return (i);
 	return (-1);
 }
 
@@ -118,7 +69,7 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 	{
 		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
 		if (check_access(pvar, i) == SUCCESS)
-			break;
+			return (1);
 		else if (check_access(pvar, i) == FAIL)
 			return (cmd_not_found(var));
 		free(pvar->cmd);
@@ -134,38 +85,23 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 	var->to_free = var->input;
 	while (++i < pvar->cmd_nb)
 	{
-		dup2(var->save_stdin, STDIN_FILENO);
-		dup2(var->save_stdout, STDOUT_FILENO);
-		if (i > 0)
-			var->input = var->input->next;
-		pvar->ret = is_builtin(var->input->cmd, pvar->builtin);
+		exec_execution_before_fork(var, i, pvar);
 		if (pvar->ret == 6)
 			return (0);
 		if (pvar->ret == -1 && get_cmds(pvar, var) == FAIL)
 		{
 			free (pvar->cmd);
 			pvar->cmd = NULL;
-			continue;
+			continue ;
 		}
-		pids[i] = fork();
-		if (pids[i] == -1)
-		{
-			perror("Fork failed:");
+		if (fork_exec_execuction(pids, i) == -1)
 			return (1);
-		}
 		if (pids[i] == 0)
 		{
-			if (pvar->ret >= 0)
-				proceed_builtin_pipes(pvar, var, pipefd, i);
-			else
-				proceed_pipes(pvar, var, pipefd, i);
+			child_exec_execution(pvar, var, pipefd, i);
 			break ;
 		}
-		if (pvar->cmd)
-		{
-			free(pvar->cmd);
-			pvar->cmd = NULL;
-		}
+		free_pvar_exec(pvar);
 	}
 	return (0);
 }

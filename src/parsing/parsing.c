@@ -6,137 +6,11 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/03 11:36:06 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/03 15:08:09 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-int	expand_len(char *str)
-{
-	int	i;
-	int	len;
-
-	i = -1;
-	len = 0;
-	if (!str)
-		return (0);
-	while (str[++i])
-	{
-		if (str[i] == ' ')
-		{
-			while (str[i + 1] == ' ')
-			{
-				i++;
-				if (len != 0 && str[i - 1] == 0)
-					len++;
-			}
-		}
-		if (str[i])
-			len++;
-	}
-	return (len);
-}
-
-char	*trim_expand(char *str)
-{
-	int		len;
-	int		i;
-	char	*trim;
-
-	i = -1;
-	len = expand_len(str);
-	trim = ft_calloc(sizeof(char), len + 1);
-	if (trim == NULL)
-		return (NULL);
-	len = 0;
-	while (str[++i])
-	{
-		while (str[i] && str[i] == ' ')
-			i++;
-		if (len != 0 && str[i - 1] == ' ')
-			trim[len++] = ' ';
-		trim[len++] = str[i];
-	}
-	return (trim);
-}
-
-void	set_var(int *j, int *k, int i)
-{
-	*j = 0;
-	*k = i;
-}
-
-char	*get_valid_envar(t_var *var, char *str, int i)
-{
-	t_envar	*tmp;
-	int		j;
-	int		k;
-
-	tmp = var->envar;
-	if (str[i] == '?')
-		return (ft_itoa(g_exit_status));
-	while (tmp)
-	{
-		set_var(&j, &k, i);
-		while (tmp->name[j] && str[k] && ft_charcmp(tmp->name[j], str[k]))
-		{
-			j++;
-			k++;
-			if (tmp->name[j] == 0 && (str[k] == 0
-					|| ((ft_isalnum(str[k]) == 0) && str[k] != '_')))
-			{
-				if (var->d_quote == FALSE)
-					return (trim_expand(tmp->content));
-				return (ft_strdup(tmp->content));
-			}
-		}
-		tmp = tmp->next;
-	}
-	return (ft_strdup("\0"));
-}
-
-void	assign_envar(char *envar, char *trim_str, int *i)
-{
-	int	k;
-
-	k = 0;
-	while (envar[k])
-		trim_str[(*i)++] = envar[k++];
-	if (envar)
-	{
-		free(envar);
-		envar = NULL;
-	}
-}
-
-char	*ft_trim(t_var *var, char *str, int len)
-{
-	char	*trim_str;
-	int		i;
-	int		j;
-	char	*envar;
-
-	trim_str = (char *)ft_calloc(sizeof(char), (len + 1));
-	if (!trim_str)
-		return (NULL);
-	j = 0;
-	i = 0;
-	while (i < len)
-	{
-		if (check_quotes(str, &j, var) == TRUE)
-			continue ;
-		if (str[j] == '$' && var->s_quote == FALSE)
-		{
-			envar = get_valid_envar(var, str, ++j);
-			assign_envar(envar, trim_str, &i);
-			skip_alnum(str, &j);
-			continue ;
-		}
-		trim_str[i++] = str[j++];
-	}
-	return (trim_str);
-}
 
 char	*ft_trim_delimiter(t_var *var, char *str, int len)
 {
@@ -171,8 +45,8 @@ t_input	*get_input(t_var *var, char **split_input)
 	new->args = (char **)ft_calloc(sizeof(char *),
 			(split_len(split_input) + 1));
 	new->cmd = NULL;
-	new->IN_FD = 0;
-	new->OUT_FD = 0;
+	new->in_fd = 0;
+	new->out_fd = 0;
 	new->heredoc = 0;
 	handle_input(var, new, split_input);
 	if (new->cmd == NULL)

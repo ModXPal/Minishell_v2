@@ -94,7 +94,7 @@ int	here_doc(t_input *input, char *delimiter, t_var *var)
 
 	i = 0;
 	line = ft_strdup("");
-	input->IN_FD = 0;
+	input->in_fd = 0;
 	while (ft_strcmp(&line[ft_strlen(line) - i], delimiter) == 0)
 		get_next_line(&line, &i);
 	tmp = line;

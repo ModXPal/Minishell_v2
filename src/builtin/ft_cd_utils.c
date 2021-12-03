@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:02:50 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/03 10:43:58 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/03 15:09:25 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	ft_env_old_pwd(t_var *var, char *str, char *str2)
 
 	(void) str;
 	tmp = var->envar;
-
 	to_free = 0;
 	while (tmp)
 	{
@@ -114,6 +113,7 @@ int	swap_pwd_old_pwd(t_var *var)
 
 	tmp2 = var->envar;
 	str = NULL;
+	var->pwd_exist = 0;
 	check_if_pwd_exist(var);
 	str = getcwd(NULL, 0);
 	dir = chdir(var->input->args[1]);

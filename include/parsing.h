@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:31:43 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/02 16:59:14 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 12:36:31 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,11 @@ int		split_len(char **split);
 int		count_pipes(t_var *var);
 int		handle_input(t_var *var, t_input *new, char **split_input);
 int		get_delimiter_len(char *str, t_var *var);
+void	assign_envar(char *envar, char *trim_str, int *i);
+char	*get_valid_envar(t_var *var, char *str, int i);
+void	set_var(int *j, int *k, int i);
+char	*trim_expand(char *str);
+int		expand_len(char *str);
+char	*ft_trim(t_var *var, char *str, int len);
 
 #endif

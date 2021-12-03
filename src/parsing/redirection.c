@@ -4,20 +4,20 @@ void	open_files(t_input *input, char *file, int redir)
 {
 	if (redir == STDIN)
 	{
-		input->IN_FD = open(file, O_RDONLY);
-		if (input->IN_FD < 0)
+		input->in_fd = open(file, O_RDONLY);
+		if (input->in_fd < 0)
 			missing_file(file);
 	}
 	else if (redir == STDOUT)
 	{
-		input->OUT_FD = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
-		if (input->OUT_FD < 0)
+		input->out_fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		if (input->out_fd < 0)
 			permission_denied(file);
 	}
 	else if (redir == STDOUT_APPEND)
 	{
-		input->OUT_FD = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
-		if (input->OUT_FD < 0)
+		input->out_fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
+		if (input->out_fd < 0)
 			permission_denied(file);
 	}
 	free (file);
@@ -34,7 +34,7 @@ int	handle_in_redir(t_var *var, t_input *input, char **split_input, int *i)
 		(*i)++;
 		trim = ft_trim(var, split_input[*i], len);
 		open_files(input, trim, STDIN);
-		if (input->IN_FD > 0)
+		if (input->in_fd > 0)
 			return (0);
 		else
 			return (2);
@@ -61,7 +61,7 @@ int	handle_out_redir(t_var *var, t_input *input, char **split_input, int *i)
 		(*i)++;
 		trim = ft_trim(var, split_input[*i], len);
 		open_files(input, trim, STDOUT);
-		if (input->OUT_FD > 0)
+		if (input->out_fd > 0)
 			return (0);
 		else
 			return (2);
@@ -71,7 +71,7 @@ int	handle_out_redir(t_var *var, t_input *input, char **split_input, int *i)
 		(*i)++;
 		trim = ft_trim(var, split_input[*i], len);
 		open_files(input, trim, STDOUT_APPEND);
-		if (input->OUT_FD > 0)
+		if (input->out_fd > 0)
 			return (0);
 		else
 			return (2);

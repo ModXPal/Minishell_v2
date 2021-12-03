@@ -1,5 +1,20 @@
 #include "builtin.h"
 
+void	free_excve(t_var *var, t_pvar *pvar, t_builtin *builtin)
+{
+	ft_putstr_fd("minishell: ", 2);
+	perror(pvar->cmd);
+	free_split(pvar->path);
+	free_envar(var->envar);
+	free_envar(var->export);
+	free(pvar->cmd);
+	free(builtin);
+	free(var->cd);
+	free_input(var);
+	rl_clear_history();
+	g_exit_status = 127;
+}
+
 void	handle_g_exit_status(int status)
 {
 	if (WIFEXITED(status))
@@ -26,17 +41,7 @@ int	ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2], t_builtin *builtin)
 		close_fd(var);
 		if (execve(pvar->cmd, var->input->args, var->env) == -1)
 		{
-			ft_putstr_fd("minishell: ", 2);
-			perror(pvar->cmd);
-			free_split(pvar->path);
-			free_envar(var->envar);
-			free_envar(var->export);
-			free(pvar->cmd);
-			free(builtin);
-			free(var->cd);
-			free_input(var);
-			rl_clear_history();
-			g_exit_status = 127;
+			free_excve(var, pvar, builtin);
 			exit (g_exit_status);
 		}
 	}
@@ -44,7 +49,6 @@ int	ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2], t_builtin *builtin)
 	handle_g_exit_status(status);
 	close_fd(var);
 	free_split(pvar->path);
-	//free (pvar->cmd);
 	return (1);
 }
 
@@ -68,7 +72,10 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	ret = is_builtin(var->input->cmd, builtin);
 	var->pvar = pvar;
 	pvar->cmd = NULL;
-	if (var->input->cmd == NULL || var->input->cmd[0] == '\0')
+	if (var->input->cmd == NULL && (var->input->in_fd > 0
+			|| var->input->out_fd > 0))
+		return (-1);
+	if (var->input->in_fd == -1 || var->input->out_fd == -1)
 		return (-1);
 	if (ret >= 0)
 	{
@@ -87,7 +94,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	}
 	if (ret < 0)
 		ft_exec(var, pvar, pipe_fd, builtin);
-	if (pvar->cmd/* && var->cmd[0] != '/' && var->cmd[0] != '.'*/)
+	if (pvar->cmd)
 	{
 		free(pvar->cmd);
 		pvar->cmd = NULL;

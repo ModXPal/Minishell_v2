@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 22:07:09 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/17 15:26:47 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/03 14:59:07 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,14 @@ int		close_pipes(t_pvar *pvar, int **pipefd);
 int		cmd_not_found(t_var *var);
 int		no_such_file(t_var *var);
 int		dup_heredoc(t_var *var, int pipe_fd[2]);
+int		check_relative_exec(char *str);
+int		get_prog_path(t_pvar *pvar, t_var *var);
+int		executable_error(t_var *var, t_pvar *pvar);
+int		fork_exec_execuction(pid_t *pids, int i);
+int		exec_execution_before_fork(t_var *var, int i, t_pvar *pvar);
+void	free_pvar_exec(t_pvar *pvar);
+int		child_exec_execution(t_pvar *pvar, t_var *var, int **pipefd, int i);
+int		exec_execution_before_fork(t_var *var, int i, t_pvar *pvar);
+int		check_access_check_input(t_pvar *pvar, t_var *var);
 
 #endif

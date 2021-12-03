@@ -59,7 +59,7 @@ int	handle_input(t_var *var, t_input *new, char **split_input)
 			ft_free(content);
 			continue ;
 		}
-		else if (i == 0 || ((new->IN_FD > 0 || new->OUT_FD > 0
+		else if (i == 0 || ((new->in_fd > 0 || new->out_fd > 0
 					|| new->heredoc) && new->cmd == NULL))
 			new->cmd = content;
 		new->args[j++] = content;

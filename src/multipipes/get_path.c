@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 22:49:25 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/04 11:36:47 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/12/03 14:39:37 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	add_slash(t_pvar *pvar)
 char	**get_binaries_path(t_var *var)
 {
 	char	*path;
-	char 	**split_path;
+	char	**split_path;
 
 	path = get_valid_envar(var, "PATH", 0);
 	if (path == NULL)

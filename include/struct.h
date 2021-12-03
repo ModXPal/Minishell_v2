@@ -5,8 +5,6 @@
 
 extern int	g_exit_status;
 
-struct t_var;
-
 typedef struct s_echo{
 	struct s_list	*echo_list;
 	char			*echo;
@@ -26,8 +24,8 @@ typedef struct s_input{
 	char			*cmd;
 	char			*heredoc;
 	char			**args;
-	int				IN_FD;
-	int				OUT_FD;
+	int				in_fd;
+	int				out_fd;
 	struct s_input	*next;
 }		t_input;
 
@@ -51,7 +49,7 @@ typedef struct s_var{
 	char			*export_content;
 	char			*env_name;
 	char			*env_content;
-	char 			*trim_expand;
+	char			*trim_expand;
 	char			*exit_code;
 	int				reassigned;
 	int				ac;
@@ -66,15 +64,15 @@ typedef struct s_var{
 	int				save_stdout;
 	int				pwd_exist;
 	int				oldpwd_exist;
-	int 			expand;
+	int				expand;
 	t_list			*list;
 	t_input			*input;
 	t_input			*to_free;
 	t_envar			*envar;
 	t_envar			*export;
 	t_cd			*cd;
-	void 			*pvar;
-	void 			*builtin;
+	void			*pvar;
+	void			*builtin;
 }		t_var;
 
 typedef struct s_builtin{
