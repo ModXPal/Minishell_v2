@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 16:48:37 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/03 12:09:24 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 16:57:11 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	cd_swap_with_no_args(t_var *var, t_envar *tmp, char *current_path)
 
 int	if_error_no_pwd_oldpwd(t_var *var)
 {
-	if (var->pwd_exist == 0 || var->pwd_exist == 0)
+	if (var->pwd_exist == 0 || var->oldpwd_exist == 0)
 	{
 		if (var->pwd_exist == 0)
 		{
