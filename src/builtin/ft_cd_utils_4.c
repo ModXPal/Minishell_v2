@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 16:48:37 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/02 15:08:48 by                  ###   ########.fr       */
+/*   Updated: 2021/12/03 10:46:15 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,28 +53,10 @@ void	cd_error_message_too_many_arguments(t_var *var)
 	write (2, ": too many arguments\n", 21);
 }
 
-int	check_if_pwd_exist(t_var *var)
-{
-	t_envar	*tmp;
-
-	tmp = var->envar;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->name, "PWD"))
-		{
-			var->pwd_exist = 1;
-			break ;
-		}
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
 int	cd_swap_with_no_args(t_var *var, t_envar *tmp, char *current_path)
 {
 	char	*to_free;
 
-	(void) var;
 	to_free = 0;
 	if (tmp)
 	{
@@ -93,6 +75,26 @@ int	cd_swap_with_no_args(t_var *var, t_envar *tmp, char *current_path)
 			free(current_path);
 			current_path = NULL;
 		}
+	}
+	return (0);
+}
+
+int	if_error_no_pwd_oldpwd(t_var *var)
+{
+	if (var->pwd_exist == 0 || var->pwd_exist == 0)
+	{
+		if (var->pwd_exist == 0)
+		{
+			write (2, "minishell: ", 11);
+			write (2, "PWD doesn't exist\n", 18);
+		}
+		if (var->oldpwd_exist == 0)
+		{
+			write (2, "minishell: ", 11);
+			write (2, "OLDPWD doesn't exist\n", 21);
+		}
+		EXIT_STATUS = 1;
+		return (EXIT_STATUS);
 	}
 	return (0);
 }

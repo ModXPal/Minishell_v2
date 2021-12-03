@@ -55,7 +55,7 @@ LIBFTMAKE	=	$(MAKE) --no-print-directory -C $(LIBFT_PATH)
 
 CC		=	clang
 
-CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH) -g #-fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH) -g -fsanitize=address
 
 RM		=	rm -rf
 

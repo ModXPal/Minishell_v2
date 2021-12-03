@@ -78,5 +78,7 @@ int		cd_swap_with_no_args(t_var *var, t_envar *tmp, char *current_path);
 int		error_chdir(t_var *var, int dir, char *str);
 int		exit_non_numeric_arguments(t_var *var, int j, int i);
 int		check_if_integers_first(t_var *var);
+int		if_error_no_pwd_oldpwd(t_var *var);
+int		cd_path_deploying(t_var *var);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:00:14 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/02 18:08:52 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/03 10:36:52 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,14 @@ int	cd_dash_equal_one(t_var *var)
 	tmp2 = var->envar;
 	str = NULL;
 	current_path = NULL;
+	str = cd_str_and_path_not_set(var);
 	str = cd_str_and_path_oldpwd_not_set(var);
 	if (str == 0)
 		return (1);
 	str = ft_envar_find_content(tmp2, "OLDPWD");
-	str = cd_str_and_path_not_set(var);
 	dir = chdir (str);
+	if (errors_chdir_handling(dir, var) == 1)
+		return (1);
 	current_path = getcwd(NULL, 0);
 	printf("%s\n", current_path);
 	if (current_path)

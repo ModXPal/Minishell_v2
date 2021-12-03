@@ -41,4 +41,5 @@ void	init_var(t_var *var, char **env, int ac)
 	var->reassigned = 0;
 	var->pwd_exist = 0;
 	var->expand = 1;
+	var->oldpwd_exist = 0;
 }
