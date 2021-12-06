@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:32:29 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/03 12:37:20 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/06 14:41:28 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ int	expand_len(char *str)
 		if (str[i])
 			len++;
 	}
+	if (str[0] == ' ' || str[i - 1] == ' ')
+		len++;
+	printf("len = %d\n", len);
 	return (len);
 }
 
@@ -58,6 +61,8 @@ char	*trim_expand(char *str)
 			trim[len++] = ' ';
 		trim[len++] = str[i];
 	}
+	if (str[0] == ' ' || str[i -1] == ' ')
+		trim[len] = ' ';
 	return (trim);
 }
 
@@ -93,7 +98,7 @@ char	*get_valid_envar(t_var *var, char *str, int i)
 		}
 		tmp = tmp->next;
 	}
-	return (ft_strdup("\0"));
+	return (NULL);
 }
 
 void	assign_envar(char *envar, char *trim_str, int *i)
@@ -101,7 +106,7 @@ void	assign_envar(char *envar, char *trim_str, int *i)
 	int	k;
 
 	k = 0;
-	while (envar[k])
+	while (envar && envar[k])
 		trim_str[(*i)++] = envar[k++];
 	if (envar)
 	{

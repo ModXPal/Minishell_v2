@@ -39,7 +39,7 @@ int	builtin_in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
 	int	l;
 
-	l = 0;
+	l = -1;
 	if (var->input->in_fd > 0)
 		dup2(var->input->in_fd, STDIN_FILENO);
 	else
@@ -61,7 +61,7 @@ int	builtin_last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
 	int	l;
 
-	l = 0;
+	l = -1;
 	if (var->input->in_fd > 0)
 		dup2(var->input->in_fd, STDIN_FILENO);
 	else
@@ -73,6 +73,7 @@ int	builtin_last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	(pvar->builtin)[pvar->ret].func(var);
 	while (++l < var->cmd_nb + 1)
 		free (pipefd[l]);
+	free_builtin_cmd(var, pvar, pipefd);
 	exit (0);
 }
 

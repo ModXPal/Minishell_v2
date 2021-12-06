@@ -49,7 +49,6 @@ int	handle_input(t_var *var, t_input *new, char **split_input)
 
 	i = -1;
 	j = 0;
-	content = NULL;
 	while (split_input[++i])
 	{
 		init_input(var, split_input[i], &content);
@@ -63,6 +62,8 @@ int	handle_input(t_var *var, t_input *new, char **split_input)
 					|| new->heredoc) && new->cmd == NULL))
 			new->cmd = content;
 		new->args[j++] = content;
+		if (content == NULL)
+			j--;
 	}
 	new->next = NULL;
 	return (0);

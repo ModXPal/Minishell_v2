@@ -85,7 +85,6 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 	var->save_stdout = dup(STDOUT_FILENO);
 	while (1)
 	{
-		ft_putstr_fd("on est de retour\n", 2);
 		var->cmd = readline("minishell $> ");
 		if (!var->cmd)
 		{

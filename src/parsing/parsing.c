@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/03 15:08:09 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/06 11:46:46 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_input	*get_input(t_var *var, char **split_input)
 	new->out_fd = 0;
 	new->heredoc = 0;
 	handle_input(var, new, split_input);
+	/*
 	if (new->cmd == NULL)
 	{
 		if (split_len(split_input) + 1 == 1)
@@ -58,6 +59,7 @@ t_input	*get_input(t_var *var, char **split_input)
 		}
 		return (new);
 	}
+	 */
 	return (new);
 }
 
@@ -115,6 +117,7 @@ int	get_arguments(t_var *var)
 			var->abort_heredoc = 0;
 			return (-1);
 		}
+		printf("une fois\n");
 	}
 	free_split(split_pipes);
 	return (0);
