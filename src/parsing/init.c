@@ -45,4 +45,5 @@ void	init_var(t_var *var, char **env, int ac)
 	var->cd->exit_cd = 0;
 	var->trim_expand = NULL;
 	g_exit_status = 0;
+	var->here_doc_ctrl_d = 0;
 }

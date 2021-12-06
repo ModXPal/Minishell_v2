@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:34:28 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/03 12:15:40 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/06 14:36:16 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	signal_sigint_stdin(void)
 
 void	signal_singint_normal(void)
 {
-	printf("\n");
+	printf("je suis ici tout se passe bien\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -57,17 +57,20 @@ void	multipipes_signal_handling(int status)
 
 void	handle_sigusr1(int signum)
 {
-	if (signum == SIGINT && g_exit_status != 1234567890
-		&& g_exit_status != 123456789)
+	if ((signum == SIGINT && g_exit_status != 1234567890
+			&& g_exit_status != 123456789) && g_exit_status != 300)
 		signal_singint_normal();
 	else if (signum == SIGINT
-		&& isatty(0) != 0 && g_exit_status != 123456789)
+		&& isatty(0) != 0 && g_exit_status != 123456789 && g_exit_status != 300)
 		signal_sigint_stdin();
-	else if (signum == SIGINT && isatty(0) != 0)
+	else if (signum == SIGINT && isatty(0) != 0 && g_exit_status != 300)
 		signal_singint_stdin_multipipe();
-	else if ((signum == SIGQUIT && g_exit_status == 123456789)
-		|| (signum == SIGQUIT && g_exit_status == 1234567890))
+	else if ((signum == SIGQUIT && g_exit_status == 123456789
+			&& g_exit_status != 300)
+		|| (signum == SIGQUIT && g_exit_status == 1234567890
+			&& g_exit_status != 300))
 	{
+		printf("JE SUIS dans le ctrl \n");
 		write(1, "\b\b  \b\b", 6);
 		write(1, "Quit\n", 5);
 		g_exit_status = 131;

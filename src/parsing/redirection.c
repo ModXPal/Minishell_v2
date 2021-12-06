@@ -45,6 +45,7 @@ int	handle_in_redir(t_var *var, t_input *input, char **split_input, int *i)
 		len = get_delimiter_len(split_input[*i], var);
 		trim = ft_trim_delimiter(var, split_input[*i], len);
 		here_doc(input, trim, var);
+		g_exit_status = 0;
 		return (1);
 	}
 	return (-1);

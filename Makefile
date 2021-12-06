@@ -41,6 +41,7 @@ SRC_FILES	=	src/main.c \
 			src/parsing/error.c \
 			src/parsing/syntax_check.c \
 			src/parsing/heredoc.c \
+			src/parsing/heredoc_utils.c \
 			src/parsing/redirection.c \
 			src/parsing/input_list.c \
 			src/parsing/count.c \

@@ -63,6 +63,7 @@ typedef struct s_var{
 	int				save_stdin;
 	int				save_stdout;
 	int				pwd_exist;
+	int				here_doc_ctrl_d;
 	int				oldpwd_exist;
 	int				expand;
 	t_list			*list;
