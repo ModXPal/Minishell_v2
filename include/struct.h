@@ -67,6 +67,7 @@ typedef struct s_var{
 	int				pwd_exist;
 	int				oldpwd_exist;
 	int 			expand;
+	int 			abort_heredoc;
 	t_list			*list;
 	t_input			*input;
 	t_input			*to_free;

@@ -62,10 +62,11 @@ void	get_line(char *buff, char *tmp, char **line)
 
 void	get_next_line(char **line, int *i)
 {
-	char	buff[2];
-	int		ret;
+	//char	buff[2];
+	//int		ret;
 	char	*tmp;
 
+	*i = ft_strlen(*line);
 	if (*i != 0)
 	{
 		tmp = *line;
@@ -73,16 +74,25 @@ void	get_next_line(char **line, int *i)
 		free (tmp);
 	}
 	*i = 0;
-	ret = 1;
-	buff[0] = 0;
+	//ret = 1;
+	//buff[0] = 0;
+	/*
 	write(STDOUT_FILENO, "> ", 2);
 	while (ret > 0 && buff[0] != '\n')
 	{
 		ret = read(STDIN_FILENO, buff, 1);
+		if (g_exit_status == 130)
+			break ;
 		get_line(buff, tmp, line);
 		(*i)++;
 	}
-	(*i)--;
+	 */
+	*i = ft_strlen(*line);
+	printf("i = %d\n", *i);
+	*line = ft_strjoin(*line, readline("> "));
+	printf("ft_strlen %d\n", ft_strlen(*line));
+	printf("line = %s\n", *line);
+	printf("line str cmp = %s\n", &((*line)[ft_strlen(*line) - *i]));
 }
 
 int	here_doc(t_input *input, char *delimiter, t_var *var)

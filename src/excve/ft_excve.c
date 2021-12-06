@@ -68,7 +68,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	ret = is_builtin(var->input->cmd, builtin);
 	var->pvar = pvar;
 	pvar->cmd = NULL;
-	if (var->input->cmd == NULL && (var->input->IN_FD > 0 || var->input->OUT_FD > 0))
+	if (var->input->cmd == NULL && (var->input->IN_FD > 0 || var->input->OUT_FD > 0 || var->input->heredoc))
 		return (-1);
 	if (var->input->IN_FD == -1 || var->input->OUT_FD == -1)
 		return (-1);

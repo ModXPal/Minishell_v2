@@ -57,28 +57,12 @@ int	boucle_exec_minishell(t_var *var, t_builtin *builtin)
 		g_exit_status = 123456789;
 		ft_multipipes(var, builtin);
 	}
-	/*
-	else if (var->input->cmd == NULL && var->cmd_nb <= 1)
-	{
-		if (var->input->heredoc)
-			free(var->input->heredoc);
-		restore_fd(var);
-		return (0);
-	}
-	 */
 	else
 		ft_execve(var, builtin);
 	dup2(var->save_stdin, STDIN_FILENO);
 	dup2(var->save_stdout, STDOUT_FILENO);
 	if (var->input->heredoc)
 		free(var->input->heredoc);
-	/*
-	if (var->cd)
-	{
-		free(var->cd);
-		var->cd = NULL;
-	}
-	*/
 	restore_fd(var);
 	return (0);
 }
@@ -89,6 +73,7 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 	var->save_stdout = dup(STDOUT_FILENO);
 	while (1)
 	{
+		ft_putstr_fd("on est de retour\n", 2);
 		var->cmd = readline("minishell $> ");
 		if (!var->cmd)
 		{

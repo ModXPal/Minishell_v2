@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/03 11:36:06 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/03 12:44:34 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,9 +235,10 @@ int	get_arguments(t_var *var)
 	var->input = NULL;
 	while (split_pipes[++i])
 	{
-		if (create_input_list(var, split_pipes[i]) == -1)
+		if (create_input_list(var, split_pipes[i]) == -1 || var->abort_heredoc)
 		{
 			free_split(split_pipes);
+			var->abort_heredoc = 0;
 			return (-1);
 		}
 	}
