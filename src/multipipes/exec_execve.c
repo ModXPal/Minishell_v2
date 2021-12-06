@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 11:57:50 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/03 12:09:13 by                  ###   ########.fr       */
+/*   Updated: 2021/12/06 10:32:24 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ int	first_cmd(t_pvar *pvar, t_var *var, int	**pipefd, int i)
 {
 	int	pipe_heredoc[2];
 
-	if (var->input->IN_FD > 0)
-		dup2(var->input->IN_FD, STDIN_FILENO);
+	if (var->input->in_fd > 0)
+		dup2(var->input->in_fd, STDIN_FILENO);
 	else if (var->input->heredoc)
 	{
 		pipe(pipe_heredoc);
 		dup_heredoc(var, pipe_heredoc);
 	}
-	if (var->input->OUT_FD > 0)
-		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	if (var->input->out_fd > 0)
+		dup2(var->input->out_fd, STDOUT_FILENO);
 	else
 		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
@@ -43,8 +43,8 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
 	int	pipe_heredoc[2];
 
-	if (var->input->IN_FD > 0)
-		dup2(var->input->IN_FD, STDIN_FILENO);
+	if (var->input->in_fd > 0)
+		dup2(var->input->in_fd, STDIN_FILENO);
 	else if (var->input->heredoc)
 	{
 		pipe(pipe_heredoc);
@@ -52,8 +52,8 @@ int	in_between_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	}
 	else
 		dup2(pipefd[i][0], STDIN_FILENO);
-	if (var->input->OUT_FD > 0)
-		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	if (var->input->out_fd > 0)
+		dup2(var->input->out_fd, STDOUT_FILENO);
 	else
 		dup2(pipefd[i + 1][1], STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
@@ -72,8 +72,8 @@ int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 {
 	int	pipe_heredoc[2];
 
-	if (var->input->IN_FD > 0)
-		dup2(var->input->IN_FD, STDIN_FILENO);
+	if (var->input->in_fd > 0)
+		dup2(var->input->in_fd, STDIN_FILENO);
 	else if (var->input->heredoc)
 	{
 		pipe(pipe_heredoc);
@@ -81,8 +81,8 @@ int	last_cmd(t_pvar *pvar, t_var *var, int **pipefd, int i)
 	}
 	else
 		dup2(pipefd[i][0], STDIN_FILENO);
-	if (var->input->OUT_FD > 0)
-		dup2(var->input->OUT_FD, STDOUT_FILENO);
+	if (var->input->out_fd > 0)
+		dup2(var->input->out_fd, STDOUT_FILENO);
 	close_pipes(pvar, pipefd);
 	if (execve(pvar->cmd, var->input->args, var->env) == -1)
 	{

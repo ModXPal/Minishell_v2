@@ -6,11 +6,23 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:42:33 by rcollas           #+#    #+#             */
-/*   Updated: 2021/10/29 16:13:30 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/06 10:32:22 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+void	free_envar_remove(t_envar *tmp)
+{
+	if (tmp)
+	{
+		if (tmp->content)
+			free(tmp->content);
+		if (tmp->name)
+			free(tmp->name);
+		free(tmp);
+	}
+}
 
 int	envar_remove(t_envar **envar, int pos)
 {
@@ -33,14 +45,7 @@ int	envar_remove(t_envar **envar, int pos)
 			(*envar)->next = (*envar)->next->next;
 		else
 			(*envar)->next = NULL;
-		if (tmp)
-		{
-			if (tmp->content)
-				free(tmp->content);
-			if (tmp->name)
-				free(tmp->name);
-			free(tmp);
-		}
+		free_envar_remove(tmp);
 		*envar = start;
 	}
 	return (1);

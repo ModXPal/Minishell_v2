@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/03 13:40:31 by vbachele          #+#    #+#             */
+/*   Updated: 2021/12/03 15:08:33 by vbachele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	g_exit_status;
@@ -22,14 +34,14 @@ int	is_builtin(char *line, t_builtin *builtin)
 
 int	restore_fd(t_var *var)
 {
-	if (var->input->IN_FD > 0)
+	if (var->input->in_fd > 0)
 	{
-		close(var->input->IN_FD);
+		close(var->input->in_fd);
 		dup2(var->save_stdin, STDIN_FILENO);
 	}
-	if (var->input->OUT_FD > 0)
+	if (var->input->out_fd > 0)
 	{
-		close(var->input->OUT_FD);
+		close(var->input->out_fd);
 		dup2(var->save_stdout, STDOUT_FILENO);
 	}
 	if (var->input)
@@ -79,7 +91,6 @@ int	exec_minishell(t_var *var, t_builtin *builtin)
 		{
 			free(var->cd);
 			free_list(var);
-			//free_input(var);
 			free (builtin);
 			free_envar(var->envar);
 			free_envar(var->export);
@@ -111,17 +122,12 @@ int	main(int ac, char **av, char **env)
 	init_var(var, env, ac);
 	(void)av;
 	envar = NULL;
-	var->cd->exit_cd = 0;
-	var->trim_expand = NULL;
 	export = NULL;
-	g_exit_status = 0;
 	get_env_var(var, &envar);
 	get_env_var(var, &export);
 	var->envar = envar;
 	var->export = export;
-	signal(SIGINT, handle_sigusr1);
-	signal(SIGQUIT, handle_sigusr1);
-	signal(SIGTSTP, handle_sigusr1);
+	init_signal(var);
 	exec_minishell(var, builtin);
 	return (0);
 }

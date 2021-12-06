@@ -80,5 +80,7 @@ int		exit_non_numeric_arguments(t_var *var, int j, int i);
 int		check_if_integers_first(t_var *var);
 int		if_error_no_pwd_oldpwd(t_var *var);
 int		cd_path_deploying(t_var *var);
+void	init_signal(t_var *var);
+void	ft_execve_2(t_var *var, int **pipe_fd, int ret, t_builtin *builtin);
 
 #endif

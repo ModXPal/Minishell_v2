@@ -74,9 +74,11 @@ void	get_next_line(char **line, int *i)
 		free (tmp);
 	}
 	*i = 0;
-	//ret = 1;
-	//buff[0] = 0;
 	/*
+	ret = 1;
+	buff[0] = 0;
+	g_exit_status = 300;
+>>>>>>> c0a72cd0776a0c66aae8b4869db53a10c6031d62
 	write(STDOUT_FILENO, "> ", 2);
 	while (ret > 0 && buff[0] != '\n')
 	{
@@ -103,7 +105,7 @@ int	here_doc(t_input *input, char *delimiter, t_var *var)
 
 	i = 0;
 	line = ft_strdup("");
-	input->IN_FD = 0;
+	input->in_fd = 0;
 	while (ft_strcmp(&line[ft_strlen(line) - i], delimiter) == 0)
 		get_next_line(&line, &i);
 	tmp = line;

@@ -43,4 +43,7 @@ void	init_var(t_var *var, char **env, int ac)
 	var->expand = 1;
 	var->oldpwd_exist = 0;
 	var->abort_heredoc = 0;
+	var->cd->exit_cd = 0;
+	var->trim_expand = NULL;
+	g_exit_status = 0;
 }

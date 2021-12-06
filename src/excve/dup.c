@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 18:17:35 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/24 14:53:33 by                  ###   ########.fr       */
+/*   Updated: 2021/12/06 10:32:23 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	dup_fd(t_var *var)
 {
-	if (var->input->IN_FD > 0)
-		if (dup2(var->input->IN_FD, STDIN_FILENO) == -1)
+	if (var->input->in_fd > 0)
+		if (dup2(var->input->in_fd, STDIN_FILENO) == -1)
 			return (1);
-	if (var->input->OUT_FD > 0)
-		if (dup2(var->input->OUT_FD, STDOUT_FILENO) == -1)
+	if (var->input->out_fd > 0)
+		if (dup2(var->input->out_fd, STDOUT_FILENO) == -1)
 			return (1);
 	return (0);
 }
@@ -30,7 +30,7 @@ int	dup_heredoc(t_var *var, int pipe_fd[2])
 		if (pipe(pipe_fd) == -1)
 			return (1);
 		write (pipe_fd[1], var->input->heredoc,
-			   ft_strlen(var->input->heredoc));
+			ft_strlen(var->input->heredoc));
 		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		{
 			close(pipe_fd[0]);
