@@ -60,31 +60,31 @@ void	get_line(char *buff, char *tmp, char **line)
 	}
 }
 
-void	get_next_line(char **line, int *i)
+void	get_next_line(char **line, int *i, t_var *var)
 {
 	char	buff[2];
 	int		ret;
 	char	*tmp;
 
-	if (*i != 0)
-	{
-		tmp = *line;
-		*line = ft_strjoin(*line, "\n");
-		free (tmp);
-	}
+	tmp = NULL;
+	boucle_get_next_line(line, i);
 	*i = 0;
 	ret = 1;
 	buff[0] = 0;
-	g_exit_status = 300;
 	write(STDOUT_FILENO, "> ", 2);
 	while (ret > 0 && buff[0] != '\n')
 	{
 		ret = read(STDIN_FILENO, buff, 1);
-		if (g_exit_status == 130)
-			break ;
 		get_line(buff, tmp, line);
+		if (buff[0] == 0)
+		{
+			var->here_doc_ctrl_d = 1;
+			(*i)--;
+			break ;
+		}
 		(*i)++;
 	}
+	(*i)--;
 }
 
 int	here_doc(t_input *input, char *delimiter, t_var *var)
@@ -94,10 +94,17 @@ int	here_doc(t_input *input, char *delimiter, t_var *var)
 	int		i;
 
 	i = 0;
+	init_variable_here_doc(var, input);
 	line = ft_strdup("");
-	input->in_fd = 0;
 	while (ft_strcmp(&line[ft_strlen(line) - i], delimiter) == 0)
-		get_next_line(&line, &i);
+	{
+		get_next_line(&line, &i, var);
+		if (var->here_doc_ctrl_d == 1)
+		{
+			here_doc_ctrl_d_equal_one(var, input, line, delimiter);
+			return (0);
+		}
+	}
 	tmp = line;
 	line = ft_strjoin(line, "\n");
 	free(tmp);

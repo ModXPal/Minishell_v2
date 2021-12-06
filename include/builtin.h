@@ -82,5 +82,6 @@ int		if_error_no_pwd_oldpwd(t_var *var);
 int		cd_path_deploying(t_var *var);
 void	init_signal(t_var *var);
 void	ft_execve_2(t_var *var, int **pipe_fd, int ret, t_builtin *builtin);
+void	signal_sigint_heredoc(void);
 
 #endif

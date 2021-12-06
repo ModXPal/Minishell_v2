@@ -47,4 +47,5 @@ void	init_var(t_var *var, char **env, int ac)
 	var->trim_expand = NULL;
 	var->split_end = 0;
 	g_exit_status = 0;
+	var->here_doc_ctrl_d = 0;
 }

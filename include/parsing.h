@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:31:43 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/06 12:27:20 by                  ###   ########.fr       */
+/*   Updated: 2021/12/06 16:03:24 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,12 @@ void	assign_envar(char *envar, char *trim_str, int *i);
 char	*get_valid_envar(t_var *var, char *str, int i);
 void	set_var(int *j, int *k, int i);
 char	*trim_expand(char *str);
+char	*trim_heredoc(char *str, int len, t_var *var);
 int		expand_len(char *str);
+int		boucle_get_next_line(char **line, int *i);
 char	*ft_trim(t_var *var, char *str, int len);
+void	here_doc_ctrl_d_equal_one(t_var *var, t_input *input,
+								  char *line, char *delimiter);
+void	init_variable_here_doc(t_var *var, t_input *input);
 
 #endif
