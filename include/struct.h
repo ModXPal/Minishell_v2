@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/06 17:54:35 by vbachele          #+#    #+#             */
+/*   Updated: 2021/12/06 17:54:36 by vbachele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCT_H
 # define STRUCT_H
 
@@ -65,9 +77,9 @@ typedef struct s_var{
 	int				pwd_exist;
 	int				here_doc_ctrl_d;
 	int				oldpwd_exist;
-	int 			expand;
-	int 			abort_heredoc;
-	int 			split_end;
+	int				expand;
+	int				abort_heredoc;
+	int				split_end;
 	t_list			*list;
 	t_input			*input;
 	t_input			*to_free;

@@ -6,11 +6,13 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:37:05 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/06 11:52:54 by                  ###   ########.fr       */
+/*   Updated: 2021/12/06 18:01:37 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+
 
 char	*ft_trim(t_var *var, char *str, int len)
 {
