@@ -73,7 +73,7 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	var->pvar = pvar;
 	pvar->cmd = NULL;
 	if (var->input->cmd == NULL && (var->input->in_fd > 0
-			|| var->input->out_fd > 0))
+		|| var->input->out_fd > 0 || var->input->heredoc))
 		return (-1);
 	if (var->input->in_fd == -1 || var->input->out_fd == -1)
 		return (-1);

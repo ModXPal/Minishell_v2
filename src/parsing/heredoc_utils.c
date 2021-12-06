@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:08:33 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/06 14:50:05 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/06 14:52:46 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	boucle_get_next_line(char **line, int *i)
 	char	*tmp;
 
 	tmp = NULL;
+	*i = ft_strlen(*line);
 	if (*i != 0)
 	{
 		tmp = *line;

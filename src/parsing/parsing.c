@@ -109,9 +109,10 @@ int	get_arguments(t_var *var)
 	var->input = NULL;
 	while (split_pipes[++i])
 	{
-		if (create_input_list(var, split_pipes[i]) == -1)
+		if (create_input_list(var, split_pipes[i]) == -1 || var->abort_heredoc)
 		{
 			free_split(split_pipes);
+			var->abort_heredoc = 0;
 			return (-1);
 		}
 	}
