@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/08 17:03:35 by                  ###   ########.fr       */
+/*   Updated: 2021/12/08 17:42:26 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	check_syntax(t_var *var)
 		return (-1);
 	if (check_unmatched_quotes(var) == TRUE)
 	{
-		printf("Unmatched quotes\n");
+		ft_putstr_fd("Unmatched quotes\n", 2);
 		g_exit_status = 1;
 		return (-1);
 	}
@@ -111,7 +111,6 @@ int	get_arguments(t_var *var)
 			var->abort_heredoc = 0;
 			return (-1);
 		}
-		printf("une fois\n");
 	}
 	free_split(split_pipes);
 	return (0);
