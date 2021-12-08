@@ -2,7 +2,9 @@
 
 void	open_files(t_input *input, char *file, int redir)
 {
-	if (redir == STDIN)
+	if (!file || file[0] == '\0')
+		(void)file;
+	else if (redir == STDIN)
 	{
 		input->in_fd = open(file, O_RDONLY);
 		if (input->in_fd < 0)
@@ -31,8 +33,7 @@ int	handle_in_redir(t_var *var, t_input *input, char **split_input, int *i)
 	len = get_string_len(split_input[(*i) + 1], var);
 	if (ft_strcmp(split_input[*i], "<") == TRUE)
 	{
-		(*i)++;
-		trim = ft_trim(var, split_input[*i], len);
+		trim = ft_trim(var, split_input[++(*i)], len);
 		open_files(input, trim, STDIN);
 		if (input->in_fd > 0)
 			return (0);
@@ -41,8 +42,7 @@ int	handle_in_redir(t_var *var, t_input *input, char **split_input, int *i)
 	}
 	else if (ft_strcmp(split_input[*i], "<<") == TRUE)
 	{
-		(*i)++;
-		len = get_delimiter_len(split_input[*i], var);
+		len = get_delimiter_len(split_input[++(*i)], var);
 		trim = ft_trim_delimiter(var, split_input[*i], len);
 		here_doc(input, trim, var);
 		g_exit_status = 0;

@@ -18,6 +18,8 @@ void	add_slash(t_pvar *pvar)
 	char	*to_free;
 
 	i = -1;
+	if (pvar->path == NULL)
+		return ;
 	while (pvar->path[++i])
 	{
 		to_free = pvar->path[i];

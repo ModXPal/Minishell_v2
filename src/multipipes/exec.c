@@ -65,7 +65,7 @@ int	get_cmds(t_pvar *pvar, t_var *var)
 		return (1);
 	else if (ret == 0)
 		return (0);
-	while (pvar->path[++i])
+	while (pvar->path && pvar->path[++i])
 	{
 		pvar->cmd = ft_strjoin(pvar->path[i], var->input->cmd);
 		if (check_access(pvar, i) == SUCCESS)
