@@ -61,8 +61,11 @@ void	free_cd_path(t_var *var)
 
 void	ft_free(void *to_free)
 {
-	free(to_free);
-	to_free = NULL;
+	if (to_free)
+	{
+		free(to_free);
+		to_free = NULL;
+	}
 }
 
 void	free_with_pvar(t_var *var, t_pvar *pvar)

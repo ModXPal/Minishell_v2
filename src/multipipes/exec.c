@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 13:41:37 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/08 17:24:11 by                  ###   ########.fr       */
+/*   Updated: 2021/12/08 18:21:25 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,6 @@ int	exec(t_pvar *pvar, t_var *var, int **pipefd, pid_t *pids)
 	free(pids);
 	var->input = start;
 	free_split(pvar->path);
-	if (pvar->cmd)
-	{
-		free(pvar->cmd);
-		pvar->cmd = NULL;
-	}
 	pipefd = NULL;
 	return (g_exit_status);
 }
