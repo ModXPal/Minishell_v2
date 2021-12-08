@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_excve.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rcollas <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/08 17:38:01 by rcollas           #+#    #+#             */
+/*   Updated: 2021/12/08 17:38:08 by rcollas          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 
 void	free_excve(t_var *var, t_pvar *pvar, t_builtin *builtin)
@@ -52,17 +64,6 @@ int	ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2], t_builtin *builtin)
 	return (1);
 }
 
-int	handle_builtin(t_var *var, int pipe_fd[2], t_builtin *builtin, int ret)
-{
-	if (ft_dup(var, pipe_fd) == 1)
-		return (1);
-	builtin[ret].func(var);
-	close_fd(var);
-	dup2(var->save_stdout, STDOUT_FILENO);
-	dup2(var->save_stdin, STDIN_FILENO);
-	return (0);
-}
-
 int	ft_execve(t_var *var, t_builtin *builtin)
 {
 	t_pvar	pvar[1];
@@ -72,32 +73,21 @@ int	ft_execve(t_var *var, t_builtin *builtin)
 	ret = is_builtin(var->input->cmd, builtin);
 	var->pvar = pvar;
 	pvar->cmd = NULL;
-	if (var->input->cmd == NULL && (var->input->in_fd > 0
-		|| var->input->out_fd > 0 || var->input->heredoc))
+	if (check_cmd(var) == -1)
 		return (-1);
-	if (var->input->in_fd == -1 || var->input->out_fd == -1)
-		return (-1);
-	if (ret >= 0)
-	{
-		handle_builtin(var, pipe_fd, builtin, ret);
+	if (check_ret(ret, var, builtin, pipe_fd) != -216)
 		return (g_exit_status);
-	}
-	if (ret == -1)
-		g_exit_status = 1234567890;
 	pvar->path = get_binaries_path(var);
 	add_slash(pvar);
 	if (get_cmds(pvar, var) == 0)
 	{
-		free (pvar->cmd);
+		ft_free(pvar->cmd);
 		free_split(pvar->path);
 		return (-1);
 	}
 	if (ret < 0)
 		ft_exec(var, pvar, pipe_fd, builtin);
 	if (pvar->cmd)
-	{
-		free(pvar->cmd);
-		pvar->cmd = NULL;
-	}
+		ft_free(pvar->cmd);
 	return (g_exit_status);
 }

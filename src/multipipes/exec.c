@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 13:41:37 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/06 10:32:24 by                  ###   ########.fr       */
+/*   Updated: 2021/12/08 17:24:11 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,11 @@ int	exec_execution(t_var *var, pid_t *pids, int **pipefd, t_pvar *pvar)
 	while (++i < pvar->cmd_nb)
 	{
 		exec_execution_before_fork(var, i, pvar);
-		if (pvar->ret == 6)
-			return (0);
+		if (check_cmd(var) == -1 || pvar->ret == 6)
+			continue ;
 		if (pvar->ret == -1 && get_cmds(pvar, var) == FAIL)
 		{
-			free (pvar->cmd);
-			pvar->cmd = NULL;
+			ft_free(pvar->cmd);
 			continue ;
 		}
 		if (fork_exec_execuction(pids, i) == -1)

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/08 17:03:19 by                  ###   ########.fr       */
+/*   Updated: 2021/12/08 17:03:35 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,6 @@ t_input	*get_input(t_var *var, char **split_input)
 	{
 		free(new->args);
 		new->args = NULL;
-		//if (split_len(split_input) + 1 == 1)
-		//{
-		//}
-		//return (new);
 	}
 	return (new);
 }

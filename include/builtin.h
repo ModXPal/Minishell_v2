@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:04:47 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/08 17:03:19 by                  ###   ########.fr       */
+/*   Updated: 2021/12/08 17:29:54 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int		exit_non_numeric_arguments(t_var *var, int j, int i);
 int		check_if_integers_first(t_var *var);
 int		if_error_no_pwd_oldpwd(t_var *var);
 int		cd_path_deploying(t_var *var);
+int		check_ret(int ret, t_var *var, t_builtin *builtin, int *pipe_fd);
 void	init_signal(t_var *var);
 void	ft_execve_2(t_var *var, int **pipe_fd, int ret, t_builtin *builtin);
 void	signal_sigint_heredoc(void);

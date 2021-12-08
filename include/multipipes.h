@@ -61,5 +61,6 @@ void	free_pvar_exec(t_pvar *pvar);
 int		child_exec_execution(t_pvar *pvar, t_var *var, int **pipefd, int i);
 int		exec_execution_before_fork(t_var *var, int i, t_pvar *pvar);
 int		check_access_check_input(t_pvar *pvar, t_var *var);
+int		check_cmd(t_var *var);
 
 #endif
