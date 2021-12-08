@@ -6,13 +6,21 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:37:05 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/06 18:01:37 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/08 10:49:38 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-
+int	trim_str_len_is_null(char *trim_str, int len)
+{
+	if (!trim_str || len == 0)
+	{
+		free(trim_str);
+		return (0);
+	}
+	return (1);
+}
 
 char	*ft_trim(t_var *var, char *str, int len)
 {
@@ -22,11 +30,8 @@ char	*ft_trim(t_var *var, char *str, int len)
 	char	*envar;
 
 	trim_str = (char *)ft_calloc(sizeof(char), (len + 1));
-	if (!trim_str || len == 0)
-	{
-		free(trim_str);
+	if (trim_str_len_is_null(trim_str, len) == 0)
 		return (NULL);
-	}
 	j = 0;
 	i = 0;
 	while (i < len)

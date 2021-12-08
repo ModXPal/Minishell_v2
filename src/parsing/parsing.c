@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:41:26 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/06 11:46:46 by                  ###   ########.fr       */
+/*   Updated: 2021/12/08 11:24:06 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int	get_arguments(t_var *var)
 			var->abort_heredoc = 0;
 			return (-1);
 		}
-		printf("une fois\n");
 	}
 	free_split(split_pipes);
 	return (0);

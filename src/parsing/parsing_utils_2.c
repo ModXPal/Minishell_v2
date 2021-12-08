@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 12:32:29 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/06 14:41:28 by                  ###   ########.fr       */
+/*   Updated: 2021/12/08 10:53:41 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	expand_len(char *str)
 	}
 	if (str[0] == ' ' || str[i - 1] == ' ')
 		len++;
-	printf("len = %d\n", len);
 	return (len);
 }
 
