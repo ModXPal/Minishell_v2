@@ -27,11 +27,7 @@ void	open_files(t_input *input, char *file, int redir)
 
 int	handle_in_redir(t_var *var, t_input *input, char **split_input, int *i)
 {
-	int		len;
-	char	*trim;
-
-	len = get_string_len(split_input[(*i) + 1], var);
-	if (ft_strcmp(split_input[*i], "<") == TRUE)
+	in/*   Updated: 2021/12/08 17:03:19 by                  ###   ########.fr       */_strcmp(split_input[*i], "<") == TRUE)
 	{
 		trim = ft_trim(var, split_input[++(*i)], len);
 		open_files(input, trim, STDIN);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/06 18:07:05 by vbachele          #+#    #+#             */
+/*   Updated: 2021/12/08 17:03:19 by                  ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 void	init_builtin(t_builtin *builtin)
@@ -20,6 +32,25 @@ void	init_builtin(t_builtin *builtin)
 	builtin[7].func = NULL;
 }
 
+void	init_var_2(t_var *var, char **env, int ac)
+{
+	(void) ac;
+	(void) env;
+	var->env_name = 0;
+	var->env_content = 0;
+	var->equal_env = 0;
+	var->reassigned = 0;
+	var->pwd_exist = 0;
+	var->expand = 1;
+	var->oldpwd_exist = 0;
+	var->abort_heredoc = 0;
+	var->cd->exit_cd = 0;
+	var->trim_expand = NULL;
+	var->split_end = 0;
+	g_exit_status = 0;
+	var->here_doc_ctrl_d = 0;
+}
+
 void	init_var(t_var *var, char **env, int ac)
 {
 	var->variable = NULL;
@@ -35,17 +66,5 @@ void	init_var(t_var *var, char **env, int ac)
 	var->export_name = 0;
 	var->export_content = 0;
 	var->cd->cdpath_exist = 0;
-	var->env_name = 0;
-	var->env_content = 0;
-	var->equal_env = 0;
-	var->reassigned = 0;
-	var->pwd_exist = 0;
-	var->expand = 1;
-	var->oldpwd_exist = 0;
-	var->abort_heredoc = 0;
-	var->cd->exit_cd = 0;
-	var->trim_expand = NULL;
-	var->split_end = 0;
-	g_exit_status = 0;
-	var->here_doc_ctrl_d = 0;
+	init_var_2(var, env, ac);
 }

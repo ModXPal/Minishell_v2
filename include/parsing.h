@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:31:43 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/06 16:03:24 by                  ###   ########.fr       */
+/*   Updated: 2021/12/06 18:06:46 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int		expand_len(char *str);
 int		boucle_get_next_line(char **line, int *i);
 char	*ft_trim(t_var *var, char *str, int len);
 void	here_doc_ctrl_d_equal_one(t_var *var, t_input *input,
-								  char *line, char *delimiter);
+			char *line, char *delimiter);
 void	init_variable_here_doc(t_var *var, t_input *input);
 
 #endif
