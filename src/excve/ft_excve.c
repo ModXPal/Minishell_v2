@@ -33,7 +33,11 @@ int	ft_exec(t_var *var, t_pvar *pvar, int pipe_fd[2], t_builtin *builtin)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (ft_dup/*   Updated: 2021/12/08 17:38:20 by                  ###   ########.fr       */close_fd(var);
+		if (ft_dup(var, pipe_fd) == 1)
+		{
+			g_exit_status = 1;
+			return (g_exit_status);
+		}
 		if (execve(pvar->cmd, var->input->args, var->env) == -1)
 		{
 			free_excve(var, pvar, builtin);
