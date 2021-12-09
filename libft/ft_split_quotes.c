@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:51:17 by rcollas           #+#    #+#             */
-/*   Updated: 2021/11/05 20:03:26 by rcollas          ###   ########.fr       */
+/*   Updated: 2021/12/09 10:24:05 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,12 @@ int	do_split(const char *s, char c, char **tab)
 		while (*s && is_sep(*s, c))
 			s++;
 		len = ft_ult_strlen(s, c);
-		tab[i] = (char *)malloc(sizeof(char) * (len + 1));
+		tab[i] = (char *)ft_calloc(sizeof(char), (len + 2));
 		if (!tab[i])
 			return (ft_free_tab(tab, i));
 		while (j < len)
 			tab[i][j++] = *s++;
-		tab[i][j] = 0;
 	}
-	tab[i] = 0;
 	return (0);
 }
 
@@ -96,7 +94,7 @@ char	**ft_split_quotes(const char *s, char c)
 
 	if (!s)
 		return (NULL);
-	tab = (char **)malloc(sizeof(char *) * (count_words(s, c) + 1));
+	tab = (char **)ft_calloc(sizeof(char *), (count_words(s, c) + 1));
 	if (!tab)
 		return (NULL);
 	if (do_split(s, c, tab) == 1)
