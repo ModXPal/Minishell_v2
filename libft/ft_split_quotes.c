@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:51:17 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/09 10:24:05 by                  ###   ########.fr       */
+/*   Updated: 2021/12/09 10:36:59 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	do_split(const char *s, char c, char **tab)
 		while (*s && is_sep(*s, c))
 			s++;
 		len = ft_ult_strlen(s, c);
-		tab[i] = (char *)ft_calloc(sizeof(char), (len + 2));
+		tab[i] = (char *)ft_calloc(sizeof(char), (len + 1));
 		if (!tab[i])
 			return (ft_free_tab(tab, i));
 		while (j < len)
